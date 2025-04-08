@@ -147,9 +147,9 @@ class SFMovieQueryProcessor:
                     dict(zip(columns, row)) for row in rows]
 
         except sqlite3.Error as e:
-            print(f"SQLite error: {e}")
+            print(f"# SQLite error: {e}")
         except FileNotFoundError:
-            print(f"Error: Database file '{self.db_file}' not found.")
+            print(f"# Error: Database file '{self.db_file}' not found.")
         finally:
             if conn:
                 conn.close()
@@ -172,8 +172,8 @@ class SFMovieQueryProcessor:
         cleaned_query = cleaned_query.replace(
             "in san francisco", "").strip()
 
-        print(f"Raw query: {raw_query}")
-        print(f"Preprocessed query: {cleaned_query}")
+        print(f"# Raw query: {raw_query}")
+        print(f"# Preprocessed query: {cleaned_query}")
         return cleaned_query
 
     def intent_complexity_prompt_maker(self) -> str:
@@ -440,11 +440,69 @@ class SFMovieQueryProcessor:
 
         return feedback_prompt
 
+    def improved_query_prompt_maker(self, initial_query: str, feedback:str) -> str:
+        """Generates a prompt for improving a SQLite query based on given feedback.
+    
+        Constructs a structured prompt that guides an LLM to revise an initial SQL query
+        by incorporating specific feedback. The prompt includes clear instructions,
+        formatting requirements, and markers for the response.
+
+        Args:
+            initial_query (str): The original SQLite query that needs improvement.
+            feedback (str): Feedback describing the issues or desired improvements
+                        for the initial query.
+
+        Returns:
+            str: A well-structured prompt that includes:
+                - Task description
+                - Step-by-step instructions
+                - Provided feedback
+                - Initial query (formatted as code)
+                - Required output format with markers
+
+        Example:
+            >>> prompt_maker.improved_query_prompt_maker(
+            ...     "SELECT * FROM users",
+            ...     "Need to limit columns and add a WHERE clause"
+            ... )
+            # Returns a structured prompt containing both the query and feedback
+            # with instructions for improvement
+        """
+        improved_query_prompt = f"""
+        # TASK
+        Revise the SQLite query based on the provided feedback to create an improved, correct query.
+        
+        # INSTRUCTIONS
+        1. Carefully analyze the feedback and initial query
+        2. Identify all issues mentioned in the feedback
+        3. Make only the necessary changes to address the feedback
+        4. Maintain the original query's purpose and intent
+        5. Ensure the revised query follows SQLite syntax rules
+        
+        # FEEDBACK
+        {feedback}
+        
+        # INITIAL QUERY
+        ```sql
+        {initial_query}
+        ```
+        
+        # OUTPUT FORMAT
+        - Provide ONLY the revised SQLite query
+        - Enclose the entire query between #begin and #end markers
+        - Do not include any explanations or commentary
+        - If no changes are needed, return the original query
+        
+        # REVISED QUERY
+        #begin
+        #end
+        """
+        return improved_query_prompt
 
     def generate_initial_query(self, user_query, complexity):
         """Generate the initial SQLite query based on user input and complexity"""
 
-        print('Generating initial query')
+        print('# Generating initial query')
         initial_step_instructions = self.initial_query_prompt_maker(complexity)
         initial_query = call_generative_api(initial_step_instructions, user_query)
 
@@ -454,10 +512,9 @@ class SFMovieQueryProcessor:
         query = json.loads(initial_query.text).get('query', 'no query generated!')
         return query if query != 'no query generated!' else None
 
-
     def generate_feedback_query(self, user_query, initial_query):
         """Generate an improved SQLite query based on feedback of the initial query"""
-        print('Generating feedback-based query')
+        print('# Generating feedback-based query')
         if not initial_query:
             return "GOOZ"
 
@@ -465,15 +522,27 @@ class SFMovieQueryProcessor:
         feedback_query = call_generative_api(feedback_instructions, initial_query)
         return feedback_query.text
 
-
+    def generate_improved_query(self, initial_query, feedback):
+        #TODO do it tonight
+        return None
     def generate_sqlite_query(self, user_query, complexity):
         """Orchestrates the SQLite query generation process using initial and feedback steps"""
-        print('hi from generate_sqlite_query')
+        print('## hi from generate_sqlite_query')
+        ##############################################
+        # TODO-add the preprocessing step here!      #
+        ##############################################
+        # initial query making step
         initial_query = self.generate_initial_query(user_query, complexity)
-        return self.generate_feedback_query(user_query, initial_query)
+        initial_query = extract_code_blocks(initial_query)
+        # feedback step
+        feedback =  self.generate_feedback_query(user_query, initial_query[0])
+        # improved_query_prompt step
+        return self.improved_query_prompt_maker(initial_query[0], feedback)
+        # improved_query = self.generate_improved_query(initial_query, feedback)
+
 
     def analyze(self, user_query):
-        print('analyze_says_hi')
+        print('# analyzer_says_hi')
         assessment = self.assess_query_complexity(user_query)
         complexity = assessment.get(
             'complexity', 'ERROR in assess_query_complexity()')
@@ -485,6 +554,7 @@ class SFMovieQueryProcessor:
             # query = json.loads(initial_query.text).get('query', 'no query generated!')
             # return extract_code_blocks(query)
             # let's do feedback
+        return user_query
 
 
 def main():
@@ -504,7 +574,7 @@ def main():
 
         print(response)
     except Exception as e:
-        print(f"Error in main()➡️ {e}")
+        print(f"# Error in main()➡️ {e}")
 
 
 if __name__ == "__main__":
