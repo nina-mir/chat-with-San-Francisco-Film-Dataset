@@ -441,6 +441,7 @@ class SFMovieQueryProcessor:
     - Does the query use SQLite dialect appropriately?
     - Are there SQLite-specific optimizations that could be applied?
     - Does it handle SQLite's type affinity system correctly?
+    - Does it understand that SQLite requires LOWER() for case-insensitive searches?
 
     5. **Robustness & Safety**
     - How does it handle NULL values, empty results, or edge cases?
@@ -489,9 +490,10 @@ class SFMovieQueryProcessor:
 
         ## Task Requirements
         1. MOST CRITICAL: ENSURE THE QUERY USES "SELECT *" TO RETRIEVE FULL RECORDS
-        2. Apply all critical improvements mentioned in the feedback
-        3. Maintain or enhance the query's core functionality
-        4. Ensure the revised query is:
+        2. Keep in mind that SQLite requires LOWER() for case-insensitive searches 
+        3. Apply all critical improvements mentioned in the feedback
+        4. Maintain or enhance the query's core functionality
+        5. Ensure the revised query is:
         - Properly optimized for performance
         - Case-insensitive for text searches
         - Robust against edge cases
