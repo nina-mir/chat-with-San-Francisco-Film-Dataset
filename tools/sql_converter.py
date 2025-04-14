@@ -11,7 +11,7 @@ import pandas as pd
 import json
 import dataclasses
 import typing_extensions as typing
-from  pathlib import Path
+from pathlib import Path
 import textwrap
 import pprint
 import re
@@ -38,6 +38,8 @@ client = genai.Client(api_key=GEMINI_API_KEY)
 # PATH to SQLite database
 ###############################################
 DB_FILE = 'sf-films-geocode.db'
+
+db_path = Path.cwd().joinpath("..").joinpath(DB_FILE).resolve()
 ###############################################
 # UTILITY FUNCTIONS
 ###############################################
@@ -74,18 +76,6 @@ def extract_code_blocks(llm_response: str):
         if not code_blocks:
             raise ValueError("No valid code blocks found in the LLM response.")
     return [block.strip() for block in code_blocks]
-
-# test
-# response = call_generative_api(
-#     client, model_name, prompt, "What are some movies shot in Coit Tower?")
-# print(response)
-
-###############################################
-#
-# MAIN CLASS DEFINITION
-# POST-PROCESSING ADDITION
-#
-###############################################
 
 class SFMovieQueryProcessor:
     """
@@ -569,6 +559,8 @@ class SFMovieQueryProcessor:
 
         print('# Generating initial query')
         initial_step_instructions = self.initial_query_prompt_maker(complexity)
+        print(initial_step_instructions)
+        return
         initial_query = call_generative_api(initial_step_instructions, user_query)
 
         if not initial_query:
@@ -620,51 +612,12 @@ class SFMovieQueryProcessor:
         # improved_query_prompt step
         return self.generate_improved_query(initial_query, feedback)
 
-    def execute_sqlite_query(self, query: str):
-        """Executes a SQLite query and returns the result as a DataFrame."""
-        conn = sqlite3.connect(self.db_file)
-        try:
-            result = pd.read_sql_query(query, conn)
-            # Store the full results for potential follow-up queries
-            self.last_full_results = result
-            return result
-        except Exception as e:
-            raise Exception(f"Error executing SQLite query: {str(e)}")
-        finally:
-            conn.close()
+    
 
-    def post_process_results(self, user_query, full_results):
-        """
-        Post-processes the full results to extract the relevant information.
-        
-        Args:
-            user_query: The original user query
-            full_results: The full results from the SQLite query
-            
-        Returns:
-            dict: A dictionary with concise_answer and additional_info_available
-        """
-        # Take a sample of the results to send to the LLM (to avoid token limitations)
-        sample_size = min(10, len(full_results))
-        sample_results = full_results.head(sample_size)
-        
-        # Create the post-processing prompt
-        post_processing_instructions = self.post_processing_prompt_maker(user_query, sample_results)
-        
-        # Call the LLM for post-processing
-        post_processed = call_generative_api(post_processing_instructions, user_query)
-        
-        if not post_processed:
-            return {
-                "concise_answer": "I was able to find some results but couldn't process them properly.",
-                "additional_info_available": "I have the full records if you'd like to see them."
-            }
-            
-        return json.loads(post_processed.text)
-
-    def analyze(self, user_query):
+    def analyze(self):
         print('# analyzer_says_hi')
         print('## pre-processing ...')
+        user_query = self.user_query
         cleaned_query = self.preprocess_query(user_query)
         assessment = self.assess_query_complexity(cleaned_query)
         complexity = assessment.get(
@@ -675,60 +628,24 @@ class SFMovieQueryProcessor:
             
             try:
                 query_text = json.loads(sqlite_query_to_execute).get("revised-query", 'nothing to execute')
-                # Execute the query to get full records
-                full_results = self.execute_sqlite_query(query_text)
-                print('\nlength of the full records\t:\t', len(full_results)) 
-                # Post-process the results to get a concise answer
-                processed_results = self.post_process_results(cleaned_query, full_results)
                 
-                return {
-                    "full_results": full_results,
-                    "processed_results": processed_results,
-                }
+                return query_text
             except Exception as e:
                 print(f"Error in analyze: {e}")
                 return f"Error processing query: {str(e)}"
         
         return user_query
+    
+    
 
-
-def main():
+if __name__ == '__main__':
     try:
-        # user_query = 'what are some movies starring Sean Penn?'
-        # user_query = 'what is the oldest movie and its locations in the database?'
-        # user_query = "What are some films made in SF made by either Spielberg or Eastwood?"
-        # user_query = "has Nicole Kidman ever played in a film or series shot in San Francisco per your data?"
-        # user_query = "how many films in total were made in the year 2015?"
-        # user_query = "what are some films and series shot in north beach, folsom street, california st or EMbarcadero in SF?"
-        # user_query = "What are some shooting locations of the film Sudden Impact? Give me all the information about the locations!"
-        # user_query = "what are some locations used in the films by Hitchcock?"
-        # user_query = "what do you know about the movie Family Plot?"
-        # user_query = "are the coit tower in any locations in the database?"
-        user_query = "is the movie Matrix shot in SF?"
-        film_obj = SFMovieQueryProcessor(DB_FILE, user_query)
+        user_query = 'what are some movies made in 1920s?'
+        test = SFMovieQueryProcessor(db_path, user_query)
+        result = test.analyze()
+        print('test results is\n', result)
 
-        response = film_obj.analyze(user_query)
-        
-        if isinstance(response, dict) and "processed_results" in response:
-            print("\n=== CONCISE ANSWER ===")
-            print(response["processed_results"]["concise_answer"])
-            print("\n=== ADDITIONAL INFO AVAILABLE ===")
-            print(response["processed_results"]["additional_info_available"])
-            print("\n=== SAMPLE OF FULL RESULTS ===")
-            print(response["full_results"].head())
-            # with pd.option_context('display.index', False):
-                # print(result)
-            # print(response["full_results"].to_string(index=False))
-            # print(response["full_results"])
-            # print("\n=====TEST FULL RESULTS=====")
-            # print(response["test_full_results"])
-
-        else:
-            print(response)
-            
     except Exception as e:
-        print(f"# Error in main()➡️ {e}")
+            print(f"# Error in test ➡️ {e}")
 
 
-if __name__ == "__main__":
-    main()

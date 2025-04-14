@@ -1,0 +1,116 @@
+{
+    "name": "convertToSQLite_SanFranciscoFilmLocations",
+    "description": "Converts a user's natural language query about film locations in San Francisco into a valid SQLite query string. This query is intended to be executed on a SQLite database table named 'sf_film_data'. The function should only generate the SQLite query string, not execute it. Assume the database contains information about movies filmed in San Francisco, including titles, release years, specific filming locations, directors, actors, and coordinates. Use standard SQLite syntax.",
+    "parameters": {
+      "type": "OBJECT",
+      "properties": {
+        "natural_language_query": {
+          "type": "STRING",
+          "description": "The user's question or request about San Francisco film locations in plain English. For example: 'Which movies were filmed at City Hall?', 'Show me films directed by Alfred Hitchcock', 'What locations were used for Vertigo?', 'List movies from the 1970s filmed in the Mission District', 'Find filming locations near latitude 37.7 longitude -122.4'."
+        },
+        "database_schema": {
+          "type": "OBJECT",
+          "description": "Describes the schema of the target 'sf_film_data' SQLite database table.",
+          "properties": {
+            "table_name": {
+              "type": "STRING",
+              "description": "The name of the table containing film location data.",
+              "example": "sf_film_data"
+            },
+            "columns": {
+              "type": "ARRAY",
+              "description": "An array of objects, each describing a column in the table.",
+              "items": {
+                "type": "OBJECT",
+                "properties": {
+                  "name": {
+                    "type": "STRING",
+                    "description": "The name of the column."
+                  },
+                  "type": {
+                    "type": "STRING",
+                    "description": "The SQLite data type of the column (e.g., TEXT, INTEGER, REAL)."
+                  },
+                  "description": {
+                    "type": "STRING",
+                    "description": "A brief description of the data stored in the column."
+                  }
+                },
+                "required": ["name", "type", "description"]
+              }
+            }
+          },
+          "required": ["table_name", "columns"],
+          "example": {
+            "table_name": "sf_film_data",
+            "columns": [
+              {
+                "name": "id",
+                "type": "INTEGER",
+                "description": "Unique identifier for each record (likely Primary Key)."
+              },
+              {
+                "name": "Title",
+                "type": "TEXT",
+                "description": "The title of the film."
+              },
+              {
+                "name": "Year",
+                "type": "INTEGER",
+                "description": "The year the film was released."
+              },
+              {
+                "name": "Locations",
+                "type": "TEXT",
+                "description": "Specific location(s) in San Francisco where filming took place. May contain addresses or landmark names. Can be empty."
+              },
+              {
+                "name": "Fun_Facts",
+                "type": "TEXT",
+                "description": "Optional fun facts or trivia related to the filming at the location. Often empty."
+              },
+              {
+                "name": "Director",
+                "type": "TEXT",
+                "description": "The name of the film's director."
+              },
+              {
+                "name": "Writer",
+                "type": "TEXT",
+                "description": "The name of the film's writer."
+              },
+              {
+                "name": "Actor_1",
+                "type": "TEXT",
+                "description": "Name of the primary actor."
+              },
+              {
+                "name": "Actor_2",
+                "type": "TEXT",
+                "description": "Name of a prominent supporting actor. Can be empty."
+              },
+              {
+                "name": "Actor_3",
+                "type": "TEXT",
+                "description": "Name of another supporting actor. Can be empty."
+              },
+              {
+                "name": "Lat",
+                "type": "REAL",
+                "description": "Latitude coordinate of the filming location. Can be empty or NULL."
+              },
+              {
+                "name": "Lon",
+                "type": "REAL",
+                "description": "Longitude coordinate of the filming location. Can be empty or NULL."
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "natural_language_query",
+        "database_schema"
+      ]
+    }
+  }
