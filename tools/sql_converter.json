@@ -72,17 +72,17 @@
               {
                 "name": "Director",
                 "type": "TEXT",
-                "description": "The name of the film's director."
+                "description": "The name of the film's director. Can be empty."
               },
               {
                 "name": "Writer",
                 "type": "TEXT",
-                "description": "The name of the film's writer."
+                "description": "The name of the film's writer. Can be empty."
               },
               {
                 "name": "Actor_1",
                 "type": "TEXT",
-                "description": "Name of the primary actor."
+                "description": "Name of the primary actor. Can be empty."
               },
               {
                 "name": "Actor_2",
