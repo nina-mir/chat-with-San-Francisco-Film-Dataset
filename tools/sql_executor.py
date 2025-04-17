@@ -2,30 +2,81 @@
 # LIBRARY IMPORTS
 ###############################################
 import os
-from dotenv import load_dotenv
-# import glob
 import sqlite3
-from google import genai
-from google.genai import types, Client
 import pandas as pd
 import json
 import dataclasses
 import typing_extensions as typing
 from pathlib import Path
 
-def execute_sqlite_query(self, query: str):
-        """Executes a SQLite query and returns the result as a DataFrame."""
-        conn = sqlite3.connect(self.db_file)
-        try:
-            result = pd.read_sql_query(query, conn)
-            # Store the full results for potential follow-up queries
-            self.last_full_results = result
-            return result
-        except Exception as e:
-            raise Exception(f"Error executing SQLite query: {str(e)}")
-        finally:
-            conn.close()
+###############################################
+# PATH to SQLite database
+###############################################
+DB_FILE = 'sf-films-geocode.db'
+db_path = Path.cwd().joinpath("..").joinpath(DB_FILE).resolve()
+###############################################
 
+
+def execute_sql_query(sql_query: str, offset: int = 0, limit: int = 5) -> dict:
+    """
+    Executes a SQL query against a SQLite DB with pagination.
+
+    Args:
+        sql_query: The SQL query to execute.
+        offset: The starting row number (0-based index) for pagination. Defaults to 0.
+        limit: The maximum number of rows to return per page. Defaults to 5.
+
+    Returns:
+        A dictionary containing the following keys:
+            rows: A list of tuples representing the fetched rows.
+            total_results: The total number of rows matching the query.
+            offset: The current offset used for pagination.
+            limit: The current limit used for pagination.
+            next_offset: The offset for the next page, or None if there are no more pages.
+            remaining: The number of remaining results after the current page.
+    """     
+    try:
+        conn = sqlite3.connect(db_file=db_path)
+        cursor = conn.cursor()
+
+        # Count total results
+        count_query = f"SELECT COUNT(*) FROM ({sql_query}) AS subquery"
+        cursor.execute(count_query)
+        total_results = cursor.fetchone()[0]
+
+        # Fetch paginated chunk
+        paginated_sql = f"{sql_query.strip().rstrip(';')} LIMIT {limit} OFFSET {offset}"
+        cursor.execute(paginated_sql)
+        rows = cursor.fetchall()
+
+        conn.close()
+
+        return {
+            "rows": rows,
+            "total_results": total_results,
+            "offset": offset,
+            "limit": limit,
+            "next_offset": offset + limit if (offset + limit) < total_results else None,
+            "remaining": max(total_results - (offset + limit), 0)
+        }
+
+    except Exception as e:
+        raise Exception(f"Error executing SQLite query: {str(e)}")
+    finally:
+        conn.close()
+
+
+
+
+
+
+
+# result = pd.read_sql_query(sql_query, conn)
+            # Store the full results for potential follow-up queries
+            # self.last_full_results = result
+            # return result
+
+'''
 def post_process_results(self, user_query, full_results):
     """
     Post-processes the full results to extract the relevant information.
@@ -54,3 +105,5 @@ def post_process_results(self, user_query, full_results):
         }
         
     return json.loads(post_processed.text)
+
+'''

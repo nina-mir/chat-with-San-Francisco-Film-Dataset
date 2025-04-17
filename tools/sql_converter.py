@@ -54,18 +54,22 @@ def call_generative_api(system_instructions: str, user_query: str):
     Returns:
         str: The generated response text.
     """
-    response = client.models.generate_content(
-        model=model_name,
-        contents=user_query,
-        config=types.GenerateContentConfig(
-            system_instruction=system_instructions,
-            response_mime_type="application/json",
-            temperature=0.2,
-        ),
-    )
 
-    return response
+    try:
+        response = client.models.generate_content(
+            model=model_name,
+            contents=user_query,
+            config=types.GenerateContentConfig(
+                system_instruction=system_instructions,
+                response_mime_type="application/json",
+                temperature=0.2,
+            ),
+        )
 
+        return response
+    except Exception as e:
+        print(f"🫥Fehler in sql_converter.py file😑: {e}")
+        return None
 
 def extract_code_blocks(llm_response: str):
     """Extracts multiple code blocks from the LLM response."""
@@ -90,6 +94,7 @@ class SFMovieQueryProcessor:
         self.sample_data = self._get_sample_data()
         # Store the last query results for potential follow-up questions
         self.last_full_results = None
+        self.conn = None
         # self.output_folder = self.create_output_folder()
         # os.makedirs(self.output_folder, exist_ok=True)
 
@@ -103,6 +108,7 @@ class SFMovieQueryProcessor:
             tuple: (connection, cursor)
         """
         conn = sqlite3.connect(self.db_file)
+        self.conn = conn
         cursor = conn.cursor()
         return conn, cursor
 
@@ -559,8 +565,8 @@ class SFMovieQueryProcessor:
 
         print('# Generating initial query')
         initial_step_instructions = self.initial_query_prompt_maker(complexity)
-        print(initial_step_instructions)
-        return
+        # print(initial_step_instructions) ⬅️why is this here
+        # return     ⬅️why is this here
         initial_query = call_generative_api(initial_step_instructions, user_query)
 
         if not initial_query:
@@ -608,7 +614,7 @@ class SFMovieQueryProcessor:
         # feedback step
         print('feedback step ....')
         feedback = self.generate_feedback_query(user_query, initial_query)
-        print(f"""## feedback: {feedback}""")
+        # print(f"""## feedback: {feedback}""")
         # improved_query_prompt step
         return self.generate_improved_query(initial_query, feedback)
 
@@ -618,6 +624,9 @@ class SFMovieQueryProcessor:
         print('# analyzer_says_hi')
         print('## pre-processing ...')
         user_query = self.user_query
+
+        print('user query received in the sql_converter is :  ', user_query)
+        
         cleaned_query = self.preprocess_query(user_query)
         assessment = self.assess_query_complexity(cleaned_query)
         complexity = assessment.get(
@@ -628,7 +637,6 @@ class SFMovieQueryProcessor:
             
             try:
                 query_text = json.loads(sqlite_query_to_execute).get("revised-query", 'nothing to execute')
-                
                 return query_text
             except Exception as e:
                 print(f"Error in analyze: {e}")
@@ -644,7 +652,6 @@ if __name__ == '__main__':
         test = SFMovieQueryProcessor(db_path, user_query)
         result = test.analyze()
         print('test results is\n', result)
-
     except Exception as e:
             print(f"# Error in test ➡️ {e}")
 
