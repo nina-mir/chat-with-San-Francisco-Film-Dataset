@@ -1,5 +1,5 @@
 {
-    "name": "convertToSQLite_SanFranciscoFilmLocations",
+    "name": "nlp_2_sql_SanFranciscoFilmLocations",
     "description": "Converts a user's natural language query about film locations in San Francisco into a valid SQLite query string. This query is intended to be executed on a SQLite database table named 'sf_film_data'. The function should only generate the SQLite query string, not execute it. Assume the database contains information about movies filmed in San Francisco, including titles, release years, specific filming locations, directors, actors, and coordinates. Use standard SQLite syntax.",
     "parameters": {
       "type": "OBJECT",

@@ -1,22 +1,24 @@
 ###############################################
 # LIBRARY IMPORTS                             #
 ###############################################
-
-#Import the SFMovieQueryProcessor class
+# Import the SFMovieQueryProcessor class
 from sql_converter import SFMovieQueryProcessor
 
 import os
 from dotenv import load_dotenv
-# import glob
 import sqlite3
 from google import genai
 from google.genai import types, Client
-from google.genai.types import ModelContent, Part, UserContent
 from google.genai.types import (
     FunctionDeclaration,
     GenerateContentConfig,
     HttpOptions,
     Tool,
+    Content,
+    Part,
+    ModelContent,
+    UserContent, 
+    FunctionResponse
 )
 
 import pandas as pd
@@ -48,7 +50,7 @@ if not GEMINI_API_KEY:
 MODEL_NAME = 'gemini-2.0-flash-001'
 
 # init Gemini
-client = genai.Client(
+client = Client(
     api_key=GEMINI_API_KEY,
 )
 
@@ -63,6 +65,7 @@ db_path = Path.cwd().joinpath("..").joinpath(DB_FILE).resolve()
 ########################################################
 # UTILITY FUNCTIONS
 #######################################################
+
 
 def read_json_to_dict(path):
     """
@@ -85,25 +88,8 @@ def read_json_to_dict(path):
         print(f"Error: Invalid JSON format in {path}")
         return None
 #######################################################
-
-# A mock FunctionDeclaration example
-# convert_to_sqlite_declaration = {
-#     "name": "convertToSQLite_SanFranciscoFilmLocations",
-#     "description": "Converts a user's natural language query about film locations in San Francisco into a valid SQLite query string.",
-#     "parameters": {
-#         "type": "object",
-#         "properties": {
-#             "natural_language_query": {
-#                 "type": "string",
-#                 "description": "The user's question or request about San Francisco film locations in plain English."
-#             }
-#         },
-#         "required": ["natural_language_query"]
-#     }
-# }
-
 # setup the function declaration for the tool
-convert_to_sqlite_declaration =  read_json_to_dict('sql_converter.json')
+convert_to_sqlite_declaration = read_json_to_dict('sql_converter.json')
 
 execute_sql_query_tool = {
     "name": "execute_sql_query",
@@ -135,34 +121,40 @@ execute_sql_query_tool = {
 
 
 system_instruction = '''
-You are a helpful chatbot specializing in answering queries about film locations in San Francisco, California from 1915 to the present.
+You are a helpful chatbot specializing in answering queries about film locations in San Francisco, California from 1915
+to the present.
 
 # Available Tools
 
-## tool_1  
-Purpose: "convertToSQLite_SanFranciscoFilmLocations" tool to convert user queries to SQLite queries.
+## tool_1
+Purpose: "nlp_2_sql_SanFranciscoFilmLocations" tool to convert user queries to SQLite queries.
 
-## tool_2 
+## tool_2
 Purpose: "execute_sql_query" tool to execute the SQLite query from tool_1 in the database.
 
 # Query Handling Guidelines
 
-- If the user query is about movies or TV series shot in San Francisco, or about actors, writers, directors, and production years of such projects, call the appropriate tools to help answer their query.
+- If the user query is about movies or TV series shot in San Francisco, or about actors, writers, directors, and production
+years of such projects, call the appropriate tools to help answer their query.
+
+- When asking clarifying questions about a user query related to San Francisco film locations, always:
+1. After receiving a positive clarification from the user, include the complete original query along with the clarified information when calling the nlp_2_sql_SanFranciscoFilmLocations function.
+2. Always pass the full context in the user_query parameter, combining both the original request and any additional information gained through clarification.
 
 - If the user query could be about movies but doesn't specifically mention San Francisco, ask for clarification. For example:
   ### Example 1
   - User query: "What are some films made in 1960?"
   - You: "Is your question about films made in the city of San Francisco in the 1960s?"
-  
+
   ### Example 2
   - User query: "Which director made the most films?"
   - You: "Is your question about films made in the city of San Francisco?"
 
 # Tool Execution Process
 
-- After tool_1 finishes executing, it will send its result as a message from "tool_1"
-- If the message contains a SQLite query, call tool_2 to execute the query.
-- After tool_2 completes its work, it will send you its result with appropriate formatting as "tool_2."
+- After tool_1 finishes executing, it will share its result as a function_response.
+- If the message contains a SQLite query, you need to call tool_2 to execute the query.
+- After tool_2 completes its work, it will send you its result a function_response.
 - You will then share the result with the user and determine how to proceed with the conversation.
 
 # Error Handling Guidelines
@@ -172,35 +164,202 @@ Purpose: "execute_sql_query" tool to execute the SQLite query from tool_1 in the
 - When you're not sure if a query relates to San Francisco films, ask explicitly before proceeding.
 
 ## Database Query Errors
-- If tool_1 returns an error or invalid SQL, explain to the user that there was a problem 
+- If tool_1 returns an error or invalid SQL, explain to the user that there was a problem
 formulating their query and try to rephrase the question.
-- If tool_2 returns an error when executing SQL, inform the user about the issue in simple terms 
+- If tool_2 returns an error when executing SQL, inform the user about the issue in simple terms
 and suggest how they might rephrase their question.
 
 ## Empty Results Handling
 - If a query returns no results, explicitly tell the user no matching films were found.
-- Suggest query modifications that might yield results (e.g., "No films found from 1915-1920. 
+- Suggest query modifications that might yield results (e.g., "No films found from 1915-1920.
 Would you like to see films from the 1920s instead?")
 
 ## Recovery Strategies
-- If you're unable to convert a user query into a valid database query after two attempts, offer 
+- If you're unable to convert a user query into a valid database query after two attempts, offer
 to help the user with a simpler or more specific question.
 - For ambiguous queries, provide 2-3 specific interpretations and ask the user which one they meant.
 
 ## Query Size Limitations
-- For queries that might return very large result sets, first confirm with the user if they want all 
-results or would prefer a limited set (e.g., "There are over 100 films matching your criteria. 
+- For queries that might return very large result sets, first confirm with the user if they want all
+results or would prefer a limited set (e.g., "There are over 100 films matching your criteria.
 Would you like me to show the 10 most recent ones?")
 '''
+
 
 def start_chat_session():
     """Starts and manages an interactive chat session with Gemini."""
     try:
-        # Model initialization is done above
         # Starting chat client
+        tools = types.Tool(function_declarations=[
+                           convert_to_sqlite_declaration, execute_sql_query_tool])
+        config = types.GenerateContentConfig(
+            tools=[tools],
+            system_instruction=system_instruction,
+            temperature=0.1
+        )
 
-        # Generation Config with Function Declaration
-        tools = types.Tool(function_declarations=[convert_to_sqlite_declaration, execute_sql_query_tool])
+        chat = client.chats.create(
+            model=MODEL_NAME,
+            config=config
+        )
+
+        print(f"Starting chat with {MODEL_NAME}. Type exit, quit, end, aus or aufhören to end.")
+        print("-" * 30)
+
+        while True:
+            try:
+                user_input = input("You: ")
+            except KeyboardInterrupt:
+                print("\nExiting chat session...")
+                break
+            except EOFError:  # Handles Ctrl+D
+                print("\nExiting chat session...")
+                break
+
+            # Exit conditions
+            if user_input.lower() in ["exit", "quit", "aus", "end", "aufhören"]:
+                print("Exiting chat session...")
+                break
+
+            # Prevent sending empty messages
+            if not user_input.strip():
+                continue
+
+            # Send message to Gemini and process any function calls
+            try:
+                response = chat.send_message(user_input)
+                
+                # Process the response
+                if hasattr(response, 'text') and response.text:
+                    print(f"Gemini: {response.text}")
+                    continue  # If there's text, just display it and continue
+                
+                # Check for function calls
+                function_call = None
+                if response.candidates and response.candidates[0].content.parts:
+                    for part in response.candidates[0].content.parts:
+                        if hasattr(part, 'function_call') and part.function_call:
+                            function_call = part.function_call
+                            break
+                
+                if not function_call:
+                    print("Gemini: (No response or function call provided)")
+                    continue
+                    
+                print(f"Function to call: {function_call.name}")
+                
+                # Handle the NLP to SQL conversion
+                if function_call.name == "nlp_2_sql_SanFranciscoFilmLocations":
+                    function_args = function_call.args
+                    user_query = function_args.get('natural_language_query')
+                    print(f"Converting query: {user_query}")
+                    
+                    # Call your SQL conversion tool
+                    tool_1 = SFMovieQueryProcessor(db_path, user_query)
+                    sql_result = tool_1.analyze()
+                    
+                    # Create and send function response
+                    function_response_part = Part.from_function_response(
+                        name="nlp_2_sql_SanFranciscoFilmLocations",
+                        response={"result": sql_result}
+                    )
+                    
+                    # Send the result back to continue the conversation
+                    response = chat.send_message(function_response_part)
+                    
+                    # Now check if we need to execute an SQL query
+                    if response.candidates and response.candidates[0].content.parts:
+                        for part in response.candidates[0].content.parts:
+                            if hasattr(part, 'function_call') and part.function_call:
+                                exec_function_call = part.function_call
+                                if exec_function_call.name == "execute_sql_query":
+                                    sql_query = exec_function_call.args.get("sql_query")
+                                    offset = exec_function_call.args.get("offset", 0)
+                                    limit = exec_function_call.args.get("limit", 5)
+                                    
+                                    # Execute the SQL query
+                                    print(f"Executing SQL: {sql_query}")
+                                    try:
+                                        conn = sqlite3.connect(db_path)
+                                        df = pd.read_sql_query(sql_query, conn)
+                                        
+                                        # Apply pagination
+                                        total_rows = len(df)
+                                        df_paginated = df.iloc[offset:offset+limit]
+                                        
+                                        # Convert to dict for response
+                                        results = df_paginated.to_dict(orient='records')
+                                        
+                                        # Create metadata
+                                        metadata = {
+                                            "total_rows": total_rows,
+                                            "offset": offset,
+                                            "limit": limit,
+                                            "returned_rows": len(results)
+                                        }
+                                        
+                                        # Create and send response
+                                        sql_response_part = Part.from_function_response(
+                                            name="execute_sql_query",
+                                            response={
+                                                "results": results,
+                                                "metadata": metadata
+                                            }
+                                        )
+                                        
+                                        # Send the result back and show the model's interpretation
+                                        final_response = chat.send_message(sql_response_part)
+                                        print(f"Gemini: {final_response.text}")
+                                        
+                                    except Exception as e:
+                                        error_msg = f"SQL execution error: {str(e)}"
+                                        print(f"Error: {error_msg}")
+                                        
+                                        # Inform the model about the error
+                                        error_response_part = Part.from_function_response(
+                                            name="execute_sql_query",
+                                            response={"error": error_msg}
+                                        )
+                                        error_response = chat.send_message(error_response_part)
+                                        print(f"Gemini: {error_response.text}")
+                                    finally:
+                                        if 'conn' in locals():
+                                            conn.close()
+                                else:
+                                    # Handle unexpected function call
+                                    print(f"Unexpected function call: {exec_function_call.name}")
+                                    print(f"Gemini: {response.text}")
+                                break
+                        else:
+                            # No function call found
+                            print(f"Gemini: {response.text}")
+                else:
+                    # Handle direct execute_sql_query or other function calls
+                    print(f"Direct function call: {function_call.name}")
+                    if function_call.name == "execute_sql_query":
+                        # Process direct SQL execution request
+                        sql_query = function_call.args.get("sql_query")
+                        offset = function_call.args.get("offset", 0)
+                        limit = function_call.args.get("limit", 5)
+                        
+                        # Execute SQL (same code as above)
+                        # ...
+                    else:
+                        print(f"Unhandled function call: {function_call.name}")
+
+            except Exception as e:
+                print(f"\nAn error occurred: {e}")
+                
+    except Exception as e:
+        print(f"\nFailed to initialize the chat model or session: {e}")
+
+'''
+ def start_chat_session():
+    """Starts and manages an interactive chat session with Gemini."""
+    try:
+        # Starting chat client
+        tools = types.Tool(function_declarations=[
+                           convert_to_sqlite_declaration, execute_sql_query_tool])
         config = types.GenerateContentConfig(
             tools=[tools],
             system_instruction=system_instruction,
@@ -245,9 +404,10 @@ def start_chat_session():
                     function_call = response.candidates[0].content.parts[0].function_call
                     print(f"Function to call: {function_call.name}")
                     print("_" * 35)  # Separator for clarity
-                    if function_call.name == "convertToSQLite_SanFranciscoFilmLocations":
+                    if function_call.name == "nlp_2_sql_SanFranciscoFilmLocations":
                         function_args = function_call.args
-                        user_query = function_args.get('natural_language_query')
+                        user_query = function_args.get(
+                            'natural_language_query')
                         print(f"user message: {user_query}")
                         print("-" * 35)  # Separator for clarity
                         #  In your app, you would call your function here:
@@ -255,29 +415,38 @@ def start_chat_session():
                         tool_1 = SFMovieQueryProcessor(db_path, user_query)
                         result = tool_1.analyze()
                         print('Ergebniss vom path.py ist\n', result)
-                        # print('der Typ des Ergebnisses ist', type(result))
-                        # except Exception as e:
-                        #     print(f"# FEHLER in nlp_2_sqlite! ➡️ {e}")
-                        # let's send this query to LLM
-                        # Send the generated SQL query back to Gemini for the next tool call
-                        response_2 = chat.send_message(
-                            f"""{{"tool-1 says": "{result}"}}"""
+
+
+                       # Create the function response part directly
+                        function_response_part = Part.from_function_response(
+                            name="nlp_2_sql_SanFranciscoFilmLocations",
+                            response={
+                                "result": result
+                            }
                         )
-                        print(f"\nGemini Response (after SQL execution tool): {response_2.candidates[0].content.parts[0]}")
-                         # Check if Gemini called the execute_sqlite_query tool
+
+                        # Send the function response part to the model
+                        response_2 = chat.send_message(function_response_part)
+                        print(
+                            f"\nGemini Response (after SQL execution tool): {response_2.candidates[0].content.parts[0]}")
+                        # Check if Gemini called the execute_sqlite_query tool
                         if response_2.candidates[0].content.parts[0].function_call:
                             function_call_2 = response_2.candidates[0].content.parts[0].function_call
                             if function_call_2.name == 'execute_sql_query':
                                 # Simulate the execution of the execute_sqlite_query tool
                                 # In a real application, you would call your Python function here
-                                sql_query = function_call_2.args.get("sql_query")
+                                sql_query = function_call_2.args.get(
+                                    "sql_query")
                                 offset = function_call_2.args.get("offset", 0)
                                 limit = function_call_2.args.get("limit", 5)
-                                print(f"\nExecuting execute_sqlite_query with query: '{sql_query}', offset: {offset}, limit: {limit}")
+                                print(
+                                    f"\nExecuting execute_sqlite_query with query: '{sql_query}', offset: {offset}, limit: {limit}")
                             else:
-                                print("Gemini did not call execute_sqlite_query as expected.")
+                                print(
+                                    "Gemini did not call execute_sqlite_query as expected.")
                         else:
-                            print("Gemini did not call a function after receiving the SQL query.")
+                            print(
+                                "Gemini did not call a function after receiving the SQL query.")
                     else:
                         print("Gemini did not call nlp_to_sqlite as expected.")
                 else:
@@ -299,6 +468,15 @@ def start_chat_session():
     except Exception as e:
         print(f"\n📛Failed📛 to initialize the chat model⚠️ or session⚠️: {e}")
         print("Please check your API key, model name, and ensure the 'google-genai'📛package is correctly installed.")
+'''
+
+
+start_chat_session()
+
+# data = read_json_to_dict('sql_converter.json')
+
+# print(data)
+
 
 
 # try:
@@ -319,8 +497,20 @@ def start_chat_session():
 
 # print(db_path)
 
-start_chat_session()
 
-# data = read_json_to_dict('sql_converter.json')
 
-# print(data)
+# A mock FunctionDeclaration example
+# convert_to_sqlite_declaration = {
+#     "name": "convertToSQLite_SanFranciscoFilmLocations",
+#     "description": "Converts a user's natural language query about film locations in San Francisco into a valid SQLite query string.",
+#     "parameters": {
+#         "type": "object",
+#         "properties": {
+#             "natural_language_query": {
+#                 "type": "string",
+#                 "description": "The user's question or request about San Francisco film locations in plain English."
+#             }
+#         },
+#         "required": ["natural_language_query"]
+#     }
+# }
