@@ -71,6 +71,7 @@ def call_generative_api(system_instructions: str, user_query: str):
         print(f"🫥Fehler in sql_converter.py file😑: {e}")
         return None
 
+
 def extract_code_blocks(llm_response: str):
     """Extracts multiple code blocks from the LLM response."""
     code_blocks = re.findall(r"#begin(.*?)#end", llm_response, re.DOTALL)
@@ -80,6 +81,7 @@ def extract_code_blocks(llm_response: str):
         if not code_blocks:
             raise ValueError("No valid code blocks found in the LLM response.")
     return [block.strip() for block in code_blocks]
+
 
 class SFMovieQueryProcessor:
     """
@@ -99,7 +101,7 @@ class SFMovieQueryProcessor:
         # os.makedirs(self.output_folder, exist_ok=True)
 
     # [existing methods remain the same]
-    
+
     def _get_db_connection(self):
         """
         Create a new database connection
@@ -170,19 +172,58 @@ class SFMovieQueryProcessor:
         Returns:
             str: The preprocessed query.
         """
+        # to-do : call GEmini to preprocess this result.
+        # get rid of street, city of SF, any mention of San Francisco
         # Convert to lowercase
-        cleaned_query = raw_query.lower()
+        # cleaned_query = raw_query.lower()
+        # # Remove "in san francisco" as the data is specific to SF
+        # cleaned_query = cleaned_query.replace(
+        #     "in san francisco", "").strip()
+        # cleaned_query = cleaned_query.replace(
+        #     "in sf", "").strip()
+        # print(f"# Raw query: {raw_query}")
+        # print(f"# Preprocessed query: {cleaned_query}")
+        # return cleaned_query
+        try:
+            system_instructions = self.generate_preprocessing_prompt()
+            response = call_generative_api(system_instructions, raw_query)
+            # print('pre_processing_result ➡️ ', response.text)
+            return response.text
+        except Exception as e:
+            error_message = f"preprocessing error occured: {e}"
+            print(error_message)
+            return error_message
 
-        # Remove "in san francisco" as the data is specific to SF
-        cleaned_query = cleaned_query.replace(
-            "in san francisco", "").strip()
+    def generate_preprocessing_prompt(self) -> str:
+        """
+        Generate system instructions for Gemini AI to handle movie location queries.
+
+        Returns:
+            Dictionary containing system instructions
+        """
+        system_instructions = f"""
+        You are a specialized movie and TV location database assistant focused on filming locations.
+        Your job is to preprocess the user query about filming locations in San Francisco 
+        to a concise and precise query.
+
+        Important preprocessing rules:
+        1. When handling queries about locations, remove any mention to "San Francisco" city, "SF", or any reference to 
+        state of "California" in your responses.
+        2. When referring to locations, use only the base name without street suffixes (e.g., use "Market" instead of "Market Street").
+        3. When referring to time, only refer to years. (e.g., convert "20th centurty" to "1900 to 1999" but do not change 1940s).
         
-        cleaned_query = cleaned_query.replace(
-            "in sf", "").strip()
+        
+        Sample transformations to follow:
+        - "What movies were filmed at Golden Gate Park in San Francisco?" → "What movies were filmed at Golden Gate Park?"
+        - "TV shows shot on Lombard Street" → "TV shows shot on Lombard"
+        - "Find TV shows shot on Octavia Boulevard in the 1940s and 1950s" → "Find episodes shot on Octavia in the 1940s and 1950s"
+        - "Films made on Geary Boulevard in SF" → "Films made on Geary"
+        - "Films made on Folsom street" → "Films made on Folsom"
+        - "Find Films made on California street starring Clint Eastwood" → "Films made on California starring Clint Eastwood"
+        - "Find films made in March 2009 in Presidio Park in the city of SF" → "Find films made in 2009 in Presidio Park"
+        """
 
-        print(f"# Raw query: {raw_query}")
-        print(f"# Preprocessed query: {cleaned_query}")
-        return cleaned_query
+        return system_instructions
 
     def initial_query_prompt_maker(self, complexity: str) -> str:
         """
@@ -269,7 +310,7 @@ class SFMovieQueryProcessor:
         return initial_query_prompt
 
     # [Other existing methods remain the same]
-    
+
     def intent_complexity_prompt_maker(self) -> str:
         """
         Creates a structured prompt for an LLM to analyze user queries against a San Francisco
@@ -470,7 +511,7 @@ class SFMovieQueryProcessor:
         Creates a structured prompt for revising an SQLite query based on expert feedback.
         Modified to emphasize retrieving full records.
         """
-        
+
         improved_query_prompt = f"""
         # SQLite Query Optimization Task
 
@@ -504,6 +545,7 @@ class SFMovieQueryProcessor:
         - Include helpful comments explaining complex logic or significant changes
         - Do not introduce new functionality beyond the scope of the original query
         - Ensure all text comparisons remain case-insensitive
+        - Ensure there is no semi-colon at the end of your result
         - ALWAYS USE "SELECT *" TO RETRIEVE FULL RECORDS - THIS IS NON-NEGOTIABLE
 
         ## Response Format
@@ -513,17 +555,17 @@ class SFMovieQueryProcessor:
         }}
 
         """
-            
+
         return improved_query_prompt
 
     def post_processing_prompt_maker(self, user_query: str, full_results_sample) -> str:
         """
         Creates a prompt for post-processing the full record results into a concise answer.
-        
+
         Args:
             user_query: The original user query
             full_results_sample: A sample of the full results (first few rows or all if small)
-            
+
         Returns:
             str: A prompt for the LLM to extract the relevant information
         """
@@ -567,12 +609,14 @@ class SFMovieQueryProcessor:
         initial_step_instructions = self.initial_query_prompt_maker(complexity)
         # print(initial_step_instructions) ⬅️why is this here
         # return     ⬅️why is this here
-        initial_query = call_generative_api(initial_step_instructions, user_query)
+        initial_query = call_generative_api(
+            initial_step_instructions, user_query)
 
         if not initial_query:
             return None
 
-        query = json.loads(initial_query.text).get('query', 'no query generated!')
+        query = json.loads(initial_query.text).get(
+            'query', 'no query generated!')
         return query if query != 'no query generated!' else None
 
     def generate_feedback_query(self, user_query, initial_query) -> str:
@@ -588,15 +632,17 @@ class SFMovieQueryProcessor:
             return "GOOZ"
 
         feedback_instructions = self.feedback_prompt_maker(user_query)
-        feedback_query = call_generative_api(feedback_instructions, initial_query)
+        feedback_query = call_generative_api(
+            feedback_instructions, initial_query)
         return feedback_query.text
 
     def generate_improved_query(self, initial_query, feedback):
-        #TODO do it tonight
+        # TODO do it tonight
         # step-1: make the system_instructions
         improved_instruction = self.improved_query_prompt_maker(feedback)
-        # call Gemini AI to generate an improved query 
-        improved_query = call_generative_api(improved_instruction, initial_query)
+        # call Gemini AI to generate an improved query
+        improved_query = call_generative_api(
+            improved_instruction, initial_query)
         # improved_sqlite_query = extract_code_blocks(improved_query.text)
         print('improved query :   \n', improved_query.text, '\n')
         return improved_query.text
@@ -618,41 +664,47 @@ class SFMovieQueryProcessor:
         # improved_query_prompt step
         return self.generate_improved_query(initial_query, feedback)
 
-    
-
     def analyze(self):
         print('# analyzer_says_hi')
         print('## pre-processing ...')
         user_query = self.user_query
 
         print('user query received in the sql_converter is :  ', user_query)
-        
+
         cleaned_query = self.preprocess_query(user_query)
         assessment = self.assess_query_complexity(cleaned_query)
         complexity = assessment.get(
             'complexity', 'ERROR in assess_query_complexity()')
-        
+
         if complexity in ("SIMPLE_SQLITE", "COMPLEX_SQLITE"):
-            sqlite_query_to_execute = self.generate_sqlite_query(cleaned_query, complexity)
-            
+            sqlite_query_to_execute = self.generate_sqlite_query(
+                cleaned_query, complexity)
+
             try:
-                query_text = json.loads(sqlite_query_to_execute).get("revised-query", 'nothing to execute')
+                query_text = json.loads(sqlite_query_to_execute).get(
+                    "revised-query", 'nothing to execute')
                 return query_text
             except Exception as e:
                 print(f"Error in analyze: {e}")
                 return f"Error processing query: {str(e)}"
-        
-        return user_query
-    
-    
+        else:
+            return ['pandas_tool_needed', user_query]
+
+        # return user_query
+
 
 if __name__ == '__main__':
     try:
-        user_query = 'what are some movies made in 1920s?'
-        test = SFMovieQueryProcessor(db_path, user_query)
-        result = test.analyze()
-        print('test results is\n', result)
+        user_query = [
+            'what are some movies made in 1920s?',
+            'find films in north beach sf ca', 
+            'Find films made by Spielberg in Union Square and Embarcadero and Great Highway in 1999 in California and Northern America'
+        ]
+        for query in user_query:
+            test = SFMovieQueryProcessor(db_path, query)
+            pp = test.preprocess_query(query)
+            print(f"major ergebniss ist: {pp}")
+        # result = test.analyze()
+        # print('test results is\n', result)
     except Exception as e:
-            print(f"# Error in test ➡️ {e}")
-
-
+        print(f"# Error in test ➡️ {e}")

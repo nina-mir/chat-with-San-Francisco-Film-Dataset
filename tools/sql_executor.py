@@ -16,7 +16,6 @@ DB_FILE = 'sf-films-geocode.db'
 db_path = Path.cwd().joinpath("..").joinpath(DB_FILE).resolve()
 ###############################################
 
-
 def execute_sql_query(sql_query: str, offset: int = 0, limit: int = 5) -> dict:
     """
     Executes a SQL query against a SQLite DB with pagination.
@@ -34,10 +33,18 @@ def execute_sql_query(sql_query: str, offset: int = 0, limit: int = 5) -> dict:
             limit: The current limit used for pagination.
             next_offset: The offset for the next page, or None if there are no more pages.
             remaining: The number of remaining results after the current page.
-    """     
+    """ 
+   
+    conn = None  # Initialize first
+    
     try:
-        conn = sqlite3.connect(db_file=db_path)
+        conn = sqlite3.connect(db_path)
         cursor = conn.cursor()
+
+        print(f"🫥 we are inside the sql_executor script ....")
+
+        # TODO -- summarize the results. 
+
 
         # Count total results
         count_query = f"SELECT COUNT(*) FROM ({sql_query}) AS subquery"
@@ -48,8 +55,6 @@ def execute_sql_query(sql_query: str, offset: int = 0, limit: int = 5) -> dict:
         paginated_sql = f"{sql_query.strip().rstrip(';')} LIMIT {limit} OFFSET {offset}"
         cursor.execute(paginated_sql)
         rows = cursor.fetchall()
-
-        conn.close()
 
         return {
             "rows": rows,
@@ -63,7 +68,8 @@ def execute_sql_query(sql_query: str, offset: int = 0, limit: int = 5) -> dict:
     except Exception as e:
         raise Exception(f"Error executing SQLite query: {str(e)}")
     finally:
-        conn.close()
+        if conn is not None:  # Only close if it exists
+            conn.close()
 
 
 
