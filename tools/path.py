@@ -2,42 +2,39 @@
 # LIBRARY IMPORTS                             #
 ###############################################
 # Import the SFMovieQueryProcessor class
-import traceback
 from sql_converter import SFMovieQueryProcessor
 # Import execute_sql_query method
 from sql_executor import execute_sql_query
 
-import os
-import time 
+import traceback, os, time, re
 from dotenv import load_dotenv
-import sqlite3
 from google import genai
 from google.genai import types, Client
-from google.genai.types import (
-    FunctionDeclaration,
-    GenerateContentConfig,
-    HttpOptions,
-    Tool,
-    Content,
-    Part,
-    ModelContent,
-    UserContent,
-    FunctionResponse
-)
+from google.genai.types import Part 
+# (
+#     FunctionDeclaration,
+#     GenerateContentConfig,
+#     HttpOptions,
+#     Tool,
+#     Content,
+#     Part,
+#     ModelContent,
+#     UserContent,
+#     FunctionResponse
+# )
 
-import pandas as pd
+# import pandas as pd
 import json
-import dataclasses
+# import dataclasses
 import typing_extensions as typing
 from pathlib import Path
 import textwrap
-import pprint
-import re
+# import pprint
 
 ###############################################
 # Pandas setting                              #
 ###############################################
-pd.set_option('display.max_rows', 200)
+# pd.set_option('display.max_rows', 200)
 ###############################################
 # Gemini API KEY/Basic Configuration          #
 # Load environment variables from .env file   #
@@ -111,8 +108,10 @@ def read_markdown_file(path) -> str:
 def log_chat_responses_to_file(response, path='response.log'):
     with open(path, 'a', encoding='utf8') as log:
         log.write(time.asctime())
-        log.write(response)
-        log.write('\n')
+        text = f"{response}"
+        log.write(f"\n{textwrap.fill(text, width=80)}\n\t.....\t....")
+        # log.write(response.parsed)
+        log.write('\n\n')
 
 #######################################################
 # setup the function declaration for the tool
@@ -143,7 +142,7 @@ execute_sql_query_tool = {
 
 #######################################################
 # the followwing Gemini prompt is contained in system_insturction.md file 
-system_instruction = read_markdown_file('system_instruction')
+system_instruction = read_markdown_file('system_instruction.md')
 
 # Define the process_function_call helper function
 def process_function_call(function_call, chat):
@@ -202,12 +201,20 @@ def process_function_call(function_call, chat):
         return None
 
 
+
+
 def start_chat_session():
     """Starts and manages an interactive chat session with Gemini."""
     try:
+        error_recovery = False
+        max_retries = 3
+        retry_count = 0
+        current_user_input = ""
+        
         # Starting chat client
         tools = types.Tool(function_declarations=[
                            convert_to_sqlite_declaration, execute_sql_query_tool])
+        
         config = types.GenerateContentConfig(
             tools=[tools],
             system_instruction=system_instruction,
@@ -231,27 +238,34 @@ def start_chat_session():
               """)
 
         while True:
-            try:
-                user_input = input("You: ")
-            except KeyboardInterrupt:
-                print("\nExiting chat session...")
-                break
-            except EOFError:  # Handles Ctrl+D
-                print("\nExiting chat session...")
-                break
+            if not error_recovery:
+                try:
+                    user_input = input("You: ")
+                    current_user_input = user_input  # Save for potential retries
+                except KeyboardInterrupt:
+                    print("\nExiting chat session...")
+                    break
+                except EOFError:  # Handles Ctrl+D
+                    print("\nExiting chat session...")
+                    break
 
-            # Exit conditions
-            if user_input.lower() in terminate_session:
-                print("Exiting chat session...")
-                break
+                # Exit conditions
+                if user_input.lower() in terminate_session:
+                    print("Exiting chat session...")
+                    break
 
-            # Prevent sending empty messages
-            if not user_input.strip():
-                continue
+                # Prevent sending empty messages
+                if not user_input.strip():
+                    continue
+            else:
+                # We're recovering from an error, use the saved input
+                print(f"🙈🙉🙊🐵Retrying previous query: {current_user_input}")
+                error_recovery = False  # Reset for next iteration unless we hit another error
 
             # Send message to Gemini and process any function calls
             try:
-                response = chat.send_message(user_input)
+                response = chat.send_message(current_user_input)
+                retry_count = 0  # Reset on success
 
                 # Main loop for handling responses and function calls
                 while response:
@@ -261,7 +275,6 @@ def start_chat_session():
                     if hasattr(response, 'text') and response.text:
                         # to_user = textwrap.fill(response.text, width=70)
                         print(f"\n _🤖-- : {response.text}\n")
-                        
                     
                     # Check for function calls
                     function_call = None
@@ -284,14 +297,131 @@ def start_chat_session():
                         break
 
             except Exception as e:
-                print(f"\nAn error occurred: {e}")
-                traceback.print_exc()  # For more detailed error info
+                if "429 RESOURCE_EXHAUSTED" in str(e) and retry_count < max_retries:
+                    retry_count += 1
+                    # Extract retry delay if available
+                    retry_delay = 6  # Default retry delay in seconds
+                    
+                    try:
+                        retry_info = re.search(r"'retryDelay': '(\d+)s'", str(e))
+                        if retry_info:
+                            retry_delay = int(retry_info.group(1))
+                    except:
+                        pass
+                    
+                    print(f"\n⏳ Rate limit exceeded. Retry {retry_count}/{max_retries}. Waiting {retry_delay} seconds...")
+                    time.sleep(retry_delay)
+                    
+                    # Don't ask for new input, use the same one
+                    error_recovery = True
+                    continue
+                elif retry_count >= max_retries:
+                    print(f"\n⚠️ Failed after {max_retries} retries due to rate limits.")
+                    print("Consider upgrading your Gemini API plan or implementing longer cooldown periods.")
+                    retry_count = 0  # Reset for next interaction
+                    error_recovery = False
+                else:
+                    print(f"\n👎🏽An error occurred: {e}")
+                    traceback.print_exc()  # For more detailed error info
 
     except Exception as e:
         print(f"\nFailed to initialize the chat model or session: {e}")
 
 
+
 start_chat_session()
+
+
+# def start_chat_session():
+#     """Starts and manages an interactive chat session with Gemini."""
+#     try:
+#         # Starting chat client
+#         tools = types.Tool(function_declarations=[
+#                            convert_to_sqlite_declaration, execute_sql_query_tool])
+        
+#         config = types.GenerateContentConfig(
+#             tools=[tools],
+#             # response_mime_type="application/json",
+#             system_instruction=system_instruction,
+#             temperature=0.1
+#         )
+
+#         chat = client.chats.create(
+#             model=MODEL_NAME,
+#             config=config
+#         )
+
+#         print(
+#             f"Starting chat with {MODEL_NAME}. Type exit, quit, end, aus or aufhören to end.")
+#         print("-" * 30)
+
+#         print("""
+#               (●'◡'●): hiya! you are now chatting with virgil, a 6th-generation 
+#               San francisco native and a film buff! Ask me questions about films 
+#               shot in various locations in San Francisco since 1915 till present!🎈\n
+#               if I get to impress you with my knowledge, tell me "what a good boi!"😸
+#               """)
+
+#         while True:
+#             try:
+#                 user_input = input("You: ")
+#             except KeyboardInterrupt:
+#                 print("\nExiting chat session...")
+#                 break
+#             except EOFError:  # Handles Ctrl+D
+#                 print("\nExiting chat session...")
+#                 break
+
+#             # Exit conditions
+#             if user_input.lower() in terminate_session:
+#                 print("Exiting chat session...")
+#                 break
+
+#             # Prevent sending empty messages
+#             if not user_input.strip():
+#                 continue
+
+#             # Send message to Gemini and process any function calls
+#             try:
+#                 response = chat.send_message(user_input)
+
+#                 # Main loop for handling responses and function calls
+#                 while response:
+#                     # log AI response to file for debugging/inspection
+#                     log_chat_responses_to_file(response)
+#                     # Check if we have text to display
+#                     if hasattr(response, 'text') and response.text:
+#                         # to_user = textwrap.fill(response.text, width=70)
+#                         print(f"\n _🤖-- : {response.text}\n")
+                        
+                    
+#                     # Check for function calls
+#                     function_call = None
+#                     if response.candidates and response.candidates[0].content.parts:
+#                         for part in response.candidates[0].content.parts:
+#                             if hasattr(part, 'function_call') and part.function_call:
+#                                 function_call = part.function_call
+#                                 break
+                    
+#                     if not function_call:
+#                         # No function call, we're done with this cycle
+#                         break
+                        
+#                     # Process the function call using our helper function
+#                     print(f"Function to call: {function_call.name}")
+#                     response = process_function_call(function_call, chat)
+                    
+#                     # If process_function_call returns None, exit the loop
+#                     if not response:
+#                         break
+
+#             except Exception as e:
+#                 print(f"\n👎🏽An error occurred: {e}")
+#                 traceback.print_exc()  # For more detailed error info
+
+#     except Exception as e:
+#         print(f"\nFailed to initialize the chat model or session: {e}")
+
 
 
                 # # Process the response
