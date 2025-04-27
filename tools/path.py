@@ -154,17 +154,19 @@ def process_function_call(function_call, chat):
 
         tool_1 = SFMovieQueryProcessor(db_path, user_query)
         sql_result = tool_1.analyze()
+        print(f"line 157-path.py➡️{sql_result}")
+        # raise Exception('this is line 158');
 
         if isinstance(sql_result, str):
             # we received either an error or a SQLite query
             function_response = Part.from_function_response(
-                name="nlp_2_sql_SanFranciscoFilmLocations",
+                name="nlp_2_sql",
                 response={"result": sql_result}
             )
         elif isinstance(sql_result, list):
-            print(sql_result[0].upper())
+            print(f"line 167-path.py➡️{sql_result[0].upper()}")
             function_response = Part.from_function_response(
-                name="nlp_2_sql_SanFranciscoFilmLocations",
+                name="nlp_2_sql",
                 response={"result": sql_result[0] }
             )
 

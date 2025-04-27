@@ -755,13 +755,15 @@ if __name__ == '__main__':
     try:
         user_query = [
             'what are some movies made in 1920s?',
-            'find films in north beach sf ca',
-            'Find films made by Spielberg in Union Square and Embarcadero and Great Highway in 1999 in California and Northern America'
+            # 'find films in north beach sf ca',
+            # 'Find films made by Spielberg in Union Square and Embarcadero and Great Highway in 1999 in California and Northern America'
         ]
         for query in user_query:
             test = SFMovieQueryProcessor(db_path, query)
-            pp = test.preprocess_query(query)
-            print(f"major ergebniss ist: {pp}")
+            prompt = test.intent_complexity_prompt_maker()
+            print(prompt)
+            # pp = test.preprocess_query(query)
+            # print(f"major ergebniss ist: {pp}")
         # result = test.analyze()
         # print('test results is\n', result)
     except Exception as e:

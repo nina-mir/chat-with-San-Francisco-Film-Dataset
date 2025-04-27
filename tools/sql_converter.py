@@ -256,8 +256,9 @@ class SFMovieQueryProcessor:
         You are a world-class SQLite expert. Your task is to create a precise, efficient, and properly optimized query that:
 
         1. **Always Retrieves Complete Records**:
-        - ALWAYS use SELECT * to retrieve all columns from each matching record
-        - This is critically important as we'll post-process the results to extract specific information
+        - ALWAYS use SELECT * to retrieve all columns from each matching record UNLESS user explicitly requests unique values
+        - When uniqueness is requested, use SELECT DISTINCT on the relevant columns only
+        - This distinction is critically important as we'll post-process the results differently
 
         2. **Matches Complexity Level**: 
         - {'Use simple WHERE clauses and avoid unnecessary JOINs or subqueries' if complexity == 'SIMPLE_SQLITE' else 'Utilize appropriate JOINs, subqueries, aggregations, or multiple conditions as needed'}
@@ -274,9 +275,10 @@ class SFMovieQueryProcessor:
         - Ensure case-insensitivity doesn't adversely impact query performance
 
         5. **Handles Distinct/Unique Data Appropriately**:
-        - Use DISTINCT only when absolutely necessary to avoid duplicates
+        - When the user explicitly asks for unique/distinct items, use DISTINCT on the appropriate columns
+        - Examples: "unique films", "distinct locations", "list all different directors"
         - For aggregations, ensure proper handling of distinct/non-distinct as needed
-        - Remember: We generally want full records, so use DISTINCT cautiously
+        - When uniqueness is not specified, return full records without DISTINCT
 
         6. **Follows Best Practices**:
         - Use descriptive aliases for readability
@@ -287,6 +289,7 @@ class SFMovieQueryProcessor:
         7. **Optimizes Performance**:
         - Use appropriate indexing hints if needed
         - Avoid full table scans when possible
+        - For queries requesting unique items (e.g., "list all unique films"), use DISTINCT with relevant columns
         - Structure WHERE clauses for efficiency
 
         8. **Clarifies Intent**:
@@ -463,18 +466,21 @@ class SFMovieQueryProcessor:
     ## Evaluation Criteria
 
     1. **Completeness of Record Retrieval**
-    - MOST IMPORTANT: Does the query use SELECT * to retrieve all columns for post-processing?
-    - If not, this is a critical issue that must be fixed in the revised query
+    - IMPORTANT: Does the query use SELECT * to retrieve all columns for post-processing in general cases?
+    - EXCEPTION: For queries explicitly requesting unique/distinct values, does it use DISTINCT on appropriate columns?
+    - Recognize when the user is asking for unique items (using terms like "unique," "distinct," "different") and verify the query handles this correctly
 
     2. **Correctness & Accuracy**
     - Does the sqlite query correctly address the user's question?
     - Are there logical errors or misinterpretations?
     - Will it return the expected data?
+    - If the user asks for unique values, does the query properly implement DISTINCT?
 
     3. **Performance Optimization**
     - Are there inefficient patterns (unnecessary scans, poor join order)?
     - Could indexes be better utilized?
     - Is the query unnecessarily complex for the task?
+    - For DISTINCT queries, is DISTINCT applied efficiently to only necessary columns?
 
     4. **SQLite-Specific Considerations**
     - Does the query use SQLite dialect appropriately?
@@ -486,11 +492,13 @@ class SFMovieQueryProcessor:
     - How does it handle NULL values, empty results, or edge cases?
     - Is text searching properly case-insensitive?
     - Are there potential injection risks?
+    - Does it handle the distinction between returning all records vs. unique records appropriately?
 
     6. **Readability & Maintainability**
     - Is the query well-formatted and easy to understand?
     - Are there helpful comments explaining complex logic?
     - Could variable naming or structure be improved?
+    - Are there clear comments indicating why DISTINCT is or isn't being used?
 
     ## Response Format
     Provide your assessment in the following format:
@@ -528,7 +536,11 @@ class SFMovieQueryProcessor:
         {feedback} 
 
         ## Task Requirements
-        1. MOST CRITICAL: ENSURE THE QUERY USES "SELECT *" TO RETRIEVE FULL RECORDS
+        1. CRITICAL: ENSURE THE QUERY RETRIEVES APPROPRIATE RECORDS:
+           - In general cases: USE "SELECT *" TO RETRIEVE FULL RECORDS
+           - For explicit unique/distinct requests: USE "SELECT DISTINCT" on relevant columns
+           - Determine which approach to use based on whether the user query contains terms like "unique", "distinct", "different"
+
         2. Keep in mind that SQLite requires LOWER() for case-insensitive searches 
         3. Apply all critical improvements mentioned in the feedback
         4. Maintain or enhance the query's core functionality
@@ -546,7 +558,7 @@ class SFMovieQueryProcessor:
         - Do not introduce new functionality beyond the scope of the original query
         - Ensure all text comparisons remain case-insensitive
         - Ensure there is no semi-colon at the end of your result
-        - ALWAYS USE "SELECT *" TO RETRIEVE FULL RECORDS - THIS IS NON-NEGOTIABLE
+        - BALANCE REQUIREMENTS: Use "SELECT *" for general queries, but appropriately use DISTINCT when uniqueness is explicitly requested
 
         ## Response Format
         Respond with a JSON object with one field:
