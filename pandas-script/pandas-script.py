@@ -94,77 +94,69 @@ class QueryProcessor:
         Converts lat/lon columns to a geometry column with Points.
         """
         try:
-            # Connect to SQLite database and read the data
-            conn = sqlite3.connect(self.db_path)
-            df = pd.read_sql_query("SELECT * from sf_film_data", conn)
-            conn.close()
+            self.gdf = gpd.read_file("sf_film_May7_2025_data.gpkg")
+            # # Connect to SQLite database and read the data
+            # conn = sqlite3.connect(self.db_path)
+            # df = pd.read_sql_query("SELECT * from sf_film_data", conn)
+            # conn.close()
 
-            # Convert empty strings to NaN for coordinates
-            df['Lat'] = df['Lat'].replace('', np.nan)
-            df['Lon'] = df['Lon'].replace('', np.nan)
+            # # Convert empty strings to NaN for coordinates
+            # df['Lat'] = df['Lat'].replace('', np.nan)
+            # df['Lon'] = df['Lon'].replace('', np.nan)
 
-            # Convert string columns to float
-            df['Lat'] = pd.to_numeric(df['Lat'], errors='coerce')
-            df['Lon'] = pd.to_numeric(df['Lon'], errors='coerce')
+            # # Convert string columns to float
+            # df['Lat'] = pd.to_numeric(df['Lat'], errors='coerce')
+            # df['Lon'] = pd.to_numeric(df['Lon'], errors='coerce')
 
-            # Create Point geometries from lat/lon
-            df['geometry'] = df.apply(
-                lambda row: Point(row['Lon'], row['Lat'])
-                if pd.notnull(row['Lat']) and pd.notnull(row['Lon'])
-                else None,
-                axis=1
-            )
+            # # Create Point geometries from lat/lon
+            # df['geometry'] = df.apply(
+            #     lambda row: Point(row['Lon'], row['Lat'])
+            #     if pd.notnull(row['Lat']) and pd.notnull(row['Lon'])
+            #     else None,
+            #     axis=1
+            # )
 
-            # Convert to GeoDataFrame
-            self.gdf = gpd.GeoDataFrame(df, geometry='geometry')
+            # # Convert to GeoDataFrame
+            # self.gdf = gpd.GeoDataFrame(df, geometry='geometry')
 
-            # Set coordinate reference system (WGS84 is standard for lat/lon)
-            self.gdf.crs = "EPSG:4326"
+            # # Set coordinate reference system (WGS84 is standard for lat/lon)
+            # self.gdf.crs = "EPSG:4326"
 
-            # Drop the original Lat and Lon columns
-            self.gdf = self.gdf.drop(['Lat', 'Lon'], axis=1)
+            # # Drop the original Lat and Lon columns
+            # self.gdf = self.gdf.drop(['Lat', 'Lon'], axis=1)
 
-            print(
-                f"Successfully loaded GeoDataFrame with {len(self.gdf)} records")
+            # print(
+            #     f"Successfully loaded GeoDataFrame with {len(self.gdf)} records")
 
         except Exception as e:
             raise RuntimeError(f"Failed to initialize GeoDataFrame: {str(e)}")
 
-    def process_query(self, user_query: str, wait_time: int = 5) -> Dict[str, Any]:
+    def check_preprocessing_error(self, preprocessing_result):
         """
-        Process a natural language query through the complete pipeline.
-
+        Check if the preprocessing result contains an error and exit if it does.
+        
         Args:
-            user_query: The natural language query about SF film locations
-            wait_time: Time to wait between API calls to avoid rate limiting
-
+            preprocessing_result (dict): The result from the preprocessing step
+            
         Returns:
-            Dict containing results from each step and the final code
+            None: The function will exit the program if an error is detected
         """
-        results = {}
-
-        try:
-            self.user_query = user_query
-            # Step 1: Preprocessing
-            preprocessing_result = self.preprocess_query(user_query)
-            results["preprocessing"] = preprocessing_result
-            time.sleep(wait_time)  # Avoid rate limiting
-
-            # Step 2: NLP Action Planning
-            nlp_plan = self.generate_nlp_plan(preprocessing_result)
-            results["nlp_plan"] = nlp_plan
-            time.sleep(wait_time)  # Avoid rate limiting
-
-            # Step 3: Code Generation
-            code_result = self.generate_geopandas_code(
-                user_query, preprocessing_result, nlp_plan
-            )
-            results["code"] = code_result
-
-            return results
-
-        except Exception as e:
-            raise RuntimeError(f"Error in query processing pipeline: {str(e)}")
+        # Check if the result has an 'error' key with a value of True
+        if preprocessing_result.get('error') == True:
+            # Print the error message if available
+            if 'message' in preprocessing_result:
+                print(f"ERROR: {preprocessing_result['message']}")
+                
+            # Print the requested operation if available
+            if 'requested_operation' in preprocessing_result:
+                print(f"Requested operation: {preprocessing_result['requested_operation']}")
+                
+            print("Exiting due to data modification request.")
+            # Exit the program
+            import sys
+            sys.exit(1)
+            
+        # If no error is found, the function returns nothing and execution continues
 
     def preprocess_query(self, user_query: str) -> Dict[str, Any]:
         """
@@ -327,8 +319,6 @@ result = process_sf_film_query(gdf)
                 }
             }
 
-    
-
     def _call_generative_api(self, system_instructions: str, user_query: str) -> Any:
         """
         Call the generative AI API with system instructions and user query.
@@ -385,7 +375,7 @@ result = process_sf_film_query(gdf)
             "explanation": explanation
         }
 
-    def _get_preprocessing_instructions(self) -> str:
+    def get_preprocessing_instructions(self) -> str:
         """Get the system instructions for the preprocessing step."""
         return '''
 You are a helpful assistant that analyzes user queries about data manipulation using GeoPandas.
@@ -393,7 +383,34 @@ You are a helpful assistant that analyzes user queries about data manipulation u
 The GeoPandas dataframe where the data is stored has the following columns:
 ['id', 'Title', 'Year', 'Locations', 'Fun_Facts', 'Director', 'Writer','Actor_1', 'Actor_2', 'Actor_3', 'geometry']
 
-# Your Main Job:
+# CRITICAL: Data Modification Detection
+Before processing any query, FIRST check if the user is requesting any operation that would modify data:
+
+## Prohibited operations to detect:
+- Adding/inserting new records or rows
+- Updating existing records or values
+- Deleting or removing records
+- Creating new permanent tables, dataframes, or databases
+- Saving/exporting modified data (to files, databases, etc.)
+- Any operation using terms like: update, insert, delete, remove, add row, create table, save as, write to, export
+
+## Keywords that suggest data modification (not exhaustive):
+- update, insert, add, create, delete, remove, change, modify, alter, save, write, export
+- new record, new row, new entry, new film, new location
+- "Update the database", "Add this film", "Change the year", "Delete records", etc.
+
+If you detect a data modification request, DO NOT process the query normally. Instead, immediately return this exact JSON structure:
+
+{
+  "error": true,
+  "message": "This operation cannot be performed as it would modify the database. Only read-only operations are permitted.",
+  "requested_operation": "DESCRIBE_OPERATION_HERE"
+}
+
+Replace 'DESCRIBE_OPERATION_HERE' with a brief description of the prohibited operation that was requested.
+
+# For Read-Only Queries Only (if no modification was detected):
+Your main job for valid read-only queries:
 1. When handling queries about locations, remove any mention to "San Francisco" city, "SF", or any reference to 
         state of "California" in the query
 2. Break the user query into clear, atomic tasks.
@@ -421,7 +438,7 @@ The GeoPandas dataframe where the data is stored has the following columns:
   }
 - Always preserve the true intent of the user's query without changing its meaning.
 
-# Output JSON format:
+# Output JSON format for valid read-only queries:
 
 {
   "tasks": [
@@ -461,6 +478,7 @@ If no filters are found, output an empty "filters" array.
 
     def _get_nlp_plan_instructions(self) -> str:
         """Get the system instructions for the NLP action planning step."""
+    
         return '''
 You are a GeoPandas expert tasked with converting structured query JSON into a clear,
 natural language plan that explains how to execute the user's request using GeoPandas operations.
@@ -525,6 +543,43 @@ Note that newlines in the plan string should be represented as "\\n" characters 
 
         return make_code_gen_instructions(preprocessing_str, nlp_plan_str)
 
+    def process_query(self, user_query: str, wait_time: int = 5) -> Dict[str, Any]:
+        """
+        Process a natural language query through the complete pipeline.
+
+        Args:
+            user_query: The natural language query about SF film locations
+            wait_time: Time to wait between API calls to avoid rate limiting
+
+        Returns:
+            Dict containing results from each step and the final code
+        """
+        results = {}
+
+        try:
+            self.user_query = user_query
+            # Step 1: Preprocessing
+            preprocessing_result = self.preprocess_query(user_query)
+            results["preprocessing"] = preprocessing_result
+            self.check_preprocessing_error(preprocessing_result)
+            time.sleep(wait_time)  # Avoid rate limiting
+
+            # Step 2: NLP Action Planning
+            nlp_plan = self.generate_nlp_plan(preprocessing_result)
+            results["nlp_plan"] = nlp_plan
+            time.sleep(wait_time)  # Avoid rate limiting
+
+            # Step 3: Code Generation
+            code_result = self.generate_geopandas_code(
+                user_query, preprocessing_result, nlp_plan
+            )
+            results["code"] = code_result
+
+            return results
+
+        except Exception as e:
+            raise RuntimeError(f"Error in query processing pipeline: {str(e)}")
+
 
 if __name__ == "__main__":
     # Example usage
@@ -551,10 +606,11 @@ if __name__ == "__main__":
 # "How many movies were made in each year?",
 #              "are there any film with the name Matrix in their title shot in SF?",
 
-    queries = ["what are some film location about 0.5 miles from Union Square?",
-               "what are films made in the 70s and near Coit Tower?"
-               ]
-    # queries = ["are there any film with the name matrix in their title shot in SF?"]
+    queries = [
+        "what are some film location about 0.5 miles from Union Square?",
+        "what are films made in the 70s and near Coit Tower?"
+    ]
+    queries = ["are there any film with the name matrix in their title shot in SF? If so, change their name to NINA IST SCHOEN."]
     # queries = ["are there any films with the word matrix in their title shot in SF?"]
 
     # Process the queryu
@@ -574,10 +630,12 @@ if __name__ == "__main__":
                 print(results["code"]["code"])
 
                 # Execute code
-                result = processor.execute_generated_code(
-                    results["code"]["code"])
-                print("\nExecution Result:")
-                print(result)
+                # result = processor.execute_generated_code(
+                #     results["code"]["code"])
+                # print("\nExecution Result:")
+                # print(result)
+
+
                 # print(type(result))
                 # with open('code_execution_results.log', 'a') as ce:
                 #     ce.write('*'*20)
@@ -763,3 +821,6 @@ if __name__ == "__main__":
 
     #     except Exception as e:
     #         raise RuntimeError(f"Error executing generated code: {str(e)}")
+            
+
+            
