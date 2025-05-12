@@ -131,6 +131,276 @@ class QueryProcessor:
         except Exception as e:
             raise RuntimeError(f"Failed to initialize GeoDataFrame: {str(e)}")
 
+    def execute_generated_code(self, code: str):
+        """
+        Execute the generated GeoPandas code and return both the result and its code representation.
+        
+        Args:
+            code: The Python code to execute
+                
+        Returns:
+            The result of executing the code
+        """
+        try:
+            # Create a namespace with required libraries and the GeoDataFrame
+            namespace = {
+                "gdf": self.gdf,
+                "pd": pd,
+                "gpd": gpd,
+                "np": np,
+                "Point": Point,
+                "result": None
+            }
+
+            # Add both the code and the function call to the same string
+            # This ensures all functions are defined before they're called
+            # NOTE: No indentation here - Python is sensitive to indentation
+            full_code = f"""{code}
+
+# Now call the main function
+query_description = '{self.user_query}'
+result = process_sf_film_query(gdf)
+"""
+
+            # Execute the combined code in one go
+            exec(full_code, namespace)
+
+            # Extract the result
+            if 'result' in namespace:
+                return namespace['result']
+            else:
+                return {"data": None, "summary": "Execution completed but no result was returned", "metadata": {}}
+
+        except Exception as e:
+            import traceback
+            error_trace = traceback.format_exc()
+
+            return {
+                "data": None,
+                "summary": f"Error executing generated code",
+                "metadata": {
+                    "error": str(e),
+                    "error_type": type(e).__name__,
+                    "traceback": error_trace
+                }
+            }
+
+    def _call_generative_api(self, system_instructions: str, user_query: str) -> Any:
+        """
+        Call the generative AI API with system instructions and user query.
+
+        Args:
+            system_instructions: The system instructions for the model
+            user_query: The user query or input
+
+        Returns:
+            The API response
+        """
+        try:
+            from google.genai import types
+
+            response = self.client.models.generate_content(
+                model=self.model_name,
+                contents=user_query,
+                config=types.GenerateContentConfig(
+                    system_instruction=system_instructions,
+                    response_mime_type="application/json",
+                    temperature=0.2,
+                ),
+            )
+
+            return response
+        except Exception as e:
+            raise RuntimeError(f"API call failed: {str(e)}")
+
+    def _extract_code_from_text(self, text: str) -> Dict[str, str]:
+        """
+        Extract code and explanation from text if not properly formatted as JSON.
+
+        Args:
+            text: The raw response text
+
+        Returns:
+            Dict with code and explanation
+        """
+        # Simple extraction logic - improve as needed
+        code_block = ""
+        explanation = ""
+
+        # Look for code blocks
+        code_matches = re.findall(r'```python\n(.*?)```', text, re.DOTALL)
+        if code_matches:
+            code_block = code_matches[0]
+
+        # Everything else is considered explanation
+        explanation = re.sub(r'```python\n.*?```', '',
+                             text, flags=re.DOTALL).strip()
+
+        return {
+            "code": code_block,
+            "explanation": explanation
+        }
+
+    def _get_preprocessing_instructions(self) -> str:
+
+        """Get the system instructions for the preprocessing step."""
+        return '''
+You are a helpful assistant that analyzes user queries about data manipulation using GeoPandas.
+
+# STEP 1: Data Modification Check
+Your first task is to determine if the query is attempting to modify the database in any way.
+
+A modification query would include clear intent to:
+- Add new data (e.g., "Add this film to the database")
+- Update existing data (e.g., "Change the Year for The Godfather to 1972")
+- Delete data (e.g., "Remove all films from 1999")
+- Save or export modified data (e.g., "Save these changes")
+
+Examples of modification queries:
+- "Insert a new film called 'Star Wars'"
+- "Update the location for Vertigo"
+- "Delete films directed by Spielberg"
+- "Add a new entry with id=500"
+
+Examples of read-only queries (NOT modification):
+- "Show me films with 'matrix' in the title"
+- "List films shot in Union Square"
+- "Count films directed by Hitchcock"
+- "Find locations that appear in multiple films"
+- "Add locations to my search results" (this is about viewing, not modifying)
+
+If you detect a data modification request, immediately respond with this JSON:
+{
+  "error": true,
+  "message": "This operation cannot be performed as it would modify the database. Only read-only operations are permitted.",
+  "requested_operation": "DESCRIBE_OPERATION_HERE"
+}
+
+# STEP 2: Read-Only Query Processing
+If the query is read-only, proceed with these instructions:
+
+The GeoPandas dataframe has the following columns:
+['id', 'Title', 'Year', 'Locations', 'Fun_Facts', 'Director', 'Writer','Actor_1', 'Actor_2', 'Actor_3', 'geometry']
+
+Your job for valid read-only queries:
+1. When handling queries about locations, remove any mention to "San Francisco" city, "SF", or any reference to 
+        state of "California" in the query
+2. Break the user query into clear, atomic tasks.
+3. Identify and extract any filter conditions (e.g., "Year == 1977", "Director == Hitchcock", spatial filters like "within 1 mile of Union Square").
+4. Structure filters carefully, ensuring correct use of AND/OR logic, including nested conditions when needed.
+5. Ensure the output is structured precisely in the JSON format below.
+
+# Critical Rules for DISTINCT:
+- **Always** assume **distinct** values when the user asks to:
+  - List films, directors, writers, or actors
+  - Count films, directors, writers, or actors
+- Explicitly include "list distinct" or "count distinct" as a separate task.
+- Only include duplicates if the user specifically asks for all records or all locations.
+
+# Important Logic Rules:
+- Use "AND" to combine different filter categories (e.g., year filter AND location filter).
+- Use "OR" when the query allows for alternatives inside the same category (e.g., films directed by X **or** acted by X).
+- If needed, allow **nested logic**.
+- Always preserve the true intent of the user's query without changing its meaning.
+
+# Output JSON format for valid read-only queries:
+
+{
+  "tasks": [
+    "First atomic task",
+    "Second atomic task",
+    ...
+  ],
+  "filters": [
+    {
+      "field": "field_name",
+      "condition": "==, between, within_distance, contains, intersects, etc.",
+      "value": "value or object",
+      "type": "attribute" or "spatial"
+    },
+    {
+      "logic": "OR" or "AND",
+      "conditions": [
+        { filter_object1 },
+        { filter_object2 },
+        ...
+      ]
+    },
+    ...
+  ],
+  "filter_logic": "AND" or "OR"
+}
+
+If no filters are found, output an empty "filters" array.
+'''
+
+    def _get_nlp_plan_instructions(self) -> str:
+        """Get the system instructions for the NLP action planning step."""
+    
+        return '''
+You are a GeoPandas expert tasked with converting structured query JSON into a clear,
+natural language plan that explains how to execute the user's request using GeoPandas operations.
+
+The GeoPandas dataframe where the data is stored has the following columns:
+['id', 'Title', 'Year', 'Locations', 'Fun_Facts', 'Director', 'Writer','Actor_1', 'Actor_2', 'Actor_3', 'geometry']
+
+## Input Format
+
+You will receive a JSON structure containing:
+- `tasks`: An array of atomic operations to perform
+- `filters`: An array of filter conditions (may be nested)
+- `filter_logic`: How the filters combine ("AND" or "OR")
+
+## Output Requirements
+
+Create a natural language explanation with these components:
+
+1. **Summary Statement**: Begin with a concise one-sentence summary of what the query aims to accomplish.
+   - Example: "This query finds all films made after 2000 with at least three filming locations."
+
+2. **Data Selection Plan**: Describe the filtering process using proper GeoPandas terminology.
+
+3. **Processing Steps**: Explain any operations performed on the filtered data.
+
+4. **Final Output**: Describe what will be returned to the user.
+
+## Output Format
+
+Always structure your output as a JSON object with a single key "plan" containing a string with a numbered list of steps:
+
+```json
+{
+    "plan": "To find films directed by Clint Eastwood after 2000:\\n\\n1. Load the films dataframe.\\n2. Filter rows where the Director field equals \\"Clint Eastwood\\".\\n3. Further filter to include only films with Year greater than 2000.\\n4. Return a list of distinct film titles from the filtered results."
+}
+```
+
+Within the plan string:
+1. Begin with the summary statement (unnumbered).
+2. Number each subsequent step in the process, starting with data loading/preparation.
+3. Ensure the final numbered step describes what is returned to the user.
+
+Note that newlines in the plan string should be represented as "\\n" characters within the JSON string.
+'''
+
+    def _get_code_generation_instructions(
+        self, preprocessing_result: Dict[str, Any], nlp_plan: Dict[str, str]
+    ) -> str:
+        """
+        Get the customized system instructions for the code generation step.
+
+        Args:
+            preprocessing_result: The result from the preprocessing step
+            nlp_plan: The NLP action plan
+
+        Returns:
+            Customized system instructions for code generation
+        """
+        # Convert inputs to strings for inclusion in the prompt
+        preprocessing_str = json.dumps(preprocessing_result, indent=2)
+        nlp_plan_str = json.dumps(nlp_plan, indent=2)
+
+        return make_code_gen_instructions(preprocessing_str, nlp_plan_str)
+
     def check_preprocessing_error(self, preprocessing_result):
         """
         Check if the preprocessing result contains an error and exit if it does.
@@ -265,284 +535,6 @@ class QueryProcessor:
         except Exception as e:
             raise ValueError(f"Error in code generation step: {str(e)}")
 
-    def execute_generated_code(self, code: str):
-        """
-        Execute the generated GeoPandas code and return both the result and its code representation.
-        
-        Args:
-            code: The Python code to execute
-                
-        Returns:
-            The result of executing the code
-        """
-        try:
-            # Create a namespace with required libraries and the GeoDataFrame
-            namespace = {
-                "gdf": self.gdf,
-                "pd": pd,
-                "gpd": gpd,
-                "np": np,
-                "Point": Point,
-                "result": None
-            }
-
-            # Add both the code and the function call to the same string
-            # This ensures all functions are defined before they're called
-            # NOTE: No indentation here - Python is sensitive to indentation
-            full_code = f"""{code}
-
-# Now call the main function
-query_description = '{self.user_query}'
-result = process_sf_film_query(gdf)
-"""
-
-            # Execute the combined code in one go
-            exec(full_code, namespace)
-
-            # Extract the result
-            if 'result' in namespace:
-                return namespace['result']
-            else:
-                return {"data": None, "summary": "Execution completed but no result was returned", "metadata": {}}
-
-        except Exception as e:
-            import traceback
-            error_trace = traceback.format_exc()
-
-            return {
-                "data": None,
-                "summary": f"Error executing generated code",
-                "metadata": {
-                    "error": str(e),
-                    "error_type": type(e).__name__,
-                    "traceback": error_trace
-                }
-            }
-
-    def _call_generative_api(self, system_instructions: str, user_query: str) -> Any:
-        """
-        Call the generative AI API with system instructions and user query.
-
-        Args:
-            system_instructions: The system instructions for the model
-            user_query: The user query or input
-
-        Returns:
-            The API response
-        """
-        try:
-            from google.genai import types
-
-            response = self.client.models.generate_content(
-                model=self.model_name,
-                contents=user_query,
-                config=types.GenerateContentConfig(
-                    system_instruction=system_instructions,
-                    response_mime_type="application/json",
-                    temperature=0.2,
-                ),
-            )
-
-            return response
-        except Exception as e:
-            raise RuntimeError(f"API call failed: {str(e)}")
-
-    def _extract_code_from_text(self, text: str) -> Dict[str, str]:
-        """
-        Extract code and explanation from text if not properly formatted as JSON.
-
-        Args:
-            text: The raw response text
-
-        Returns:
-            Dict with code and explanation
-        """
-        # Simple extraction logic - improve as needed
-        code_block = ""
-        explanation = ""
-
-        # Look for code blocks
-        code_matches = re.findall(r'```python\n(.*?)```', text, re.DOTALL)
-        if code_matches:
-            code_block = code_matches[0]
-
-        # Everything else is considered explanation
-        explanation = re.sub(r'```python\n.*?```', '',
-                             text, flags=re.DOTALL).strip()
-
-        return {
-            "code": code_block,
-            "explanation": explanation
-        }
-
-    def get_preprocessing_instructions(self) -> str:
-        """Get the system instructions for the preprocessing step."""
-        return '''
-You are a helpful assistant that analyzes user queries about data manipulation using GeoPandas.
-
-The GeoPandas dataframe where the data is stored has the following columns:
-['id', 'Title', 'Year', 'Locations', 'Fun_Facts', 'Director', 'Writer','Actor_1', 'Actor_2', 'Actor_3', 'geometry']
-
-# CRITICAL: Data Modification Detection
-Before processing any query, FIRST check if the user is requesting any operation that would modify data:
-
-## Prohibited operations to detect:
-- Adding/inserting new records or rows
-- Updating existing records or values
-- Deleting or removing records
-- Creating new permanent tables, dataframes, or databases
-- Saving/exporting modified data (to files, databases, etc.)
-- Any operation using terms like: update, insert, delete, remove, add row, create table, save as, write to, export
-
-## Keywords that suggest data modification (not exhaustive):
-- update, insert, add, create, delete, remove, change, modify, alter, save, write, export
-- new record, new row, new entry, new film, new location
-- "Update the database", "Add this film", "Change the year", "Delete records", etc.
-
-If you detect a data modification request, DO NOT process the query normally. Instead, immediately return this exact JSON structure:
-
-{
-  "error": true,
-  "message": "This operation cannot be performed as it would modify the database. Only read-only operations are permitted.",
-  "requested_operation": "DESCRIBE_OPERATION_HERE"
-}
-
-Replace 'DESCRIBE_OPERATION_HERE' with a brief description of the prohibited operation that was requested.
-
-# For Read-Only Queries Only (if no modification was detected):
-Your main job for valid read-only queries:
-1. When handling queries about locations, remove any mention to "San Francisco" city, "SF", or any reference to 
-        state of "California" in the query
-2. Break the user query into clear, atomic tasks.
-3. Identify and extract any filter conditions (e.g., "Year == 1977", "Director == Hitchcock", spatial filters like "within 1 mile of Union Square").
-4. Structure filters carefully, ensuring correct use of AND/OR logic, including nested conditions when needed.
-5. Ensure the output is structured precisely in the JSON format below.
-
-# Critical Rules for DISTINCT:
-- **Always** assume **distinct** values when the user asks to:
-  - List films, directors, writers, or actors
-  - Count films, directors, writers, or actors
-- Explicitly include "list distinct" or "count distinct" as a separate task.
-- Only include duplicates if the user specifically asks for all records or all locations.
-
-# Important Logic Rules:
-- Use "AND" to combine different filter categories (e.g., year filter AND location filter).
-- Use "OR" when the query allows for alternatives inside the same category (e.g., films directed by X **or** acted by X).
-- If needed, allow **nested logic**, like:
-  {
-    "logic": "OR",
-    "conditions": [
-      { filter1 },
-      { filter2 }
-    ]
-  }
-- Always preserve the true intent of the user's query without changing its meaning.
-
-# Output JSON format for valid read-only queries:
-
-{
-  "tasks": [
-    "First atomic task",
-    "Second atomic task",
-    ...
-  ],
-  "filters": [
-    {
-      "field": "field_name",
-      "condition": "==, between, within_distance, contains, intersects, etc.",
-      "value": "value or object",
-      "type": "attribute" or "spatial"
-    },
-    {
-      "logic": "OR" or "AND",
-      "conditions": [
-        { filter_object1 },
-        { filter_object2 },
-        ...
-      ]
-    },
-    ...
-  ],
-  "filter_logic": "AND" or "OR"
-}
-
-If no filters are found, output an empty "filters" array.
-
-# Important Style Notes:
-- Be **precise**: Do not assume information not explicitly stated in the user query.
-- Keep task descriptions short, clear, and action-driven.
-- Distinguish between **attribute filters** (e.g., Director == "Clint Eastwood") and **spatial filters** (e.g., within 1 mile of Union Square).
-- Mention distance units when using spatial filters (always use miles).
-- Always describe distinct listing or counting in tasks when appropriate.
-'''
-
-    def _get_nlp_plan_instructions(self) -> str:
-        """Get the system instructions for the NLP action planning step."""
-    
-        return '''
-You are a GeoPandas expert tasked with converting structured query JSON into a clear,
-natural language plan that explains how to execute the user's request using GeoPandas operations.
-
-The GeoPandas dataframe where the data is stored has the following columns:
-['id', 'Title', 'Year', 'Locations', 'Fun_Facts', 'Director', 'Writer','Actor_1', 'Actor_2', 'Actor_3', 'geometry']
-
-## Input Format
-
-You will receive a JSON structure containing:
-- `tasks`: An array of atomic operations to perform
-- `filters`: An array of filter conditions (may be nested)
-- `filter_logic`: How the filters combine ("AND" or "OR")
-
-## Output Requirements
-
-Create a natural language explanation with these components:
-
-1. **Summary Statement**: Begin with a concise one-sentence summary of what the query aims to accomplish.
-   - Example: "This query finds all films made after 2000 with at least three filming locations."
-
-2. **Data Selection Plan**: Describe the filtering process using proper GeoPandas terminology.
-
-3. **Processing Steps**: Explain any operations performed on the filtered data.
-
-4. **Final Output**: Describe what will be returned to the user.
-
-## Output Format
-
-Always structure your output as a JSON object with a single key "plan" containing a string with a numbered list of steps:
-
-```json
-{
-    "plan": "To find films directed by Clint Eastwood after 2000:\\n\\n1. Load the films dataframe.\\n2. Filter rows where the Director field equals \\"Clint Eastwood\\".\\n3. Further filter to include only films with Year greater than 2000.\\n4. Return a list of distinct film titles from the filtered results."
-}
-```
-
-Within the plan string:
-1. Begin with the summary statement (unnumbered).
-2. Number each subsequent step in the process, starting with data loading/preparation.
-3. Ensure the final numbered step describes what is returned to the user.
-
-Note that newlines in the plan string should be represented as "\\n" characters within the JSON string.
-'''
-
-    def _get_code_generation_instructions(
-        self, preprocessing_result: Dict[str, Any], nlp_plan: Dict[str, str]
-    ) -> str:
-        """
-        Get the customized system instructions for the code generation step.
-
-        Args:
-            preprocessing_result: The result from the preprocessing step
-            nlp_plan: The NLP action plan
-
-        Returns:
-            Customized system instructions for code generation
-        """
-        # Convert inputs to strings for inclusion in the prompt
-        preprocessing_str = json.dumps(preprocessing_result, indent=2)
-        nlp_plan_str = json.dumps(nlp_plan, indent=2)
-
-        return make_code_gen_instructions(preprocessing_str, nlp_plan_str)
-
     def process_query(self, user_query: str, wait_time: int = 5) -> Dict[str, Any]:
         """
         Process a natural language query through the complete pipeline.
@@ -601,16 +593,17 @@ if __name__ == "__main__":
 
     # Example query
     # query = "How many movies were made in each year?"
-    query = "are there any film with the name Matrix in their title shot in SF?"
+#     query = "are there any film with the name Matrix in their title shot in SF?"
 
-# "How many movies were made in each year?",
-#              "are there any film with the name Matrix in their title shot in SF?",
+# # "How many movies were made in each year?",
+# #              "are there any film with the name Matrix in their title shot in SF?",
 
-    queries = [
-        "what are some film location about 0.5 miles from Union Square?",
-        "what are films made in the 70s and near Coit Tower?"
-    ]
-    queries = ["are there any film with the name matrix in their title shot in SF? If so, change their name to NINA IST SCHOEN."]
+#     queries = [
+#         "what are some film location about 0.5 miles from Union Square?",
+#         "what are films made in the 70s and near Coit Tower?"
+#     ]
+
+    queries = ["are there any film with the name matrix in their title shot in SF? "]
     # queries = ["are there any films with the word matrix in their title shot in SF?"]
 
     # Process the queryu
