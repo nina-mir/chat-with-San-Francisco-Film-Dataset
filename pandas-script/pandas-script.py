@@ -158,7 +158,6 @@ class QueryProcessor:
             full_code = f"""{code}
 
 # Now call the main function
-query_description = '{self.user_query}'
 result = process_sf_film_query(gdf)
 """
 
@@ -574,15 +573,7 @@ Note that newlines in the plan string should be represented as "\\n" characters 
 
 
 if __name__ == "__main__":
-    # Example usage
-    # import os
-    # from google import genai
 
-    # # Set up API client
-    # api_key = os.environ.get("GOOGLE_API_KEY")
-    # if not api_key:
-    #     print("Please set GOOGLE_API_KEY environment variable")
-    #     exit(1)
 
     client = genai.Client(api_key=GEMINI_API_KEY)
 
@@ -604,7 +595,7 @@ if __name__ == "__main__":
 #     ]
 
     queries = ["are there any film with the name matrix in their title shot in SF? "]
-    # queries = ["are there any films with the word matrix in their title shot in SF?"]
+    queries = ["list all films with each one's complete dataset that has the word matrix in their title."]
 
     # Process the queryu
     for query in queries:
@@ -623,10 +614,10 @@ if __name__ == "__main__":
                 print(results["code"]["code"])
 
                 # Execute code
-                # result = processor.execute_generated_code(
-                #     results["code"]["code"])
-                # print("\nExecution Result:")
-                # print(result)
+                result = processor.execute_generated_code(
+                    results["code"]["code"])
+                print("\nExecution Result:")
+                print(result)
 
 
                 # print(type(result))
