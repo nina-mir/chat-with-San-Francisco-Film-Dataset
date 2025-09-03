@@ -47,13 +47,8 @@ MODEL_NAME = 'gemini-2.0-flash-001'
 #     PATH to SQLite database established     #
 #                                             #
 ###############################################
-DB_FILE = 'sf-films-geocode.db'
-
-# TODO use GeoPackage Format
-# To load:
-# self.gdf = gpd.read_file("processed_data.gpkg")
-
-db_path = Path.cwd().joinpath("..").joinpath(DB_FILE).resolve()
+# DB_FILE = 'sf-films-geocode.db'
+# db_path = Path.cwd().joinpath("..").joinpath(DB_FILE).resolve()
 ########################################################
 
 
@@ -66,7 +61,7 @@ class QueryProcessor:
     3. Code Generation: Generate executable GeoPandas code
     """
 
-    def __init__(self, api_client, db_path: str, model_name: str = MODEL_NAME):
+    def __init__(self, api_client, model_name: str = MODEL_NAME):
         """
         Initialize the QueryProcessor with an API client and database path.
 
@@ -76,7 +71,7 @@ class QueryProcessor:
             model_name: Name of the generative AI model to use
         """
         self.client = api_client
-        self.db_path = db_path
+        # self.db_path = db_path
         self.model_name = model_name
         self.gdf = None  # Will hold the GeoPandas dataframe
         self.user_query = None  # Will be updated for each query
@@ -580,7 +575,7 @@ if __name__ == "__main__":
     # Database path - adjust as needed - declared at the top
 
     # Initialize processor
-    processor = QueryProcessor(client, db_path)
+    processor = QueryProcessor(client)
 
     # Example query
     # query = "How many movies were made in each year?"
@@ -595,7 +590,12 @@ if __name__ == "__main__":
 #     ]
 
     queries = ["are there any film with the name matrix in their title shot in SF? "]
+    
     queries = ["list all films with each one's complete dataset that has the word matrix in their title."]
+
+    queries = ["are there any film with an actor, writer or director called Chaplin "]
+
+    queries = [""]
 
     # Process the queryu
     for query in queries:

@@ -56,6 +56,14 @@ env/
 # Local development files
 token_sample
 *.local
+app-old.py
+claude-feedback.txt
+results.txt
+token_sample.md
+utility-ground/
+pandas-script/log.json
 
 # macOS specific
 .DS_Store
+
+
