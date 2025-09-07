@@ -52,6 +52,7 @@ env/
 *.sql.gz
 *.bak
 *.tmp
+log.json
 
 # Local development files
 token_sample
@@ -62,6 +63,7 @@ results.txt
 token_sample.md
 utility-ground/
 pandas-script/log.json
+pandas-script/playground/
 
 # macOS specific
 .DS_Store
