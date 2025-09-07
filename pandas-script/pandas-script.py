@@ -18,39 +18,20 @@ from shapely.geometry import Point
 from typing import Dict, List, Union, Optional, Any, Tuple
 from dataclasses import dataclass
 from pathlib import Path
-
 from google import genai
 from google.genai import types, Client
 from google.genai.types import Part
 
+#  import API keys/Model setting/Databse file
+from src import config
+from src import data_loader
+from src.ai_service import GenerativeAIService
 #  system_instructions prompt utilities
-
 from code_gen_system_instructions import make_code_gen_instructions
 
+GEMINI_API_KEY = config.GEMINI_API_KEY
 
-from dotenv import load_dotenv
-###############################################
-# Gemini API KEY/Basic Configuration          #
-# Load environment variables from .env file   #
-###############################################
-load_dotenv()
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-
-if not GEMINI_API_KEY:
-    print("Error: GEMINI_API_KEY not found.")
-    print("Please ensure you have a .env file in the same directory")
-    print("with the line: GEMINI_API_KEY='YOUR_API_KEY'")
-    exit()  # Exit if the key is not found
-MODEL_NAME = 'gemini-2.0-flash-001'
-###############################################
-#                                             #
-#     PATH to SQLite database established     #
-#                                             #
-###############################################
-# DB_FILE = 'sf-films-geocode.db'
-# db_path = Path.cwd().joinpath("..").joinpath(DB_FILE).resolve()
-########################################################
-
+MODEL_NAME = config.MODEL_NAME
 
 class QueryProcessor:
     """
@@ -61,7 +42,7 @@ class QueryProcessor:
     3. Code Generation: Generate executable GeoPandas code
     """
 
-    def __init__(self, api_client, model_name: str = MODEL_NAME):
+    def __init__(self):
         """
         Initialize the QueryProcessor with an API client and database path.
 
@@ -70,61 +51,14 @@ class QueryProcessor:
             db_path: Path to the SQLite database with SF film data
             model_name: Name of the generative AI model to use
         """
-        self.client = api_client
-        # self.db_path = db_path
-        self.model_name = model_name
-        self.gdf = None  # Will hold the GeoPandas dataframe
+        self.ai_service = GenerativeAIService()
+        self.gdf = data_loader.databse  # Holds the GeoPandas dataframe
         self.user_query = None  # Will be updated for each query
 
         # System instructions for each step
         self._preprocessing_instructions = self._get_preprocessing_instructions()
         self._nlp_plan_instructions = self._get_nlp_plan_instructions()
 
-        # Initialize the dataframe
-        self._initialize_gdf()
-
-    def _initialize_gdf(self) -> None:
-        """
-        Initialize the GeoPandas dataframe from the SQLite database.
-        Converts lat/lon columns to a geometry column with Points.
-        """
-        try:
-            self.gdf = gpd.read_file("sf_film_May7_2025_data.gpkg")
-            # # Connect to SQLite database and read the data
-            # conn = sqlite3.connect(self.db_path)
-            # df = pd.read_sql_query("SELECT * from sf_film_data", conn)
-            # conn.close()
-
-            # # Convert empty strings to NaN for coordinates
-            # df['Lat'] = df['Lat'].replace('', np.nan)
-            # df['Lon'] = df['Lon'].replace('', np.nan)
-
-            # # Convert string columns to float
-            # df['Lat'] = pd.to_numeric(df['Lat'], errors='coerce')
-            # df['Lon'] = pd.to_numeric(df['Lon'], errors='coerce')
-
-            # # Create Point geometries from lat/lon
-            # df['geometry'] = df.apply(
-            #     lambda row: Point(row['Lon'], row['Lat'])
-            #     if pd.notnull(row['Lat']) and pd.notnull(row['Lon'])
-            #     else None,
-            #     axis=1
-            # )
-
-            # # Convert to GeoDataFrame
-            # self.gdf = gpd.GeoDataFrame(df, geometry='geometry')
-
-            # # Set coordinate reference system (WGS84 is standard for lat/lon)
-            # self.gdf.crs = "EPSG:4326"
-
-            # # Drop the original Lat and Lon columns
-            # self.gdf = self.gdf.drop(['Lat', 'Lon'], axis=1)
-
-            # print(
-            #     f"Successfully loaded GeoDataFrame with {len(self.gdf)} records")
-
-        except Exception as e:
-            raise RuntimeError(f"Failed to initialize GeoDataFrame: {str(e)}")
 
     def execute_generated_code(self, code: str):
         """
@@ -179,33 +113,6 @@ result = process_sf_film_query(gdf)
                 }
             }
 
-    def _call_generative_api(self, system_instructions: str, user_query: str) -> Any:
-        """
-        Call the generative AI API with system instructions and user query.
-
-        Args:
-            system_instructions: The system instructions for the model
-            user_query: The user query or input
-
-        Returns:
-            The API response
-        """
-        try:
-            from google.genai import types
-
-            response = self.client.models.generate_content(
-                model=self.model_name,
-                contents=user_query,
-                config=types.GenerateContentConfig(
-                    system_instruction=system_instructions,
-                    response_mime_type="application/json",
-                    temperature=0.2,
-                ),
-            )
-
-            return response
-        except Exception as e:
-            raise RuntimeError(f"API call failed: {str(e)}")
 
     def _extract_code_from_text(self, text: str) -> Dict[str, str]:
         """
@@ -433,7 +340,10 @@ Note that newlines in the plan string should be represented as "\\n" characters 
             Dict containing the preprocessed tasks and filters
         """
         try:
-            response = self._call_generative_api(
+            # response = self._call_generative_api(
+            #     self._preprocessing_instructions, user_query
+            # )
+            response = self.ai_service.generate_content(
                 self._preprocessing_instructions, user_query
             )
 
@@ -468,7 +378,10 @@ Note that newlines in the plan string should be represented as "\\n" characters 
             # Convert preprocessing result back to JSON string for the API call
             preprocessing_json = json.dumps(preprocessing_result)
 
-            response = self._call_generative_api(
+            # response = self._call_generative_api(
+            #     self._nlp_plan_instructions, preprocessing_json
+            # )
+            response = self.ai_service.generate_content(
                 self._nlp_plan_instructions, preprocessing_json
             )
 
@@ -510,8 +423,11 @@ Note that newlines in the plan string should be represented as "\\n" characters 
                 preprocessing_result, nlp_plan
             )
 
-            response = self._call_generative_api(
-                code_gen_instructions, user_query)
+            # response = self._call_generative_api(
+            #     code_gen_instructions, user_query)
+            response = self.ai_service.generate_content(
+                code_gen_instructions, user_query
+            )
 
             # Parse the response
             if hasattr(response, 'text'):
@@ -570,12 +486,12 @@ Note that newlines in the plan string should be represented as "\\n" characters 
 if __name__ == "__main__":
 
 
-    client = genai.Client(api_key=GEMINI_API_KEY)
+    # client = genai.Client(api_key=GEMINI_API_KEY)
 
     # Database path - adjust as needed - declared at the top
 
     # Initialize processor
-    processor = QueryProcessor(client)
+    processor = QueryProcessor()
 
     # Example query
     # query = "How many movies were made in each year?"
@@ -594,8 +510,6 @@ if __name__ == "__main__":
     queries = ["list all films with each one's complete dataset that has the word matrix in their title."]
 
     queries = ["are there any film with an actor, writer or director called Chaplin "]
-
-    queries = [""]
 
     # Process the queryu
     for query in queries:
@@ -619,26 +533,11 @@ if __name__ == "__main__":
                 print("\nExecution Result:")
                 print(result)
 
-
-                # print(type(result))
-                # with open('code_execution_results.log', 'a') as ce:
-                #     ce.write('*'*20)
-                #     ce.write('\n')
-                #     ce.write(query)
-                #     ce.write('\n')
-                #     ce.write(results["code"]["code"])
-                #     ce.write('\n')
-                #     ce.write(str(result))
-                #     ce.write('\n')
-                #     ce.write('*'*20)
-                #     ce.write('\n')
-                #     ce.write(str(type(result)))
-                #     ce.write('\n')
-                #     ce.write('*'*30)
-                #     ce.write('\n'*3)
-
         except Exception as e:
             print(f"Error processing query: {str(e)}")
+
+
+
 
  # if "result" in local_namespace:
             #     result = local_namespace["result"]
@@ -806,5 +705,30 @@ if __name__ == "__main__":
     #     except Exception as e:
     #         raise RuntimeError(f"Error executing generated code: {str(e)}")
             
+# def _call_generative_api(self, system_instructions: str, user_query: str) -> Any:
+#         """
+#         Call the generative AI API with system instructions and user query.
 
-            
+#         Args:
+#             system_instructions: The system instructions for the model
+#             user_query: The user query or input
+
+#         Returns:
+#             The API response
+#         """
+#         try:
+#             from google.genai import types
+
+#             response = self.client.models.generate_content(
+#                 model=self.model_name,
+#                 contents=user_query,
+#                 config=types.GenerateContentConfig(
+#                     system_instruction=system_instructions,
+#                     response_mime_type="application/json",
+#                     temperature=0.2,
+#                 ),
+#             )
+
+#             return response
+#         except Exception as e:
+#             raise RuntimeError(f"API call failed: {str(e)}")
