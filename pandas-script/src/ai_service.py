@@ -35,7 +35,7 @@ class GenerativeAIService:
         # Initialize the generative AI client using the API key
         self.client = genai.Client(api_key=self.api_key)
 
-    def generate_content(self, system_instructions: str, user_query: str) -> Any:
+    def generate_content(self, system_instructions: str, user_query: str, temperature: int = 0) -> Any:
         """
         Calls the generative AI API to generate content based on system instructions and a user query.
 
@@ -43,8 +43,8 @@ class GenerativeAIService:
         _call_generative_api method [2].
 
         Args:
-            system_instructions: The detailed system instructions for the AI model [2].
-            user_query: The natural language user query or input to be processed [2].
+            system_instructions: The detailed system instructions for the AI model.
+            user_query: The natural language user query or input to be processed .
 
         Returns:
             The raw API response object from the generative AI model [2].
@@ -59,11 +59,11 @@ class GenerativeAIService:
                 config=types.GenerateContentConfig(
                     system_instruction=system_instructions, # Applies specific system instructions
                     response_mime_type="application/json", # Requests JSON output 
-                    temperature=0.2, # Sets the creativity level of the response
+                    temperature=temperature, # Sets the creativity level of the response
                 ),
             )
             return response
         except Exception as e:
-            # Handles API-specific errors, as suggested for this module [1]
-            # This replicates the error handling from the original _call_generative_api [7]
+            # Handles API-specific errors, as suggested for this module
+            # This replicates the error handling from the original _call_generative_api
             raise RuntimeError(f"API call failed: {str(e)}")

@@ -6,7 +6,7 @@ import geopandas as gpd
 #######################################################
 
 try:
-    databse = gpd.read_file("sf_film_May7_2025_data.gpkg")
+    database = gpd.read_file("sf_film_May7_2025_data.gpkg")
 except Exception as e:
     raise RuntimeError(f"Failed to initialize GeoDataFrame: {str(e)}")
 
