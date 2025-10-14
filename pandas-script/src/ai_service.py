@@ -25,7 +25,7 @@ class GenerativeAIService:
 
         # Ensure API key is present before proceeding
         if not self.api_key:
-            # Replicate the initial error check for the API key [3]
+            # Replicate the initial error check for the API key
             raise RuntimeError(
                 "GEMINI_API_KEY not found. "
                 "Please ensure you have a .env file in the same directory "
