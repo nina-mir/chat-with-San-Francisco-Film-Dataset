@@ -13,14 +13,15 @@ import geopandas as gpd
 from shapely.geometry import Point
 from typing import Dict, Any
 
+
 #  import API keys/Model setting/Databse file
 from src.code_executor import CodeExecutor
 from src import data_loader
 from src.ai_service import GenerativeAIService
 from src.system_instructions import SystemInstructions
+from src.logger import write_to_log_file
 
-# to write to a JSON file in a continuous/beautiful manner
-import jsonlines
+from pathlib import Path
 
 
 class QueryProcessor:
@@ -54,7 +55,8 @@ class QueryProcessor:
         # Create location-to-geometry lookup
         self._create_location_lookup()
         # Map flag
-        self.need_map = None  # Will be updated after preprocessing step
+        # Let it be True for testing! REMOVE later. Will be updated after preprocessing step
+        self.need_map = True
 
     def _create_location_lookup(self):
         """Create a lookup dictionary: location_name -> Point geometry"""
@@ -65,6 +67,8 @@ class QueryProcessor:
 
     def _should_generate_map(self, preprocessing_result: Dict[str, Any]) -> bool:
         """
+         - TO-DO this step is too rudimentary for the current state of the dev
+         - it is important to deactivate this step until further upgrade [Oct 2025]
         Determine if map generation is needed based on preprocessing results.
 
         Args:
@@ -276,8 +280,8 @@ class QueryProcessor:
             self.user_query = user_query
             # Step 1: Preprocessing
             preprocessing_result = self.preprocess_query(user_query)
-            # update need_map class variable
-            self.need_map = self._should_generate_map(preprocessing_result)
+            # update need_map class variable This line and the following need attention
+            # self.need_map = self._should_generate_map(preprocessing_result)
 
             results["preprocessing"] = preprocessing_result
             self.check_preprocessing_error(preprocessing_result)
@@ -293,6 +297,85 @@ class QueryProcessor:
                 user_query, preprocessing_result, nlp_plan
             )
             results["code"] = code_result
+
+            # log to file the result so far
+            write_to_log_file(results, 'log.json', self.user_query)
+
+            # with open('log.json', 'a') as f:
+            #     f.write(' '*50 + '\n')
+            #     f.write(json.dumps(results))
+            #     f.write(' '*50 + '\n')
+
+            # Step 4: Execute Code
+            if "code" in results:
+                # print("Generated Code:")
+                # print(results["code"]["code"])
+
+                # Execution ...
+                execution_result = self.execute_generated_code(
+                    results["code"]["code"])
+                print("\nExecution Result:")
+                print("⚠️no printint out for now! modify it if you want to!")
+                # print(execution_result)
+                write_to_log_file(
+                    execution_result,
+                    'code_exec_results.jsonl',
+                    self.user_query,
+                    jsonlines_flag=True
+                )
+                # with jsonlines.open('code_exec_results.jsonl', mode='a') as writer:
+                #     writer.write(
+                #         {'id': query, 'code_execution_result': execution_result})
+
+            # Step 5: Pre-Mapping Analysis (NEW)
+            if self.need_map:  # Only if query had spatial intent
+                from src.map_analyzer import MapDataAnalyzer
+                # from src.map_generator import MapGenerator
+
+                analyzer = MapDataAnalyzer(self.gdf)
+                analysis = analyzer.analyze(
+                    execution_result.get('data'), user_query)
+                results["map_analysis"] = analysis
+                # print(results)
+
+                # let's print to console some useful info for now
+                print('%'*20)
+                print('execution result\n\n')
+                print(execution_result)
+                print('^_^_'*10)
+                print('\nMAP Analysis verdict:\n\n')
+                print(results["map_analysis"])
+
+                # let's write map analysis results to map_analysis_results.jsonl
+                write_to_log_file(
+                    results["map_analysis"],
+                    'map_analysis_results.jsonl',
+                    self.user_query,
+                    jsonlines_flag=True
+                )
+
+                # Step 6: Generate Map (only if can_map is True)
+                if analysis['can_map']:
+                    from src.map_generator import MapGenerator
+                    
+                    map_gen = MapGenerator()
+                    map_obj = map_gen.create_point_map(
+                        analysis['location_data'],
+                        title=execution_result.get('summary', 'SF Film Locations')
+                    )
+                    results["map"] = map_obj
+                    results["map_html"] = map_obj._repr_html_()
+                    print(f"✓ Map created: {analysis['reason']}")
+                    # Quick TEST --> After creating the map
+                    # Save to a file
+                    map_filename = f"maps/map_{int(time.time())}.html"
+                    Path('maps').mkdir(exist_ok=True)  # Create Path object first
+                    map_obj.save(map_filename)
+                    # map_obj.save('map/map_output.html')
+
+                    # # Then open in browser
+                    # import webbrowser
+                    # webbrowser.open('map/map_output.html')
 
             return results
 
@@ -326,54 +409,61 @@ if __name__ == "__main__":
         "what are all the films starring Sean Penn and all their locations in SF?",
         "what are the top 10 most frequent actors?",
         "How many movies were made in each year?",
-        "which actor has appeared in a movie shot at the golden gate bridge the most times?"
+        "which actor has appeared in a movie shot at the golden gate bridge the most times?",
+        "find all movies shot within 0.5 mile radius of the Union Square. List the film names and the specific location."
     ]
 
-    queries = ["what are the top 10 most frequent locations?"]
-    queries = ["find all movies shot within 0.5 mile radius of the Union Square. List the film names and the specific location."]
+    # queries = ["what are the top 10 most frequent locations?"]
+    # queries = ["find all movies shot within 0.5 mile radius of the Union Square. List the film names and the specific location."]
+    # queries = ["find all the locations of the film Mrs. Doubtfire."]
     # queries = [ "which actor has appeared in a movie shot at the golden gate bridge the most times?"]
     # queries = ["what year had the most number of unique films shot in SF?"]
     # queries = [ "how many unique actors have appeared in the 6 least popular filming locations?"]
-    #queries = [ "weighted by number of films at each location, what is the average latitude and longitude of all movies in the database?"]
+    # queries = [ "weighted by number of films at each location, what is the average latitude and longitude of all movies in the database?"]
     # queries = [ "we assign a score 'x' to a film based on the following attributes: 100 points for a movie shot at the center of SF at 37.7749° N, 122.4194° W, falling off by 10 points per 100 yards. if a movie was shot in multiple places in SF, use the place closest to the center. Add 100 points for a movie made in 2025, falling off by 5 points per year (ie. 95 points for a movie made in 2024). what are x for the top 5 movies and bottom 5 movies? do this all in memory, do not modify the database."]
-
-
+    # queries = ["what are all the films starring Sean Penn and all their locations in SF?"]
+    # queries = [
+    #     "how many unique actors have appeared in the 6 least popular filming locations? List the locations too."]
+    # queries = ["what are all the films starring Sean Penn and all their locations in SF?"]
     # Process the queryu
+    queries = ["what are the top 10 most frequent locations?"]
+
     for query in queries:
         try:
             results = processor.process_query(query)
-            print(f"need map situation is: {processor.need_map}")
+            # print(f"need map situation is: {processor.need_map}")
             # log to file
-            with open('log.json', 'a') as f:
-                f.write(' '*50 + '\n')
-                f.write(json.dumps(results))
-                f.write(' '*50 + '\n')
+            # with open('log.json', 'a') as f:
+            #     f.write(' '*50 + '\n')
+            #     f.write(json.dumps(results))
+            #     f.write(' '*50 + '\n')
 
             # Print code
-            if "code" in results:
-                # print("Complete Results so far:")
-                # print(results)
+            # if "code" in results:
+            #     # print("Complete Results so far:")
+            #     # print(results)
 
-                print("Generated Code:")
-                print(results["code"]["code"])
+            #     print("Generated Code:")
+            #     print(results["code"]["code"])
 
-                # Execute code
-                execution_result = processor.execute_generated_code(
-                    results["code"]["code"])
-                print("\nExecution Result:")
-                print(execution_result)
-                with jsonlines.open('code_exec_results.jsonl', mode='a') as writer:
-                    writer.write(
-                        {'id': query, 'code_execution_result': execution_result})
-                    # f.write(' '*50 + '\n')
-                    # f.write(json.dumps(results))
+            #     # Execute code
+            #     execution_result = processor.execute_generated_code(
+            #         results["code"]["code"])
+            #     print("\nExecution Result:")
+            #     print(execution_result)
+            #     with jsonlines.open('code_exec_results.jsonl', mode='a') as writer:
+            #         writer.write(
+            #             {'id': query, 'code_execution_result': execution_result})
+            # f.write(' '*50 + '\n')
+            # f.write(json.dumps(results))
 
-                # needs_map = processor.need_map
-                # locations_found = processor._extract_locations_from_results(execution_result)
+            # needs_map = processor.need_map
+            # locations_found = processor._extract_locations_from_results(execution_result)
 
-                # if needs_map and locations_found:
-                #     map_result = processor._create_location_map(locations_found)
-                print(f"need map situation is: {processor.need_map}")
+            # if needs_map and locations_found:
+            #     map_result = processor._create_location_map(locations_found)
+            # print(f"need map situation is: {processor.need_map}")
+            print(results)
 
         except Exception as e:
             print(f"Error processing query: {str(e)}")
