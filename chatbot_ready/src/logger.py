@@ -3,6 +3,7 @@ from pathlib import Path
 import jsonlines
 from datetime import datetime
 import pandas as pd
+import geopandas as gpd  # to handle GeoPandaDatafram booo
 from shapely.geometry import Point
 
 def convert_shapely_to_serializable(obj):
@@ -16,8 +17,29 @@ def convert_shapely_to_serializable(obj):
         Object with Shapely geometries converted to GeoJSON-like dicts and
         DataFrames converted to dictionaries or lists of records
     """
+    # Handle GeoDataFrame FIRST (before DataFrame check)
+    # GeoDataFrame is a subclass of DataFrame, so this must come first
+    if isinstance(obj, gpd.GeoDataFrame):
+        if obj.empty:
+            return {"_type": "GeoDataFrame", "data": [], "columns": list(obj.columns)}
+        
+        # Convert geometry column to serializable format
+        df_copy = obj.copy()
+        if 'geometry' in df_copy.columns:
+            df_copy['geometry'] = df_copy['geometry'].apply(
+                lambda geom: convert_shapely_to_serializable(geom) if geom is not None else None
+            )
+        
+        return {
+            "_type": "GeoDataFrame",
+            "data": df_copy.to_dict('records'),
+            "columns": list(obj.columns),
+            "shape": obj.shape,
+            "crs": str(obj.crs) if obj.crs else None
+        }
+    
     # Handle pandas DataFrame
-    if isinstance(obj, pd.DataFrame):
+    elif isinstance(obj, pd.DataFrame):
         if obj.empty:
             return {"_type": "DataFrame", "data": [], "columns": list(obj.columns)}
         # Convert to list of records (most common use case)

@@ -63,7 +63,7 @@ results.txt
 token_sample.md
 utility-ground/
 pandas-script/log.json
-pandas-script/playground/
+pandas-script/playground/*
 
 # macOS specific
 .DS_Store

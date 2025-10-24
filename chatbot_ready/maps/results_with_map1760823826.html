@@ -1,0 +1,444 @@
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>SF Film Locations Map</title>
+        <meta charset="utf-8">
+        <style>
+           
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, 
+                        "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        
+        h1, h2 {
+            font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        #query-info {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        #map-container {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        #results {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        pre {
+            font-family: "SF Mono", "Monaco", "Inconsolata", monospace;
+            font-size: 14px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+        }
+    
+        </style>
+    </head>
+    <body>
+        <h1>Query Results</h1>
+        <div id="query-info">
+            <p><strong>Query:</strong> where are the top 5 film locations?</p>
+            <p><strong>Summary:</strong> Returned dictionary with 3 keys</p>
+        </div>
+        
+        <div id="map-container">
+            <div style="width:100%;"><div style="position:relative;width:100%;height:0;padding-bottom:60%;"><span style="color:#565656">Make this Notebook Trusted to load map: File -> Trust Notebook</span><iframe srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    
+    &lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=UTF-8&quot; /&gt;
+    
+        &lt;script&gt;
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        &lt;/script&gt;
+    
+    &lt;style&gt;html, body {width: 100%;height: 100%;margin: 0;padding: 0;}&lt;/style&gt;
+    &lt;style&gt;#map {position:absolute;top:0;bottom:0;right:0;left:0;}&lt;/style&gt;
+    &lt;script src=&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://code.jquery.com/jquery-3.7.1.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js&quot;&gt;&lt;/script&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css&quot;/&gt;
+    
+            &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no&quot; /&gt;
+            &lt;style&gt;
+                #map_ca153a63d7604c3ed8abb054b01514ce {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            &lt;/style&gt;
+        
+&lt;/head&gt;
+&lt;body&gt;
+    
+    
+        &lt;div style=&quot;position: fixed; 
+                    top: 10px; left: 50px; right: 50px; 
+                    z-index:9999; 
+                    background-color:white;
+                    border:2px solid grey;
+                    border-radius: 5px;
+                    padding: 10px;
+                    text-align: center;&quot;&gt;
+            &lt;h3 style=&quot;margin:0;&quot;&gt;Returned dictionary with 3 keys&lt;/h3&gt;
+            &lt;p style=&quot;margin:5px 0 0 0; font-size:14px; color:#666;&quot;&gt;
+                5 locations found
+            &lt;/p&gt;
+        &lt;/div&gt;
+        
+    
+            &lt;div class=&quot;folium-map&quot; id=&quot;map_ca153a63d7604c3ed8abb054b01514ce&quot; &gt;&lt;/div&gt;
+        
+&lt;/body&gt;
+&lt;script&gt;
+    
+    
+            var map_ca153a63d7604c3ed8abb054b01514ce = L.map(
+                &quot;map_ca153a63d7604c3ed8abb054b01514ce&quot;,
+                {
+                    center: [37.7749, -122.4194],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  &quot;zoom&quot;: 13,
+  &quot;zoomControl&quot;: true,
+  &quot;preferCanvas&quot;: false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_eb54ae554664aa28ff569fc8030045c1 = L.tileLayer(
+                &quot;https://tile.openstreetmap.org/{z}/{x}/{y}.png&quot;,
+                {
+  &quot;minZoom&quot;: 0,
+  &quot;maxZoom&quot;: 19,
+  &quot;maxNativeZoom&quot;: 19,
+  &quot;noWrap&quot;: false,
+  &quot;attribution&quot;: &quot;\u0026copy; \u003ca href=\&quot;https://www.openstreetmap.org/copyright\&quot;\u003eOpenStreetMap\u003c/a\u003e contributors&quot;,
+  &quot;subdomains&quot;: &quot;abc&quot;,
+  &quot;detectRetina&quot;: false,
+  &quot;tms&quot;: false,
+  &quot;opacity&quot;: 1,
+}
+
+            );
+        
+    
+            tile_layer_eb54ae554664aa28ff569fc8030045c1.addTo(map_ca153a63d7604c3ed8abb054b01514ce);
+        
+    
+            var marker_eb84a35beaebc1acdc9353bb3ec6321a = L.marker(
+                [37.8183, -122.47846],
+                {
+}
+            ).addTo(map_ca153a63d7604c3ed8abb054b01514ce);
+        
+    
+            var icon_681cf4b000478934775c06e9bc097939 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_67ca5839fe86f15653eefdac4eb7cfeb = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_6f5312a24800b0e40f7bb36a69ab3a59 = $(`&lt;div id=&quot;html_6f5312a24800b0e40f7bb36a69ab3a59&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Golden Gate Bridge&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Location:&lt;/b&gt; Golden Gate Bridge&lt;br&gt;&lt;b&gt;Count:&lt;/b&gt; 27&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_67ca5839fe86f15653eefdac4eb7cfeb.setContent(html_6f5312a24800b0e40f7bb36a69ab3a59);
+            
+        
+
+        marker_eb84a35beaebc1acdc9353bb3ec6321a.bindPopup(popup_67ca5839fe86f15653eefdac4eb7cfeb)
+        ;
+
+        
+    
+    
+            marker_eb84a35beaebc1acdc9353bb3ec6321a.bindTooltip(
+                `&lt;div&gt;
+                     Golden Gate Bridge
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_eb84a35beaebc1acdc9353bb3ec6321a.setIcon(icon_681cf4b000478934775c06e9bc097939);
+            
+    
+            var marker_076034671c64d78f91fc5547deb63177 = L.marker(
+                [37.77932, -122.41882],
+                {
+}
+            ).addTo(map_ca153a63d7604c3ed8abb054b01514ce);
+        
+    
+            var icon_618a67495138c2b554a5d0fa2d549517 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_9caef0c11b62df8bc89c136b22f8caf1 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_22c1c3fd1b26a0bbfba9c165e9293d36 = $(`&lt;div id=&quot;html_22c1c3fd1b26a0bbfba9c165e9293d36&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;City Hall&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Location:&lt;/b&gt; City Hall&lt;br&gt;&lt;b&gt;Count:&lt;/b&gt; 23&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_9caef0c11b62df8bc89c136b22f8caf1.setContent(html_22c1c3fd1b26a0bbfba9c165e9293d36);
+            
+        
+
+        marker_076034671c64d78f91fc5547deb63177.bindPopup(popup_9caef0c11b62df8bc89c136b22f8caf1)
+        ;
+
+        
+    
+    
+            marker_076034671c64d78f91fc5547deb63177.bindTooltip(
+                `&lt;div&gt;
+                     City Hall
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_076034671c64d78f91fc5547deb63177.setIcon(icon_618a67495138c2b554a5d0fa2d549517);
+            
+    
+            var marker_bc568f9669b651d628c6e1bca6ffa9d4 = L.marker(
+                [37.79242, -122.41009],
+                {
+}
+            ).addTo(map_ca153a63d7604c3ed8abb054b01514ce);
+        
+    
+            var icon_8025ad1006541d208fe0d9dee4afa198 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_db05c7edca92334291a7a85638d10cf8 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_e87913808559d16bdb714845f4374afa = $(`&lt;div id=&quot;html_e87913808559d16bdb714845f4374afa&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Fairmont Hotel (950 Mason Street, Nob Hill)&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Location:&lt;/b&gt; Fairmont Hotel (950 Mason Street, Nob Hill)&lt;br&gt;&lt;b&gt;Count:&lt;/b&gt; 21&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_db05c7edca92334291a7a85638d10cf8.setContent(html_e87913808559d16bdb714845f4374afa);
+            
+        
+
+        marker_bc568f9669b651d628c6e1bca6ffa9d4.bindPopup(popup_db05c7edca92334291a7a85638d10cf8)
+        ;
+
+        
+    
+    
+            marker_bc568f9669b651d628c6e1bca6ffa9d4.bindTooltip(
+                `&lt;div&gt;
+                     Fairmont Hotel (950 Mason Street, Nob Hill)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_bc568f9669b651d628c6e1bca6ffa9d4.setIcon(icon_8025ad1006541d208fe0d9dee4afa198);
+            
+    
+            var marker_13c6092eaa153b7de331e00574dd959e = L.marker(
+                [37.82489, -122.37087],
+                {
+}
+            ).addTo(map_ca153a63d7604c3ed8abb054b01514ce);
+        
+    
+            var icon_e21dbd97ab53afbae133ffd50f87dbb4 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_b8b2de3b3e6d614665ce4f7f0f3e9f7b = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_8f4e6dcb49ed60ff106269e6b1cbdb6b = $(`&lt;div id=&quot;html_8f4e6dcb49ed60ff106269e6b1cbdb6b&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Treasure Island&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Location:&lt;/b&gt; Treasure Island&lt;br&gt;&lt;b&gt;Count:&lt;/b&gt; 14&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_b8b2de3b3e6d614665ce4f7f0f3e9f7b.setContent(html_8f4e6dcb49ed60ff106269e6b1cbdb6b);
+            
+        
+
+        marker_13c6092eaa153b7de331e00574dd959e.bindPopup(popup_b8b2de3b3e6d614665ce4f7f0f3e9f7b)
+        ;
+
+        
+    
+    
+            marker_13c6092eaa153b7de331e00574dd959e.bindTooltip(
+                `&lt;div&gt;
+                     Treasure Island
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_13c6092eaa153b7de331e00574dd959e.setIcon(icon_e21dbd97ab53afbae133ffd50f87dbb4);
+            
+    
+            var marker_7c33b12a92ff4ed6ccabfcc51318cf84 = L.marker(
+                [37.80266, -122.40594],
+                {
+}
+            ).addTo(map_ca153a63d7604c3ed8abb054b01514ce);
+        
+    
+            var icon_3ba3c42f0a5e14b0660737b2a36a34ae = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_aba86e6a1ba2821a824fc86c25d75fad = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_9415c081748bfb03a2d3547c0fee1638 = $(`&lt;div id=&quot;html_9415c081748bfb03a2d3547c0fee1638&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Coit Tower&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Location:&lt;/b&gt; Coit Tower&lt;br&gt;&lt;b&gt;Count:&lt;/b&gt; 13&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_aba86e6a1ba2821a824fc86c25d75fad.setContent(html_9415c081748bfb03a2d3547c0fee1638);
+            
+        
+
+        marker_7c33b12a92ff4ed6ccabfcc51318cf84.bindPopup(popup_aba86e6a1ba2821a824fc86c25d75fad)
+        ;
+
+        
+    
+    
+            marker_7c33b12a92ff4ed6ccabfcc51318cf84.bindTooltip(
+                `&lt;div&gt;
+                     Coit Tower
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_7c33b12a92ff4ed6ccabfcc51318cf84.setIcon(icon_3ba3c42f0a5e14b0660737b2a36a34ae);
+            
+&lt;/script&gt;
+&lt;/html&gt;" style="position:absolute;width:100%;height:100%;left:0;top:0;border:none !important;" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe></div></div>
+        </div>
+        
+        <div id="results">
+            <h2>Detailed Results</h2>
+            <pre>{
+  "data": [
+    {
+      "location": "Golden Gate Bridge",
+      "count": 27
+    },
+    {
+      "location": "City Hall",
+      "count": 23
+    },
+    {
+      "location": "Fairmont Hotel (950 Mason Street, Nob Hill)",
+      "count": 21
+    },
+    {
+      "location": "Treasure Island",
+      "count": 14
+    },
+    {
+      "location": "Coit Tower",
+      "count": 13
+    }
+  ],
+  "summary": "Top 5 film locations: Golden Gate Bridge (27), City Hall (23), Fairmont Hotel (950 Mason Street, Nob Hill) (21), Treasure Island (14), Coit Tower (13)",
+  "metadata": {
+    "query_type": "top_locations",
+    "data_cleaning": "Excluded empty/null/whitespace locations.",
+    "top_n": 5
+  }
+}</pre>
+        </div>
+    </body>
+    </html>
+    

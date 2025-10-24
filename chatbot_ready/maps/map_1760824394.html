@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_6c0759114181de2e6b4c36d692643625 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+</head>
+<body>
+    
+    
+        <div style="position: fixed; 
+                    top: 10px; left: 50px; right: 50px; 
+                    z-index:9999; 
+                    background-color:white;
+                    border:2px solid grey;
+                    border-radius: 5px;
+                    padding: 10px;
+                    text-align: center;">
+            <h3 style="margin:0;">Returned dictionary with 3 keys</h3>
+            <p style="margin:5px 0 0 0; font-size:14px; color:#666;">
+                2 locations found
+            </p>
+        </div>
+        
+    
+            <div class="folium-map" id="map_6c0759114181de2e6b4c36d692643625" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_6c0759114181de2e6b4c36d692643625 = L.map(
+                "map_6c0759114181de2e6b4c36d692643625",
+                {
+                    center: [37.7749, -122.4194],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 13,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_c5bd2a3d8b4e920fcce2418733f91bce = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_c5bd2a3d8b4e920fcce2418733f91bce.addTo(map_6c0759114181de2e6b4c36d692643625);
+        
+    
+            var marker_60cef5d175e2b4ff8841d2f33dc01c03 = L.marker(
+                [37.75889, -122.41468],
+                {
+}
+            ).addTo(map_6c0759114181de2e6b4c36d692643625);
+        
+    
+            var icon_389b2524b60bdb49383d68b435a99662 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "film",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_94a4a0044f28f3713aea6329613ce050 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_594fe8120acea8c58a5a530d81b3dee7 = $(`<div id="html_594fe8120acea8c58a5a530d81b3dee7" style="width: 100.0%; height: 100.0%;"><b>20th and Folsom Streets</b><br><br><b>Title:</b> A Jitney Elopement<br><b>Year:</b> 1915<br></div>`)[0];
+                popup_94a4a0044f28f3713aea6329613ce050.setContent(html_594fe8120acea8c58a5a530d81b3dee7);
+            
+        
+
+        marker_60cef5d175e2b4ff8841d2f33dc01c03.bindPopup(popup_94a4a0044f28f3713aea6329613ce050)
+        ;
+
+        
+    
+    
+            marker_60cef5d175e2b4ff8841d2f33dc01c03.bindTooltip(
+                `<div>
+                     20th and Folsom Streets
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_60cef5d175e2b4ff8841d2f33dc01c03.setIcon(icon_389b2524b60bdb49383d68b435a99662);
+            
+    
+            var marker_e4c7a1f8c7a0d7abf88ef0f21a35ad34 = L.marker(
+                [37.77181, -122.48088],
+                {
+}
+            ).addTo(map_6c0759114181de2e6b4c36d692643625);
+        
+    
+            var icon_67ab3eef0ef9ab0c17cc6f74ed1e9a31 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "film",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_d4681c4c82bd8b87900ba8e402d93252 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_0825e24b8119d78e52d1b735490d1cfe = $(`<div id="html_0825e24b8119d78e52d1b735490d1cfe" style="width: 100.0%; height: 100.0%;"><b>Golden Gate Park</b><br><br><b>Title:</b> A Jitney Elopement<br><b>Year:</b> 1915<br></div>`)[0];
+                popup_d4681c4c82bd8b87900ba8e402d93252.setContent(html_0825e24b8119d78e52d1b735490d1cfe);
+            
+        
+
+        marker_e4c7a1f8c7a0d7abf88ef0f21a35ad34.bindPopup(popup_d4681c4c82bd8b87900ba8e402d93252)
+        ;
+
+        
+    
+    
+            marker_e4c7a1f8c7a0d7abf88ef0f21a35ad34.bindTooltip(
+                `<div>
+                     Golden Gate Park
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_e4c7a1f8c7a0d7abf88ef0f21a35ad34.setIcon(icon_67ab3eef0ef9ab0c17cc6f74ed1e9a31);
+            
+    
+            tile_layer_c5bd2a3d8b4e920fcce2418733f91bce.addTo(map_6c0759114181de2e6b4c36d692643625);
+        
+    
+                marker_60cef5d175e2b4ff8841d2f33dc01c03.setIcon(icon_389b2524b60bdb49383d68b435a99662);
+            
+    
+                marker_e4c7a1f8c7a0d7abf88ef0f21a35ad34.setIcon(icon_67ab3eef0ef9ab0c17cc6f74ed1e9a31);
+            
+</script>
+</html>

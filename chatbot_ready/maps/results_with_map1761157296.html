@@ -1,0 +1,302 @@
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>SF Film Locations Map</title>
+        <meta charset="utf-8">
+        <style>
+           
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, 
+                        "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        
+        h1, h2 {
+            font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        #query-info {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        #map-container {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        #results {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        pre {
+            font-family: "SF Mono", "Monaco", "Inconsolata", monospace;
+            font-size: 14px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+        }
+    
+        </style>
+    </head>
+    <body>
+        <h1>Query Results</h1>
+        <div id="query-info">
+            <p><strong>Query:</strong> Any films made in 1910s in SF?</p>
+            <p><strong>Summary:</strong> Returned dictionary with 3 keys</p>
+        </div>
+        
+        <div id="map-container">
+            <div style="width:100%;"><div style="position:relative;width:100%;height:0;padding-bottom:60%;"><span style="color:#565656">Make this Notebook Trusted to load map: File -> Trust Notebook</span><iframe srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    
+    &lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=UTF-8&quot; /&gt;
+    
+        &lt;script&gt;
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        &lt;/script&gt;
+    
+    &lt;style&gt;html, body {width: 100%;height: 100%;margin: 0;padding: 0;}&lt;/style&gt;
+    &lt;style&gt;#map {position:absolute;top:0;bottom:0;right:0;left:0;}&lt;/style&gt;
+    &lt;script src=&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://code.jquery.com/jquery-3.7.1.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js&quot;&gt;&lt;/script&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css&quot;/&gt;
+    
+            &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no&quot; /&gt;
+            &lt;style&gt;
+                #map_dbda023957a667f1d5d8305aedc993c3 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            &lt;/style&gt;
+        
+&lt;/head&gt;
+&lt;body&gt;
+    
+    
+        &lt;div style=&quot;position: fixed; 
+                    top: 10px; left: 50px; right: 50px; 
+                    z-index:9999; 
+                    background-color:white;
+                    border:2px solid grey;
+                    border-radius: 5px;
+                    padding: 10px;
+                    text-align: center;&quot;&gt;
+            &lt;h3 style=&quot;margin:0;&quot;&gt;Found 2 filming locations for films made in the 1910s.&lt;/h3&gt;
+            &lt;p style=&quot;margin:5px 0 0 0; font-size:14px; color:#666;&quot;&gt;
+                2 locations found
+            &lt;/p&gt;
+        &lt;/div&gt;
+        
+    
+            &lt;div class=&quot;folium-map&quot; id=&quot;map_dbda023957a667f1d5d8305aedc993c3&quot; &gt;&lt;/div&gt;
+        
+&lt;/body&gt;
+&lt;script&gt;
+    
+    
+            var map_dbda023957a667f1d5d8305aedc993c3 = L.map(
+                &quot;map_dbda023957a667f1d5d8305aedc993c3&quot;,
+                {
+                    center: [37.7749, -122.4194],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  &quot;zoom&quot;: 13,
+  &quot;zoomControl&quot;: true,
+  &quot;preferCanvas&quot;: false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_015d763662137c16a756e95c7f7df7c2 = L.tileLayer(
+                &quot;https://tile.openstreetmap.org/{z}/{x}/{y}.png&quot;,
+                {
+  &quot;minZoom&quot;: 0,
+  &quot;maxZoom&quot;: 19,
+  &quot;maxNativeZoom&quot;: 19,
+  &quot;noWrap&quot;: false,
+  &quot;attribution&quot;: &quot;\u0026copy; \u003ca href=\&quot;https://www.openstreetmap.org/copyright\&quot;\u003eOpenStreetMap\u003c/a\u003e contributors&quot;,
+  &quot;subdomains&quot;: &quot;abc&quot;,
+  &quot;detectRetina&quot;: false,
+  &quot;tms&quot;: false,
+  &quot;opacity&quot;: 1,
+}
+
+            );
+        
+    
+            tile_layer_015d763662137c16a756e95c7f7df7c2.addTo(map_dbda023957a667f1d5d8305aedc993c3);
+        
+    
+            var marker_6d62d944524b85d4a187dd48a6f587d2 = L.marker(
+                [37.75889, -122.41468],
+                {
+}
+            ).addTo(map_dbda023957a667f1d5d8305aedc993c3);
+        
+    
+            var icon_6ce8e62f5829a5b3de94dd13f7f77004 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_50ca8f38b65beb52a2052837b730c095 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_7dcaaac6d08f9290160337b6b2ae0321 = $(`&lt;div id=&quot;html_7dcaaac6d08f9290160337b6b2ae0321&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;20th and Folsom Streets&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; A Jitney Elopement&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 1915&lt;br&gt;&lt;b&gt;Locations:&lt;/b&gt; 20th and Folsom Streets&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_50ca8f38b65beb52a2052837b730c095.setContent(html_7dcaaac6d08f9290160337b6b2ae0321);
+            
+        
+
+        marker_6d62d944524b85d4a187dd48a6f587d2.bindPopup(popup_50ca8f38b65beb52a2052837b730c095)
+        ;
+
+        
+    
+    
+            marker_6d62d944524b85d4a187dd48a6f587d2.bindTooltip(
+                `&lt;div&gt;
+                     20th and Folsom Streets
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_6d62d944524b85d4a187dd48a6f587d2.setIcon(icon_6ce8e62f5829a5b3de94dd13f7f77004);
+            
+    
+            var marker_2c34b0ab490dac024adff7f65c1ca06d = L.marker(
+                [37.77181, -122.48088],
+                {
+}
+            ).addTo(map_dbda023957a667f1d5d8305aedc993c3);
+        
+    
+            var icon_840716846e52ead9f96460385cd1c8b4 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_d81c6ffa24699a3ce549bdfabe256c07 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_648a8b335be925c8309f0131b094cca9 = $(`&lt;div id=&quot;html_648a8b335be925c8309f0131b094cca9&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Golden Gate Park&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; A Jitney Elopement&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 1915&lt;br&gt;&lt;b&gt;Locations:&lt;/b&gt; Golden Gate Park&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_d81c6ffa24699a3ce549bdfabe256c07.setContent(html_648a8b335be925c8309f0131b094cca9);
+            
+        
+
+        marker_2c34b0ab490dac024adff7f65c1ca06d.bindPopup(popup_d81c6ffa24699a3ce549bdfabe256c07)
+        ;
+
+        
+    
+    
+            marker_2c34b0ab490dac024adff7f65c1ca06d.bindTooltip(
+                `&lt;div&gt;
+                     Golden Gate Park
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_2c34b0ab490dac024adff7f65c1ca06d.setIcon(icon_840716846e52ead9f96460385cd1c8b4);
+            
+&lt;/script&gt;
+&lt;/html&gt;" style="position:absolute;width:100%;height:100%;left:0;top:0;border:none !important;" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe></div></div>
+        </div>
+        
+        <div id="results">
+            <h2>Detailed Results</h2>
+            <pre>{
+  "data": {
+    "_type": "DataFrame",
+    "data": [
+      {
+        "Title": "A Jitney Elopement",
+        "Year": 1915,
+        "Locations": "20th and Folsom Streets"
+      },
+      {
+        "Title": "A Jitney Elopement",
+        "Year": 1915,
+        "Locations": "Golden Gate Park"
+      }
+    ],
+    "columns": [
+      "Title",
+      "Year",
+      "Locations"
+    ],
+    "shape": [
+      2,
+      3
+    ]
+  },
+  "summary": "Found 2 filming locations for films made in the 1910s.",
+  "metadata": {
+    "query_type": "films_in_year_range",
+    "year_range": "1910-1919",
+    "data_cleaning": "Excluded empty/null/whitespace by rule; numeric Year coerced when needed."
+  }
+}</pre>
+        </div>
+    </body>
+    </html>
+    

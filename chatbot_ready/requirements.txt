@@ -1,0 +1,9 @@
+streamlit
+pandas
+geopandas
+numpy
+shapely
+folium
+google-genai
+python-dotenv
+jsonlines

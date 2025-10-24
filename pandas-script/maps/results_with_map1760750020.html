@@ -1,0 +1,1339 @@
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>SF Film Locations Map</title>
+        <meta charset="utf-8">
+        <style>
+           
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, 
+                        "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        
+        h1, h2 {
+            font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        #query-info {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        #map-container {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        #results {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        pre {
+            font-family: "SF Mono", "Monaco", "Inconsolata", monospace;
+            font-size: 14px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+        }
+    
+        </style>
+    </head>
+    <body>
+        <h1>Query Results</h1>
+        <div id="query-info">
+            <p><strong>Query:</strong> are there any film with the word matrix in their title shot in SF? </p>
+            <p><strong>Summary:</strong> Returned dictionary with 3 keys</p>
+        </div>
+        
+        <div id="map-container">
+            <div style="width:100%;"><div style="position:relative;width:100%;height:0;padding-bottom:60%;"><span style="color:#565656">Make this Notebook Trusted to load map: File -> Trust Notebook</span><iframe srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    
+    &lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=UTF-8&quot; /&gt;
+    
+        &lt;script&gt;
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        &lt;/script&gt;
+    
+    &lt;style&gt;html, body {width: 100%;height: 100%;margin: 0;padding: 0;}&lt;/style&gt;
+    &lt;style&gt;#map {position:absolute;top:0;bottom:0;right:0;left:0;}&lt;/style&gt;
+    &lt;script src=&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://code.jquery.com/jquery-3.7.1.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js&quot;&gt;&lt;/script&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css&quot;/&gt;
+    
+            &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no&quot; /&gt;
+            &lt;style&gt;
+                #map_ec23b899385a0152d3041262f7fef1b4 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            &lt;/style&gt;
+        
+&lt;/head&gt;
+&lt;body&gt;
+    
+    
+        &lt;div style=&quot;position: fixed; 
+                    top: 10px; left: 50px; right: 50px; 
+                    z-index:9999; 
+                    background-color:white;
+                    border:2px solid grey;
+                    border-radius: 5px;
+                    padding: 10px;
+                    text-align: center;&quot;&gt;
+            &lt;h3 style=&quot;margin:0;&quot;&gt;Returned dictionary with 3 keys&lt;/h3&gt;
+            &lt;p style=&quot;margin:5px 0 0 0; font-size:14px; color:#666;&quot;&gt;
+                22 locations found
+            &lt;/p&gt;
+        &lt;/div&gt;
+        
+    
+            &lt;div class=&quot;folium-map&quot; id=&quot;map_ec23b899385a0152d3041262f7fef1b4&quot; &gt;&lt;/div&gt;
+        
+&lt;/body&gt;
+&lt;script&gt;
+    
+    
+            var map_ec23b899385a0152d3041262f7fef1b4 = L.map(
+                &quot;map_ec23b899385a0152d3041262f7fef1b4&quot;,
+                {
+                    center: [37.7749, -122.4194],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  &quot;zoom&quot;: 13,
+  &quot;zoomControl&quot;: true,
+  &quot;preferCanvas&quot;: false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_fc06c78e395f89abfcaa6b69b136d777 = L.tileLayer(
+                &quot;https://tile.openstreetmap.org/{z}/{x}/{y}.png&quot;,
+                {
+  &quot;minZoom&quot;: 0,
+  &quot;maxZoom&quot;: 19,
+  &quot;maxNativeZoom&quot;: 19,
+  &quot;noWrap&quot;: false,
+  &quot;attribution&quot;: &quot;\u0026copy; \u003ca href=\&quot;https://www.openstreetmap.org/copyright\&quot;\u003eOpenStreetMap\u003c/a\u003e contributors&quot;,
+  &quot;subdomains&quot;: &quot;abc&quot;,
+  &quot;detectRetina&quot;: false,
+  &quot;tms&quot;: false,
+  &quot;opacity&quot;: 1,
+}
+
+            );
+        
+    
+            tile_layer_fc06c78e395f89abfcaa6b69b136d777.addTo(map_ec23b899385a0152d3041262f7fef1b4);
+        
+    
+            var marker_01180ed599b95c38273041d1209b1b70 = L.marker(
+                [37.79643, -122.40538],
+                {
+}
+            ).addTo(map_ec23b899385a0152d3041262f7fef1b4);
+        
+    
+            var icon_59984e182d3c6b82085674faaa311f5e = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_ffc90f75f0577221d5ddb1f86ffd6153 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_3ceb0e3dcb0eb6d920ba7c420e872466 = $(`&lt;div id=&quot;html_3ceb0e3dcb0eb6d920ba7c420e872466&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;House of Nanking, 919 Kearny&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Matrix Resurrections&lt;br&gt;&lt;b&gt;Locations:&lt;/b&gt; House of Nanking, 919 Kearny&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_ffc90f75f0577221d5ddb1f86ffd6153.setContent(html_3ceb0e3dcb0eb6d920ba7c420e872466);
+            
+        
+
+        marker_01180ed599b95c38273041d1209b1b70.bindPopup(popup_ffc90f75f0577221d5ddb1f86ffd6153)
+        ;
+
+        
+    
+    
+            marker_01180ed599b95c38273041d1209b1b70.bindTooltip(
+                `&lt;div&gt;
+                     House of Nanking, 919 Kearny
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_01180ed599b95c38273041d1209b1b70.setIcon(icon_59984e182d3c6b82085674faaa311f5e);
+            
+    
+            var marker_0afc4fab3bd6e1aa50a77e4420c1adf5 = L.marker(
+                [37.79279, -122.40135],
+                {
+}
+            ).addTo(map_ec23b899385a0152d3041262f7fef1b4);
+        
+    
+            var icon_919b2d520045f1b2fcee85c29b11d6ad = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_251faed23f8079629d4bc1c84dfeea42 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_fdeb242505e84da65d0ffd6586d80034 = $(`&lt;div id=&quot;html_fdeb242505e84da65d0ffd6586d80034&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;425 California&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Matrix Resurrections&lt;br&gt;&lt;b&gt;Locations:&lt;/b&gt; 425 California&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_251faed23f8079629d4bc1c84dfeea42.setContent(html_fdeb242505e84da65d0ffd6586d80034);
+            
+        
+
+        marker_0afc4fab3bd6e1aa50a77e4420c1adf5.bindPopup(popup_251faed23f8079629d4bc1c84dfeea42)
+        ;
+
+        
+    
+    
+            marker_0afc4fab3bd6e1aa50a77e4420c1adf5.bindTooltip(
+                `&lt;div&gt;
+                     425 California
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_0afc4fab3bd6e1aa50a77e4420c1adf5.setIcon(icon_919b2d520045f1b2fcee85c29b11d6ad);
+            
+    
+            var marker_d22cc2bb93ad8f86644901d8cc9853be = L.marker(
+                [37.79518, -122.39382],
+                {
+}
+            ).addTo(map_ec23b899385a0152d3041262f7fef1b4);
+        
+    
+            var icon_df9c8e3c8b6548c8c9933a9c479f0be7 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_a7e4c37fa39faee141b3d0b5972d8f94 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_4337ab1614658c80742e86d6cf382e67 = $(`&lt;div id=&quot;html_4337ab1614658c80742e86d6cf382e67&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Harry Bridges Plaza and Embarcadero&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Matrix Resurrections&lt;br&gt;&lt;b&gt;Locations:&lt;/b&gt; Harry Bridges Plaza and Embarcadero&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_a7e4c37fa39faee141b3d0b5972d8f94.setContent(html_4337ab1614658c80742e86d6cf382e67);
+            
+        
+
+        marker_d22cc2bb93ad8f86644901d8cc9853be.bindPopup(popup_a7e4c37fa39faee141b3d0b5972d8f94)
+        ;
+
+        
+    
+    
+            marker_d22cc2bb93ad8f86644901d8cc9853be.bindTooltip(
+                `&lt;div&gt;
+                     Harry Bridges Plaza and Embarcadero
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_d22cc2bb93ad8f86644901d8cc9853be.setIcon(icon_df9c8e3c8b6548c8c9933a9c479f0be7);
+            
+    
+            var marker_e54d1f94a4eec6c7cb359c79399e4ae2 = L.marker(
+                [37.79553, -122.4033],
+                {
+}
+            ).addTo(map_ec23b899385a0152d3041262f7fef1b4);
+        
+    
+            var icon_7a7c4a8a74f994fa39881800cf96aa19 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_b0b37db2131342fa79c8be8a6c0f1d0f = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_d0967e2631b85edf493fa51efe7fc3e6 = $(`&lt;div id=&quot;html_d0967e2631b85edf493fa51efe7fc3e6&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Montgomery between Washington and Bush&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Matrix Resurrections&lt;br&gt;&lt;b&gt;Locations:&lt;/b&gt; Montgomery between Washington and Bush&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_b0b37db2131342fa79c8be8a6c0f1d0f.setContent(html_d0967e2631b85edf493fa51efe7fc3e6);
+            
+        
+
+        marker_e54d1f94a4eec6c7cb359c79399e4ae2.bindPopup(popup_b0b37db2131342fa79c8be8a6c0f1d0f)
+        ;
+
+        
+    
+    
+            marker_e54d1f94a4eec6c7cb359c79399e4ae2.bindTooltip(
+                `&lt;div&gt;
+                     Montgomery between Washington and Bush
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_e54d1f94a4eec6c7cb359c79399e4ae2.setIcon(icon_7a7c4a8a74f994fa39881800cf96aa19);
+            
+    
+            var marker_32171e39cab4e3cd0a7737db9d869b0d = L.marker(
+                [37.79256, -122.40213],
+                {
+}
+            ).addTo(map_ec23b899385a0152d3041262f7fef1b4);
+        
+    
+            var icon_847d831fcc5d509316b05d110302f7e3 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_8ea465cdf03df7666cb8035962a98ed2 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_477a076aa7cc7e2ca9943d7a357732dc = $(`&lt;div id=&quot;html_477a076aa7cc7e2ca9943d7a357732dc&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;465 California&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Matrix Resurrections&lt;br&gt;&lt;b&gt;Locations:&lt;/b&gt; 465 California&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_8ea465cdf03df7666cb8035962a98ed2.setContent(html_477a076aa7cc7e2ca9943d7a357732dc);
+            
+        
+
+        marker_32171e39cab4e3cd0a7737db9d869b0d.bindPopup(popup_8ea465cdf03df7666cb8035962a98ed2)
+        ;
+
+        
+    
+    
+            marker_32171e39cab4e3cd0a7737db9d869b0d.bindTooltip(
+                `&lt;div&gt;
+                     465 California
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_32171e39cab4e3cd0a7737db9d869b0d.setIcon(icon_847d831fcc5d509316b05d110302f7e3);
+            
+    
+            var marker_f42dd5af471066884e7c560267c1bfa1 = L.marker(
+                [37.79401, -122.40132],
+                {
+}
+            ).addTo(map_ec23b899385a0152d3041262f7fef1b4);
+        
+    
+            var icon_c5cb0170e3a298278bbbd9f71fffcd78 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_991c01bab63fc6a877209221fdfb4999 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_d229f6d80f30b1901cee7866bb34c054 = $(`&lt;div id=&quot;html_d229f6d80f30b1901cee7866bb34c054&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Sansome, Sacramento, and California&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Matrix Resurrections&lt;br&gt;&lt;b&gt;Locations:&lt;/b&gt; Sansome, Sacramento, and California&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_991c01bab63fc6a877209221fdfb4999.setContent(html_d229f6d80f30b1901cee7866bb34c054);
+            
+        
+
+        marker_f42dd5af471066884e7c560267c1bfa1.bindPopup(popup_991c01bab63fc6a877209221fdfb4999)
+        ;
+
+        
+    
+    
+            marker_f42dd5af471066884e7c560267c1bfa1.bindTooltip(
+                `&lt;div&gt;
+                     Sansome, Sacramento, and California
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_f42dd5af471066884e7c560267c1bfa1.setIcon(icon_c5cb0170e3a298278bbbd9f71fffcd78);
+            
+    
+            var marker_928cb0b27165bfb69f6ababb1e4be867 = L.marker(
+                [37.78907, -122.39493],
+                {
+}
+            ).addTo(map_ec23b899385a0152d3041262f7fef1b4);
+        
+    
+            var icon_16fc9e67b014ded5344c72f41dc9545d = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_9a6e206fe28c06127e7e5483da9b6014 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_9e943d5ba09b31e4212481ccbbaeb691 = $(`&lt;div id=&quot;html_9e943d5ba09b31e4212481ccbbaeb691&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Pier 14 San Francisco&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Matrix Resurrections&lt;br&gt;&lt;b&gt;Locations:&lt;/b&gt; Pier 14 San Francisco&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_9a6e206fe28c06127e7e5483da9b6014.setContent(html_9e943d5ba09b31e4212481ccbbaeb691);
+            
+        
+
+        marker_928cb0b27165bfb69f6ababb1e4be867.bindPopup(popup_9a6e206fe28c06127e7e5483da9b6014)
+        ;
+
+        
+    
+    
+            marker_928cb0b27165bfb69f6ababb1e4be867.bindTooltip(
+                `&lt;div&gt;
+                     Pier 14 San Francisco
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_928cb0b27165bfb69f6ababb1e4be867.setIcon(icon_16fc9e67b014ded5344c72f41dc9545d);
+            
+    
+            var marker_e91e6a9fb85989a24e6c4c4e7b5c87de = L.marker(
+                [37.79047, -122.39669],
+                {
+}
+            ).addTo(map_ec23b899385a0152d3041262f7fef1b4);
+        
+    
+            var icon_e90b6230234a0a02985cdbb19742b669 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_b16bc31acfa358862b8c0a5f3248ea0f = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_d6d0241233a08d1541ccf31d3f34ece5 = $(`&lt;div id=&quot;html_d6d0241233a08d1541ccf31d3f34ece5&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Fremont at Mission&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Matrix Resurrections&lt;br&gt;&lt;b&gt;Locations:&lt;/b&gt; Fremont at Mission&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_b16bc31acfa358862b8c0a5f3248ea0f.setContent(html_d6d0241233a08d1541ccf31d3f34ece5);
+            
+        
+
+        marker_e91e6a9fb85989a24e6c4c4e7b5c87de.bindPopup(popup_b16bc31acfa358862b8c0a5f3248ea0f)
+        ;
+
+        
+    
+    
+            marker_e91e6a9fb85989a24e6c4c4e7b5c87de.bindTooltip(
+                `&lt;div&gt;
+                     Fremont at Mission
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_e91e6a9fb85989a24e6c4c4e7b5c87de.setIcon(icon_e90b6230234a0a02985cdbb19742b669);
+            
+    
+            var marker_2bc86c0c5a18558a73ec92f468aff8c8 = L.marker(
+                [37.78958, -122.40196],
+                {
+}
+            ).addTo(map_ec23b899385a0152d3041262f7fef1b4);
+        
+    
+            var icon_fecb3acb65d3c83e8452de7de6a883d0 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_91aed6a4010d9b23a81f0a72feb1f247 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_572cd42c834b802f181a0630961096cd = $(`&lt;div id=&quot;html_572cd42c834b802f181a0630961096cd&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;44 Montogomery&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Matrix Resurrections&lt;br&gt;&lt;b&gt;Locations:&lt;/b&gt; 44 Montogomery&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_91aed6a4010d9b23a81f0a72feb1f247.setContent(html_572cd42c834b802f181a0630961096cd);
+            
+        
+
+        marker_2bc86c0c5a18558a73ec92f468aff8c8.bindPopup(popup_91aed6a4010d9b23a81f0a72feb1f247)
+        ;
+
+        
+    
+    
+            marker_2bc86c0c5a18558a73ec92f468aff8c8.bindTooltip(
+                `&lt;div&gt;
+                     44 Montogomery
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_2bc86c0c5a18558a73ec92f468aff8c8.setIcon(icon_fecb3acb65d3c83e8452de7de6a883d0);
+            
+    
+            var marker_3fc6eca7b39379f397f4ac54fa189670 = L.marker(
+                [37.79151, -122.40572],
+                {
+}
+            ).addTo(map_ec23b899385a0152d3041262f7fef1b4);
+        
+    
+            var icon_7ae43af004302d44365ca131ddd75976 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_778ce67027140d8fd0da199244705a1e = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_7a3fbb8235de4979f3fa17689acecb93 = $(`&lt;div id=&quot;html_7a3fbb8235de4979f3fa17689acecb93&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Pine and Grant Ave&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Matrix Resurrections&lt;br&gt;&lt;b&gt;Locations:&lt;/b&gt; Pine and Grant Ave&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_778ce67027140d8fd0da199244705a1e.setContent(html_7a3fbb8235de4979f3fa17689acecb93);
+            
+        
+
+        marker_3fc6eca7b39379f397f4ac54fa189670.bindPopup(popup_778ce67027140d8fd0da199244705a1e)
+        ;
+
+        
+    
+    
+            marker_3fc6eca7b39379f397f4ac54fa189670.bindTooltip(
+                `&lt;div&gt;
+                     Pine and Grant Ave
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_3fc6eca7b39379f397f4ac54fa189670.setIcon(icon_7ae43af004302d44365ca131ddd75976);
+            
+    
+            var marker_9b4006363a05b8521e3571e7bedfea99 = L.marker(
+                [37.79186, -122.39862],
+                {
+}
+            ).addTo(map_ec23b899385a0152d3041262f7fef1b4);
+        
+    
+            var icon_e8ce58970f0c86d6f3303f83dc08cb0e = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_f1ed4b0aa27aacd5bc67d1d5a735adb3 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_ae257bdd0c52659f57b9dea5f4eb53fa = $(`&lt;div id=&quot;html_ae257bdd0c52659f57b9dea5f4eb53fa&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;1 Front St&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Matrix Resurrections&lt;br&gt;&lt;b&gt;Locations:&lt;/b&gt; 1 Front St&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_f1ed4b0aa27aacd5bc67d1d5a735adb3.setContent(html_ae257bdd0c52659f57b9dea5f4eb53fa);
+            
+        
+
+        marker_9b4006363a05b8521e3571e7bedfea99.bindPopup(popup_f1ed4b0aa27aacd5bc67d1d5a735adb3)
+        ;
+
+        
+    
+    
+            marker_9b4006363a05b8521e3571e7bedfea99.bindTooltip(
+                `&lt;div&gt;
+                     1 Front St
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_9b4006363a05b8521e3571e7bedfea99.setIcon(icon_e8ce58970f0c86d6f3303f83dc08cb0e);
+            
+    
+            var marker_528a50de0d58c95995203d3b61519b91 = L.marker(
+                [37.79142, -122.4026],
+                {
+}
+            ).addTo(map_ec23b899385a0152d3041262f7fef1b4);
+        
+    
+            var icon_98d5ec0c1f180a5da614f38afbd8135c = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_4f1eb4d70bbbc7a54e9aaa379cd9f89e = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_9d687a18d19b6f8bfe47563dbdf06dbe = $(`&lt;div id=&quot;html_9d687a18d19b6f8bfe47563dbdf06dbe&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Joe &amp; The Juice, 235 Montgomery&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Matrix Resurrections&lt;br&gt;&lt;b&gt;Locations:&lt;/b&gt; Joe &amp; The Juice, 235 Montgomery&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_4f1eb4d70bbbc7a54e9aaa379cd9f89e.setContent(html_9d687a18d19b6f8bfe47563dbdf06dbe);
+            
+        
+
+        marker_528a50de0d58c95995203d3b61519b91.bindPopup(popup_4f1eb4d70bbbc7a54e9aaa379cd9f89e)
+        ;
+
+        
+    
+    
+            marker_528a50de0d58c95995203d3b61519b91.bindTooltip(
+                `&lt;div&gt;
+                     Joe &amp; The Juice, 235 Montgomery
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_528a50de0d58c95995203d3b61519b91.setIcon(icon_98d5ec0c1f180a5da614f38afbd8135c);
+            
+    
+            var marker_5b97cd89a67b7711d392627836c2fd41 = L.marker(
+                [37.79375, -122.39573],
+                {
+}
+            ).addTo(map_ec23b899385a0152d3041262f7fef1b4);
+        
+    
+            var icon_b69dea9f9235399431b75a508f69b4b3 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_b5c561523095a7173fa1d5a8d4a8288e = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_88080e19ee70b8f8882df57b8b9e82db = $(`&lt;div id=&quot;html_88080e19ee70b8f8882df57b8b9e82db&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Powell between California and Market&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Matrix Resurrections&lt;br&gt;&lt;b&gt;Locations:&lt;/b&gt; Powell between California and Market&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_b5c561523095a7173fa1d5a8d4a8288e.setContent(html_88080e19ee70b8f8882df57b8b9e82db);
+            
+        
+
+        marker_5b97cd89a67b7711d392627836c2fd41.bindPopup(popup_b5c561523095a7173fa1d5a8d4a8288e)
+        ;
+
+        
+    
+    
+            marker_5b97cd89a67b7711d392627836c2fd41.bindTooltip(
+                `&lt;div&gt;
+                     Powell between California and Market
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_5b97cd89a67b7711d392627836c2fd41.setIcon(icon_b69dea9f9235399431b75a508f69b4b3);
+            
+    
+            var marker_a54870c6e5fee1573606ad5dd427e235 = L.marker(
+                [37.79367, -122.39846],
+                {
+}
+            ).addTo(map_ec23b899385a0152d3041262f7fef1b4);
+        
+    
+            var icon_a163dea0975b471bf98627a0f8af6b05 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_0b14cf22a9c044f4945b9237bea554b1 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_accb7b4d5bc1c48f8543217e192e7c71 = $(`&lt;div id=&quot;html_accb7b4d5bc1c48f8543217e192e7c71&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;150 California&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Matrix Resurrections&lt;br&gt;&lt;b&gt;Locations:&lt;/b&gt; 150 California&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_0b14cf22a9c044f4945b9237bea554b1.setContent(html_accb7b4d5bc1c48f8543217e192e7c71);
+            
+        
+
+        marker_a54870c6e5fee1573606ad5dd427e235.bindPopup(popup_0b14cf22a9c044f4945b9237bea554b1)
+        ;
+
+        
+    
+    
+            marker_a54870c6e5fee1573606ad5dd427e235.bindTooltip(
+                `&lt;div&gt;
+                     150 California
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_a54870c6e5fee1573606ad5dd427e235.setIcon(icon_a163dea0975b471bf98627a0f8af6b05);
+            
+    
+            var marker_66b2b63113f2f7424558c4c6f554f327 = L.marker(
+                [37.7879, -122.39438],
+                {
+}
+            ).addTo(map_ec23b899385a0152d3041262f7fef1b4);
+        
+    
+            var icon_c11e810045842ac3c758e0e8c74ca5d6 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_15b8c707095386b6c9f7d904ed48ee9b = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_58506e83cac838d7ac24598da6f7b1f0 = $(`&lt;div id=&quot;html_58506e83cac838d7ac24598da6f7b1f0&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;The Avery, 488 Folsom&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Matrix Resurrections&lt;br&gt;&lt;b&gt;Locations:&lt;/b&gt; The Avery, 488 Folsom&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_15b8c707095386b6c9f7d904ed48ee9b.setContent(html_58506e83cac838d7ac24598da6f7b1f0);
+            
+        
+
+        marker_66b2b63113f2f7424558c4c6f554f327.bindPopup(popup_15b8c707095386b6c9f7d904ed48ee9b)
+        ;
+
+        
+    
+    
+            marker_66b2b63113f2f7424558c4c6f554f327.bindTooltip(
+                `&lt;div&gt;
+                     The Avery, 488 Folsom
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_66b2b63113f2f7424558c4c6f554f327.setIcon(icon_c11e810045842ac3c758e0e8c74ca5d6);
+            
+    
+            var marker_eae4c9860ce9817c94da48945612d129 = L.marker(
+                [37.76959, -122.40694],
+                {
+}
+            ).addTo(map_ec23b899385a0152d3041262f7fef1b4);
+        
+    
+            var icon_5f8054002ed12f829bd767a91afcc140 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_60568845648c2e88ecde48db0a831cae = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_79841f7a64df655b6bc7c3f10a2c3b12 = $(`&lt;div id=&quot;html_79841f7a64df655b6bc7c3f10a2c3b12&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Fitness SF, 1001 Brannan&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Matrix Resurrections&lt;br&gt;&lt;b&gt;Locations:&lt;/b&gt; Fitness SF, 1001 Brannan&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_60568845648c2e88ecde48db0a831cae.setContent(html_79841f7a64df655b6bc7c3f10a2c3b12);
+            
+        
+
+        marker_eae4c9860ce9817c94da48945612d129.bindPopup(popup_60568845648c2e88ecde48db0a831cae)
+        ;
+
+        
+    
+    
+            marker_eae4c9860ce9817c94da48945612d129.bindTooltip(
+                `&lt;div&gt;
+                     Fitness SF, 1001 Brannan
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_eae4c9860ce9817c94da48945612d129.setIcon(icon_5f8054002ed12f829bd767a91afcc140);
+            
+    
+            var marker_a6dc4bba2ab1c2c14642465b0c92875b = L.marker(
+                [37.79239, -122.39862],
+                {
+}
+            ).addTo(map_ec23b899385a0152d3041262f7fef1b4);
+        
+    
+            var icon_a9d3f7d02a0012d3d082cb51226dd96f = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_6215758396c3a6fba12e29059f5ab3ef = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_40a16a7e0bf0339a2bb871569efd9b10 = $(`&lt;div id=&quot;html_40a16a7e0bf0339a2bb871569efd9b10&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Pine between Front and Montgomery&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Matrix Resurrections&lt;br&gt;&lt;b&gt;Locations:&lt;/b&gt; Pine between Front and Montgomery&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_6215758396c3a6fba12e29059f5ab3ef.setContent(html_40a16a7e0bf0339a2bb871569efd9b10);
+            
+        
+
+        marker_a6dc4bba2ab1c2c14642465b0c92875b.bindPopup(popup_6215758396c3a6fba12e29059f5ab3ef)
+        ;
+
+        
+    
+    
+            marker_a6dc4bba2ab1c2c14642465b0c92875b.bindTooltip(
+                `&lt;div&gt;
+                     Pine between Front and Montgomery
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_a6dc4bba2ab1c2c14642465b0c92875b.setIcon(icon_a9d3f7d02a0012d3d082cb51226dd96f);
+            
+    
+            var marker_e3cba2ee708524118209579c087bb5bd = L.marker(
+                [37.79246, -122.40589],
+                {
+}
+            ).addTo(map_ec23b899385a0152d3041262f7fef1b4);
+        
+    
+            var icon_3d05f56fa1663b01387eb1fb09a274cb = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_149bb4d9feb8dedb8f715eae24210f4f = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_5e36b46bd7f8d43989b8d98cd063af2e = $(`&lt;div id=&quot;html_5e36b46bd7f8d43989b8d98cd063af2e&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;California at Grant Ave&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Matrix Resurrections&lt;br&gt;&lt;b&gt;Locations:&lt;/b&gt; California at Grant Ave&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_149bb4d9feb8dedb8f715eae24210f4f.setContent(html_5e36b46bd7f8d43989b8d98cd063af2e);
+            
+        
+
+        marker_e3cba2ee708524118209579c087bb5bd.bindPopup(popup_149bb4d9feb8dedb8f715eae24210f4f)
+        ;
+
+        
+    
+    
+            marker_e3cba2ee708524118209579c087bb5bd.bindTooltip(
+                `&lt;div&gt;
+                     California at Grant Ave
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_e3cba2ee708524118209579c087bb5bd.setIcon(icon_3d05f56fa1663b01387eb1fb09a274cb);
+            
+    
+            var marker_48e779a2763eb0beaba530b90d5d078f = L.marker(
+                [37.79865, -122.40836],
+                {
+}
+            ).addTo(map_ec23b899385a0152d3041262f7fef1b4);
+        
+    
+            var icon_00723d0e49e44887660b0965fe41b01b = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_521787f67fc9bc1445bb5f35a9255f07 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_682ddfb2352d39d89e2483deb2ea4ea9 = $(`&lt;div id=&quot;html_682ddfb2352d39d89e2483deb2ea4ea9&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Vallejo at Jones&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Matrix Resurrections&lt;br&gt;&lt;b&gt;Locations:&lt;/b&gt; Vallejo at Jones&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_521787f67fc9bc1445bb5f35a9255f07.setContent(html_682ddfb2352d39d89e2483deb2ea4ea9);
+            
+        
+
+        marker_48e779a2763eb0beaba530b90d5d078f.bindPopup(popup_521787f67fc9bc1445bb5f35a9255f07)
+        ;
+
+        
+    
+    
+            marker_48e779a2763eb0beaba530b90d5d078f.bindTooltip(
+                `&lt;div&gt;
+                     Vallejo at Jones
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_48e779a2763eb0beaba530b90d5d078f.setIcon(icon_00723d0e49e44887660b0965fe41b01b);
+            
+    
+            var marker_e04e50e7102c98f5f151c12570079391 = L.marker(
+                [37.79327, -122.39845],
+                {
+}
+            ).addTo(map_ec23b899385a0152d3041262f7fef1b4);
+        
+    
+            var icon_ec9928ed2635919ba18602eef65384fd = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_96c240a6f88672a9c159fe1637dce03c = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_419663a0edece9b82df6a2a01a2b0ce0 = $(`&lt;div id=&quot;html_419663a0edece9b82df6a2a01a2b0ce0&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;155 California&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Matrix Resurrections&lt;br&gt;&lt;b&gt;Locations:&lt;/b&gt; 155 California&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_96c240a6f88672a9c159fe1637dce03c.setContent(html_419663a0edece9b82df6a2a01a2b0ce0);
+            
+        
+
+        marker_e04e50e7102c98f5f151c12570079391.bindPopup(popup_96c240a6f88672a9c159fe1637dce03c)
+        ;
+
+        
+    
+    
+            marker_e04e50e7102c98f5f151c12570079391.bindTooltip(
+                `&lt;div&gt;
+                     155 California
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_e04e50e7102c98f5f151c12570079391.setIcon(icon_ec9928ed2635919ba18602eef65384fd);
+            
+    
+            var marker_4ea887ba6b4a62343f32d48181942fc5 = L.marker(
+                [3.0596, -76.65875],
+                {
+}
+            ).addTo(map_ec23b899385a0152d3041262f7fef1b4);
+        
+    
+            var icon_3466584626f988b73e342a4ed17a6788 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_f20b9b6f2cfcd4599872b289d91ae149 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_aff4e77e92ed6f4d7637b68e56502e42 = $(`&lt;div id=&quot;html_aff4e77e92ed6f4d7637b68e56502e42&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;skyline/ exterior scenes&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Matrix&lt;br&gt;&lt;b&gt;Locations:&lt;/b&gt; skyline/ exterior scenes&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_f20b9b6f2cfcd4599872b289d91ae149.setContent(html_aff4e77e92ed6f4d7637b68e56502e42);
+            
+        
+
+        marker_4ea887ba6b4a62343f32d48181942fc5.bindPopup(popup_f20b9b6f2cfcd4599872b289d91ae149)
+        ;
+
+        
+    
+    
+            marker_4ea887ba6b4a62343f32d48181942fc5.bindTooltip(
+                `&lt;div&gt;
+                     skyline/ exterior scenes
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_4ea887ba6b4a62343f32d48181942fc5.setIcon(icon_3466584626f988b73e342a4ed17a6788);
+            
+    
+            var marker_3b4a2a4020590a78b730db304219335a = L.marker(
+                [37.79192, -122.40255],
+                {
+}
+            ).addTo(map_ec23b899385a0152d3041262f7fef1b4);
+        
+    
+            var icon_2b738bd8b1d0875ad1aaef0230881754 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_42fd2aef3bf7a228330b2a751961cbf1 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_d45aad912f9c21e79373ea6943a6c81a = $(`&lt;div id=&quot;html_d45aad912f9c21e79373ea6943a6c81a&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Montgomery and Pine&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Matrix Resurrections&lt;br&gt;&lt;b&gt;Locations:&lt;/b&gt; Montgomery and Pine&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_42fd2aef3bf7a228330b2a751961cbf1.setContent(html_d45aad912f9c21e79373ea6943a6c81a);
+            
+        
+
+        marker_3b4a2a4020590a78b730db304219335a.bindPopup(popup_42fd2aef3bf7a228330b2a751961cbf1)
+        ;
+
+        
+    
+    
+            marker_3b4a2a4020590a78b730db304219335a.bindTooltip(
+                `&lt;div&gt;
+                     Montgomery and Pine
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_3b4a2a4020590a78b730db304219335a.setIcon(icon_2b738bd8b1d0875ad1aaef0230881754);
+            
+&lt;/script&gt;
+&lt;/html&gt;" style="position:absolute;width:100%;height:100%;left:0;top:0;border:none !important;" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe></div></div>
+        </div>
+        
+        <div id="results">
+            <h2>Detailed Results</h2>
+            <pre>{
+  "data": {
+    "_type": "DataFrame",
+    "data": [
+      {
+        "Title": "The Matrix Resurrections",
+        "Locations": "House of Nanking, 919 Kearny"
+      },
+      {
+        "Title": "The Matrix Resurrections",
+        "Locations": "425 California"
+      },
+      {
+        "Title": "The Matrix Resurrections",
+        "Locations": "Harry Bridges Plaza and Embarcadero"
+      },
+      {
+        "Title": "The Matrix Resurrections",
+        "Locations": "Montgomery between Washington and Bush"
+      },
+      {
+        "Title": "The Matrix Resurrections",
+        "Locations": "465 California"
+      },
+      {
+        "Title": "The Matrix Resurrections",
+        "Locations": "Sansome, Sacramento, and California"
+      },
+      {
+        "Title": "The Matrix Resurrections",
+        "Locations": "Pier 14 San Francisco"
+      },
+      {
+        "Title": "The Matrix Resurrections",
+        "Locations": "Fremont at Mission"
+      },
+      {
+        "Title": "The Matrix Resurrections",
+        "Locations": "44 Montogomery"
+      },
+      {
+        "Title": "The Matrix Resurrections",
+        "Locations": "Pine and Grant Ave"
+      },
+      {
+        "Title": "The Matrix Resurrections",
+        "Locations": "1 Front St"
+      },
+      {
+        "Title": "The Matrix Resurrections",
+        "Locations": "Joe & The Juice, 235 Montgomery"
+      },
+      {
+        "Title": "The Matrix Resurrections",
+        "Locations": "Powell between California and Market"
+      },
+      {
+        "Title": "The Matrix Resurrections",
+        "Locations": "150 California"
+      },
+      {
+        "Title": "The Matrix Resurrections",
+        "Locations": "The Avery, 488 Folsom"
+      },
+      {
+        "Title": "The Matrix Resurrections",
+        "Locations": "Fitness SF, 1001 Brannan"
+      },
+      {
+        "Title": "The Matrix Resurrections",
+        "Locations": "Pine between Front and Montgomery"
+      },
+      {
+        "Title": "The Matrix Resurrections",
+        "Locations": "California at Grant Ave"
+      },
+      {
+        "Title": "The Matrix Resurrections",
+        "Locations": "Vallejo at Jones"
+      },
+      {
+        "Title": "The Matrix Resurrections",
+        "Locations": "155 California"
+      },
+      {
+        "Title": "The Matrix",
+        "Locations": "skyline/ exterior scenes"
+      },
+      {
+        "Title": "The Matrix Resurrections",
+        "Locations": "Montgomery and Pine"
+      }
+    ],
+    "columns": [
+      "Title",
+      "Locations"
+    ],
+    "shape": [
+      22,
+      2
+    ]
+  },
+  "summary": "Found 22 locations for films with 'matrix' in the title.",
+  "metadata": {
+    "query_type": "film_locations_by_title",
+    "data_cleaning": "Excluded empty/null/whitespace by rule; numeric Year coerced when needed.",
+    "title_filter": "matrix"
+  }
+}</pre>
+        </div>
+    </body>
+    </html>
+    

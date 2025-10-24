@@ -63,6 +63,7 @@ terminate_session = ["exit", "quit", "aus", "end", "aufhören"]
 # The client.models modules exposes model inferencing and model getters.
 # models = client.models
 ###############################################
+#                                             #
 #     PATH to SQLite database established     #
 #                                             #
 ###############################################

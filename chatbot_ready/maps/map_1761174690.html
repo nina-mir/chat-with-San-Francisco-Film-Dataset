@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_c39502c6661a944463adbfecc2e99147 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+</head>
+<body>
+    
+    
+        <div style="position: fixed; 
+                    top: 10px; left: 50px; right: 50px; 
+                    z-index:9999; 
+                    background-color:white;
+                    border:2px solid grey;
+                    border-radius: 5px;
+                    padding: 10px;
+                    text-align: center;">
+            <h3 style="margin:0;">List of films made in the 1940s and their locations.</h3>
+            <p style="margin:5px 0 0 0; font-size:14px; color:#666;">
+                15 unique locations • 
+                16 total appearances
+            </p>
+        </div>
+        
+    
+            <div class="folium-map" id="map_c39502c6661a944463adbfecc2e99147" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_c39502c6661a944463adbfecc2e99147 = L.map(
+                "map_c39502c6661a944463adbfecc2e99147",
+                {
+                    center: [37.7749, -122.4194],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 13,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_f350865eeeb5f8f99e781a0867d95478 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_f350865eeeb5f8f99e781a0867d95478.addTo(map_c39502c6661a944463adbfecc2e99147);
+        
+    
+            var marker_27e806b72ea7d7553dac1b04e28a824d = L.marker(
+                [37.79242, -122.41009],
+                {
+}
+            ).addTo(map_c39502c6661a944463adbfecc2e99147);
+        
+    
+            var icon_6acc5ff82f053718b81246faa7a88410 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "film",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_2e4770a04099859997f77b321848e382 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_0a8de65da8ce2fdd743b24158dad8c30 = $(`<div id="html_0a8de65da8ce2fdd743b24158dad8c30" style="width: 100.0%; height: 100.0%;"><b>Fairmont Hotel (950 Mason Street, Nob Hill)</b><br><br><b>Film:</b> Jade (1995)<br><b>Category:</b> I Remember Mama (1948)<br></div>`)[0];
+                popup_2e4770a04099859997f77b321848e382.setContent(html_0a8de65da8ce2fdd743b24158dad8c30);
+            
+        
+
+        marker_27e806b72ea7d7553dac1b04e28a824d.bindPopup(popup_2e4770a04099859997f77b321848e382)
+        ;
+
+        
+    
+    
+            marker_27e806b72ea7d7553dac1b04e28a824d.bindTooltip(
+                `<div>
+                     Fairmont Hotel (950 Mason Street, Nob Hill) (1 film)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_27e806b72ea7d7553dac1b04e28a824d.setIcon(icon_6acc5ff82f053718b81246faa7a88410);
+            
+    
+            var marker_57f32fd2bdc9c9c0e4662a89d3442e5e = L.marker(
+                [37.79694, -122.40681],
+                {
+}
+            ).addTo(map_c39502c6661a944463adbfecc2e99147);
+        
+    
+            var icon_23ff05233da281eaa98bed989813da52 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "film",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_2e27103497bd2fc91322e258dcdeb8b0 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_12539fb254372aad85fb847e0b54d02e = $(`<div id="html_12539fb254372aad85fb847e0b54d02e" style="width: 100.0%; height: 100.0%;"><b>Grant Avenue (North Beach)</b><br><br><b>Film:</b> I Remember Mama (1948)<br><b>Category:</b> I Remember Mama (1948)<br></div>`)[0];
+                popup_2e27103497bd2fc91322e258dcdeb8b0.setContent(html_12539fb254372aad85fb847e0b54d02e);
+            
+        
+
+        marker_57f32fd2bdc9c9c0e4662a89d3442e5e.bindPopup(popup_2e27103497bd2fc91322e258dcdeb8b0)
+        ;
+
+        
+    
+    
+            marker_57f32fd2bdc9c9c0e4662a89d3442e5e.bindTooltip(
+                `<div>
+                     Grant Avenue (North Beach) (1 film)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_57f32fd2bdc9c9c0e4662a89d3442e5e.setIcon(icon_23ff05233da281eaa98bed989813da52);
+            
+    
+            var marker_ac6edea215001a3bdc7fff1e0bf0e664 = L.marker(
+                [37.79532, -122.39395],
+                {
+}
+            ).addTo(map_c39502c6661a944463adbfecc2e99147);
+        
+    
+            var icon_e0d30dac18794c1faaf8dd30af4e9a7a = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "film",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_6079e57486dca17a3cf7657c96eae6d5 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_81b7331dc9fafb43d463b1dd05b7bba3 = $(`<div id="html_81b7331dc9fafb43d463b1dd05b7bba3" style="width: 100.0%; height: 100.0%;"><b>The Ferry Building</b><br><br><b>Film:</b> I Remember Mama (1948)<br><b>Category:</b> I Remember Mama (1948)<br></div>`)[0];
+                popup_6079e57486dca17a3cf7657c96eae6d5.setContent(html_81b7331dc9fafb43d463b1dd05b7bba3);
+            
+        
+
+        marker_ac6edea215001a3bdc7fff1e0bf0e664.bindPopup(popup_6079e57486dca17a3cf7657c96eae6d5)
+        ;
+
+        
+    
+    
+            marker_ac6edea215001a3bdc7fff1e0bf0e664.bindTooltip(
+                `<div>
+                     The Ferry Building (1 film)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_ac6edea215001a3bdc7fff1e0bf0e664.setIcon(icon_e0d30dac18794c1faaf8dd30af4e9a7a);
+            
+    
+            var marker_4ae42e7d5ac2a83b8d80fd5fc200bfcc = L.marker(
+                [37.7884, -122.41326],
+                {
+}
+            ).addTo(map_c39502c6661a944463adbfecc2e99147);
+        
+    
+            var icon_da92bd6ffc1233cd898d87ae362c39d2 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "film",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_d51b5c2f1cce23eae54a2a4c88033820 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_e3273ce67f066d89e7e723ba3fd88f1f = $(`<div id="html_e3273ce67f066d89e7e723ba3fd88f1f" style="width: 100.0%; height: 100.0%;"><b>Belgravia Apartments (795 Sutter Street at Jones)</b><br><br><b>Film:</b> Nora Prentiss (1947)<br><b>Category:</b> Nora Prentiss (1947)<br></div>`)[0];
+                popup_d51b5c2f1cce23eae54a2a4c88033820.setContent(html_e3273ce67f066d89e7e723ba3fd88f1f);
+            
+        
+
+        marker_4ae42e7d5ac2a83b8d80fd5fc200bfcc.bindPopup(popup_d51b5c2f1cce23eae54a2a4c88033820)
+        ;
+
+        
+    
+    
+            marker_4ae42e7d5ac2a83b8d80fd5fc200bfcc.bindTooltip(
+                `<div>
+                     Belgravia Apartments (795 Sutter Street at Jones) (1 film)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_4ae42e7d5ac2a83b8d80fd5fc200bfcc.setIcon(icon_da92bd6ffc1233cd898d87ae362c39d2);
+            
+    
+            var marker_319c4e964a00f9e9c8758060dccd1037 = L.marker(
+                [37.8183, -122.47846],
+                {
+}
+            ).addTo(map_c39502c6661a944463adbfecc2e99147);
+        
+    
+            var icon_a7237a8361a2a2932c52c971ea7a4a70 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "film",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_175783855232d9d8ae2b31b02e2773bf = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_f481702e6d881592a05e32f19b194bd1 = $(`<div id="html_f481702e6d881592a05e32f19b194bd1" style="width: 100.0%; height: 100.0%;"><b>Golden Gate Bridge</b><br><br><b>🎬 Featured in 2 films:</b><br><br><b>Film 1:</b> Herbie Rides Again (1974)<br><b>Category:</b> The Maltese Falcon (1941)<br><br><b>Film 2:</b> Herbie Rides Again (1974)<br><b>Category:</b> Dark Passage (1947)<br></div>`)[0];
+                popup_175783855232d9d8ae2b31b02e2773bf.setContent(html_f481702e6d881592a05e32f19b194bd1);
+            
+        
+
+        marker_319c4e964a00f9e9c8758060dccd1037.bindPopup(popup_175783855232d9d8ae2b31b02e2773bf)
+        ;
+
+        
+    
+    
+            marker_319c4e964a00f9e9c8758060dccd1037.bindTooltip(
+                `<div>
+                     Golden Gate Bridge (2 films)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_319c4e964a00f9e9c8758060dccd1037.setIcon(icon_a7237a8361a2a2932c52c971ea7a4a70);
+            
+    
+            var marker_93bcc0c346e3c1386d740aa0b4d17eeb = L.marker(
+                [37.79013, -122.40748],
+                {
+}
+            ).addTo(map_c39502c6661a944463adbfecc2e99147);
+        
+    
+            var icon_6790e81a1a2487bf4a38058618dcd621 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "film",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_b9f66892e9536851f4362a1c1a134bdd = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_e2cb5ecc2e986997b0ebd7f3b11296f5 = $(`<div id="html_e2cb5ecc2e986997b0ebd7f3b11296f5" style="width: 100.0%; height: 100.0%;"><b>Burritt Alley (Off Bush Street, between Powell and Stockton Streets)</b><br><br><b>Film:</b> The Maltese Falcon (1941)<br><b>Category:</b> The Maltese Falcon (1941)<br></div>`)[0];
+                popup_b9f66892e9536851f4362a1c1a134bdd.setContent(html_e2cb5ecc2e986997b0ebd7f3b11296f5);
+            
+        
+
+        marker_93bcc0c346e3c1386d740aa0b4d17eeb.bindPopup(popup_b9f66892e9536851f4362a1c1a134bdd)
+        ;
+
+        
+    
+    
+            marker_93bcc0c346e3c1386d740aa0b4d17eeb.bindTooltip(
+                `<div>
+                     Burritt Alley (Off Bush Street, between Powell and Stockton Streets) (1 film)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_93bcc0c346e3c1386d740aa0b4d17eeb.setIcon(icon_6790e81a1a2487bf4a38058618dcd621);
+            
+    
+            var marker_208cbdfada41543e836d96d717b3006c = L.marker(
+                [37.795, -122.39311],
+                {
+}
+            ).addTo(map_c39502c6661a944463adbfecc2e99147);
+        
+    
+            var icon_ae483c90e5fb2fe0c40a19f5a2f35bc8 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "film",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_beadf936e1e39ac9e99bbc031904cca1 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_b58237c3802100ec5b18a764fd05292b = $(`<div id="html_b58237c3802100ec5b18a764fd05292b" style="width: 100.0%; height: 100.0%;"><b>Ferry Building</b><br><br><b>Film:</b> Interview With The Vampire (1994)<br><b>Category:</b> The Maltese Falcon (1941)<br></div>`)[0];
+                popup_beadf936e1e39ac9e99bbc031904cca1.setContent(html_b58237c3802100ec5b18a764fd05292b);
+            
+        
+
+        marker_208cbdfada41543e836d96d717b3006c.bindPopup(popup_beadf936e1e39ac9e99bbc031904cca1)
+        ;
+
+        
+    
+    
+            marker_208cbdfada41543e836d96d717b3006c.bindTooltip(
+                `<div>
+                     Ferry Building (1 film)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_208cbdfada41543e836d96d717b3006c.setIcon(icon_ae483c90e5fb2fe0c40a19f5a2f35bc8);
+            
+    
+            var marker_dc7832f919f58fe80ff4acc82cd5db7d = L.marker(
+                [37.81142, -122.36373],
+                {
+}
+            ).addTo(map_c39502c6661a944463adbfecc2e99147);
+        
+    
+            var icon_b343cbdf86934fb258e6fca70044fc48 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "film",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_e9135db2076fe979316cda145b030095 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_15fbc004197821d36d1b5889eee78b7e = $(`<div id="html_15fbc004197821d36d1b5889eee78b7e" style="width: 100.0%; height: 100.0%;"><b>Bay Bridge</b><br><br><b>Film:</b> The Game (1997)<br><b>Category:</b> Shadow of the Thin Man (1941)<br></div>`)[0];
+                popup_e9135db2076fe979316cda145b030095.setContent(html_15fbc004197821d36d1b5889eee78b7e);
+            
+        
+
+        marker_dc7832f919f58fe80ff4acc82cd5db7d.bindPopup(popup_e9135db2076fe979316cda145b030095)
+        ;
+
+        
+    
+    
+            marker_dc7832f919f58fe80ff4acc82cd5db7d.bindTooltip(
+                `<div>
+                     Bay Bridge (1 film)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_dc7832f919f58fe80ff4acc82cd5db7d.setIcon(icon_b343cbdf86934fb258e6fca70044fc48);
+            
+    
+            var marker_0a3261b26123f72a41038dc16fb9ae3a = L.marker(
+                [37.77008, -122.46676],
+                {
+}
+            ).addTo(map_c39502c6661a944463adbfecc2e99147);
+        
+    
+            var icon_3919d367f36d89427939d356521bd675 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "film",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_a9977d3fb2d2e386fce875647015e312 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_99c8a3ba342df2aa19054475dcdce9f7 = $(`<div id="html_99c8a3ba342df2aa19054475dcdce9f7" style="width: 100.0%; height: 100.0%;"><b>Steinhart Aquarium (California Academy of Sciences, Golden Gate Park)</b><br><br><b>Film:</b> Basic Instinct (1992)<br><b>Category:</b> The Lady from Shanghai (1947)<br></div>`)[0];
+                popup_a9977d3fb2d2e386fce875647015e312.setContent(html_99c8a3ba342df2aa19054475dcdce9f7);
+            
+        
+
+        marker_0a3261b26123f72a41038dc16fb9ae3a.bindPopup(popup_a9977d3fb2d2e386fce875647015e312)
+        ;
+
+        
+    
+    
+            marker_0a3261b26123f72a41038dc16fb9ae3a.bindTooltip(
+                `<div>
+                     Steinhart Aquarium (California Academy of Sciences, Golden Gate Park) (1 film)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_0a3261b26123f72a41038dc16fb9ae3a.setIcon(icon_3919d367f36d89427939d356521bd675);
+            
+    
+            var marker_0c49f7a7ecb6c2eecde97ae157bf29f5 = L.marker(
+                [37.79514, -122.40431],
+                {
+}
+            ).addTo(map_c39502c6661a944463adbfecc2e99147);
+        
+    
+            var icon_4d1fe700056695663efbad27b9d734f3 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "film",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_d639e440d7f27966ab003b67d79fecf1 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_e076049e6e96d0449092d9fa08905125 = $(`<div id="html_e076049e6e96d0449092d9fa08905125" style="width: 100.0%; height: 100.0%;"><b>Former Hall of Justice (750 Kearny Street at Washington)</b><br><br><b>Film:</b> Woman on the Run (1950)<br><b>Category:</b> The Lady from Shanghai (1947)<br></div>`)[0];
+                popup_d639e440d7f27966ab003b67d79fecf1.setContent(html_e076049e6e96d0449092d9fa08905125);
+            
+        
+
+        marker_0c49f7a7ecb6c2eecde97ae157bf29f5.bindPopup(popup_d639e440d7f27966ab003b67d79fecf1)
+        ;
+
+        
+    
+    
+            marker_0c49f7a7ecb6c2eecde97ae157bf29f5.bindTooltip(
+                `<div>
+                     Former Hall of Justice (750 Kearny Street at Washington) (1 film)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_0c49f7a7ecb6c2eecde97ae157bf29f5.setIcon(icon_4d1fe700056695663efbad27b9d734f3);
+            
+    
+            var marker_06f55f9d6bca04a60e1a05ee8f5b29ee = L.marker(
+                [37.79633, -122.40703],
+                {
+}
+            ).addTo(map_c39502c6661a944463adbfecc2e99147);
+        
+    
+            var icon_4e25dba4e9888b1bc056da09ce1d3308 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "film",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_36090f6ab06bdce05e398a50c9f642f7 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_1789f3a046342c5dfd8e7ed628c0755e = $(`<div id="html_1789f3a046342c5dfd8e7ed628c0755e" style="width: 100.0%; height: 100.0%;"><b>Mandarin Theatre (1021 Grant Avenue)</b><br><br><b>Film:</b> The Lady from Shanghai (1947)<br><b>Category:</b> The Lady from Shanghai (1947)<br></div>`)[0];
+                popup_36090f6ab06bdce05e398a50c9f642f7.setContent(html_1789f3a046342c5dfd8e7ed628c0755e);
+            
+        
+
+        marker_06f55f9d6bca04a60e1a05ee8f5b29ee.bindPopup(popup_36090f6ab06bdce05e398a50c9f642f7)
+        ;
+
+        
+    
+    
+            marker_06f55f9d6bca04a60e1a05ee8f5b29ee.bindTooltip(
+                `<div>
+                     Mandarin Theatre (1021 Grant Avenue) (1 film)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_06f55f9d6bca04a60e1a05ee8f5b29ee.setIcon(icon_4e25dba4e9888b1bc056da09ce1d3308);
+            
+    
+            var marker_6425ffa1cba227327e09b2245682a818 = L.marker(
+                [37.77181, -122.48088],
+                {
+}
+            ).addTo(map_c39502c6661a944463adbfecc2e99147);
+        
+    
+            var icon_202c278368b045e7c1214438b6ce6aeb = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "film",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_ee9aaccd4bbd6af860dd89ba57da0fa2 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_87ab33ed0ddab0c2f05467b1bd537376 = $(`<div id="html_87ab33ed0ddab0c2f05467b1bd537376" style="width: 100.0%; height: 100.0%;"><b>Golden Gate Park</b><br><br><b>Film:</b> Murder in the First, Season 3 (2016)<br><b>Category:</b> The Lady from Shanghai (1947)<br></div>`)[0];
+                popup_ee9aaccd4bbd6af860dd89ba57da0fa2.setContent(html_87ab33ed0ddab0c2f05467b1bd537376);
+            
+        
+
+        marker_6425ffa1cba227327e09b2245682a818.bindPopup(popup_ee9aaccd4bbd6af860dd89ba57da0fa2)
+        ;
+
+        
+    
+    
+            marker_6425ffa1cba227327e09b2245682a818.bindTooltip(
+                `<div>
+                     Golden Gate Park (1 film)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_6425ffa1cba227327e09b2245682a818.setIcon(icon_202c278368b045e7c1214438b6ce6aeb);
+            
+    
+            var marker_2b30840e0c6f1b71766c54c74a02c56a = L.marker(
+                [37.78431, -122.40831],
+                {
+}
+            ).addTo(map_c39502c6661a944463adbfecc2e99147);
+        
+    
+            var icon_2b5bdbfabe93c7f655740453e43c2d36 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "film",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_653b9407e816ad283d0b9caf1a8626a2 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_ac87bb6978205014cf84c7d506834427 = $(`<div id="html_ac87bb6978205014cf84c7d506834427" style="width: 100.0%; height: 100.0%;"><b>The Barbary Coast</b><br><br><b>Film:</b> San Francisco (1936)<br><b>Category:</b> Gentleman Jim (1942)<br></div>`)[0];
+                popup_653b9407e816ad283d0b9caf1a8626a2.setContent(html_ac87bb6978205014cf84c7d506834427);
+            
+        
+
+        marker_2b30840e0c6f1b71766c54c74a02c56a.bindPopup(popup_653b9407e816ad283d0b9caf1a8626a2)
+        ;
+
+        
+    
+    
+            marker_2b30840e0c6f1b71766c54c74a02c56a.bindTooltip(
+                `<div>
+                     The Barbary Coast (1 film)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_2b30840e0c6f1b71766c54c74a02c56a.setIcon(icon_2b5bdbfabe93c7f655740453e43c2d36);
+            
+    
+            var marker_5e4ffbb3b05ccc0312707c001f60c856 = L.marker(
+                [37.80177, -122.40441],
+                {
+}
+            ).addTo(map_c39502c6661a944463adbfecc2e99147);
+        
+    
+            var icon_6da8b1e5a8ea22634b26bd94701cd581 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "film",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_22abdd96b616e8d09788b1f9a7e07c8f = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_8c531720c53c7e792cd2b9c04bd9e77e = $(`<div id="html_8c531720c53c7e792cd2b9c04bd9e77e" style="width: 100.0%; height: 100.0%;"><b>The Malloch Apartment Building (1360 Montgomery Street)</b><br><br><b>Film:</b> Dark Passage (1947)<br><b>Category:</b> Dark Passage (1947)<br></div>`)[0];
+                popup_22abdd96b616e8d09788b1f9a7e07c8f.setContent(html_8c531720c53c7e792cd2b9c04bd9e77e);
+            
+        
+
+        marker_5e4ffbb3b05ccc0312707c001f60c856.bindPopup(popup_22abdd96b616e8d09788b1f9a7e07c8f)
+        ;
+
+        
+    
+    
+            marker_5e4ffbb3b05ccc0312707c001f60c856.bindTooltip(
+                `<div>
+                     The Malloch Apartment Building (1360 Montgomery Street) (1 film)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_5e4ffbb3b05ccc0312707c001f60c856.setIcon(icon_6da8b1e5a8ea22634b26bd94701cd581);
+            
+    
+            var marker_d9f48b0016efaa94f697f53362457e5a = L.marker(
+                [37.77409, -122.40346],
+                {
+}
+            ).addTo(map_c39502c6661a944463adbfecc2e99147);
+        
+    
+            var icon_f73de4992cfbd598351c625aba3a28de = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "film",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_da12ea03e8b28a14510b798aa6c98871 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_ccb235f41fef4bc795525943e4b1c1bf = $(`<div id="html_ccb235f41fef4bc795525943e4b1c1bf" style="width: 100.0%; height: 100.0%;"><b>Filbert Steps, Filbert Street</b><br><br><b>Film:</b> Dark Passage (1947)<br><b>Category:</b> Dark Passage (1947)<br></div>`)[0];
+                popup_da12ea03e8b28a14510b798aa6c98871.setContent(html_ccb235f41fef4bc795525943e4b1c1bf);
+            
+        
+
+        marker_d9f48b0016efaa94f697f53362457e5a.bindPopup(popup_da12ea03e8b28a14510b798aa6c98871)
+        ;
+
+        
+    
+    
+            marker_d9f48b0016efaa94f697f53362457e5a.bindTooltip(
+                `<div>
+                     Filbert Steps, Filbert Street (1 film)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_d9f48b0016efaa94f697f53362457e5a.setIcon(icon_f73de4992cfbd598351c625aba3a28de);
+            
+    
+            tile_layer_f350865eeeb5f8f99e781a0867d95478.addTo(map_c39502c6661a944463adbfecc2e99147);
+        
+    
+                marker_27e806b72ea7d7553dac1b04e28a824d.setIcon(icon_6acc5ff82f053718b81246faa7a88410);
+            
+    
+                marker_57f32fd2bdc9c9c0e4662a89d3442e5e.setIcon(icon_23ff05233da281eaa98bed989813da52);
+            
+    
+                marker_ac6edea215001a3bdc7fff1e0bf0e664.setIcon(icon_e0d30dac18794c1faaf8dd30af4e9a7a);
+            
+    
+                marker_4ae42e7d5ac2a83b8d80fd5fc200bfcc.setIcon(icon_da92bd6ffc1233cd898d87ae362c39d2);
+            
+    
+                marker_319c4e964a00f9e9c8758060dccd1037.setIcon(icon_a7237a8361a2a2932c52c971ea7a4a70);
+            
+    
+                marker_93bcc0c346e3c1386d740aa0b4d17eeb.setIcon(icon_6790e81a1a2487bf4a38058618dcd621);
+            
+    
+                marker_208cbdfada41543e836d96d717b3006c.setIcon(icon_ae483c90e5fb2fe0c40a19f5a2f35bc8);
+            
+    
+                marker_dc7832f919f58fe80ff4acc82cd5db7d.setIcon(icon_b343cbdf86934fb258e6fca70044fc48);
+            
+    
+                marker_0a3261b26123f72a41038dc16fb9ae3a.setIcon(icon_3919d367f36d89427939d356521bd675);
+            
+    
+                marker_0c49f7a7ecb6c2eecde97ae157bf29f5.setIcon(icon_4d1fe700056695663efbad27b9d734f3);
+            
+    
+                marker_06f55f9d6bca04a60e1a05ee8f5b29ee.setIcon(icon_4e25dba4e9888b1bc056da09ce1d3308);
+            
+    
+                marker_6425ffa1cba227327e09b2245682a818.setIcon(icon_202c278368b045e7c1214438b6ce6aeb);
+            
+    
+                marker_2b30840e0c6f1b71766c54c74a02c56a.setIcon(icon_2b5bdbfabe93c7f655740453e43c2d36);
+            
+    
+                marker_5e4ffbb3b05ccc0312707c001f60c856.setIcon(icon_6da8b1e5a8ea22634b26bd94701cd581);
+            
+    
+                marker_d9f48b0016efaa94f697f53362457e5a.setIcon(icon_f73de4992cfbd598351c625aba3a28de);
+            
+</script>
+</html>

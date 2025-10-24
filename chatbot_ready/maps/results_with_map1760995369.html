@@ -1,0 +1,1679 @@
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>SF Film Locations Map</title>
+        <meta charset="utf-8">
+        <style>
+           
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, 
+                        "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        
+        h1, h2 {
+            font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        #query-info {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        #map-container {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        #results {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        pre {
+            font-family: "SF Mono", "Monaco", "Inconsolata", monospace;
+            font-size: 14px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+        }
+    
+        </style>
+    </head>
+    <body>
+        <h1>Query Results</h1>
+        <div id="query-info">
+            <p><strong>Query:</strong> Films with 'matrix' in the title</p>
+            <p><strong>Summary:</strong> Returned dictionary with 3 keys</p>
+        </div>
+        
+        <div id="map-container">
+            <div style="width:100%;"><div style="position:relative;width:100%;height:0;padding-bottom:60%;"><span style="color:#565656">Make this Notebook Trusted to load map: File -> Trust Notebook</span><iframe srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    
+    &lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=UTF-8&quot; /&gt;
+    
+        &lt;script&gt;
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        &lt;/script&gt;
+    
+    &lt;style&gt;html, body {width: 100%;height: 100%;margin: 0;padding: 0;}&lt;/style&gt;
+    &lt;style&gt;#map {position:absolute;top:0;bottom:0;right:0;left:0;}&lt;/style&gt;
+    &lt;script src=&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://code.jquery.com/jquery-3.7.1.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js&quot;&gt;&lt;/script&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css&quot;/&gt;
+    
+            &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no&quot; /&gt;
+            &lt;style&gt;
+                #map_56cee8ce9cbf6ccb3e49812e154bd0a5 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            &lt;/style&gt;
+        
+&lt;/head&gt;
+&lt;body&gt;
+    
+    
+        &lt;div style=&quot;position: fixed; 
+                    top: 10px; left: 50px; right: 50px; 
+                    z-index:9999; 
+                    background-color:white;
+                    border:2px solid grey;
+                    border-radius: 5px;
+                    padding: 10px;
+                    text-align: center;&quot;&gt;
+            &lt;h3 style=&quot;margin:0;&quot;&gt;Returned dictionary with 3 keys&lt;/h3&gt;
+            &lt;p style=&quot;margin:5px 0 0 0; font-size:14px; color:#666;&quot;&gt;
+                22 locations found
+            &lt;/p&gt;
+        &lt;/div&gt;
+        
+    
+            &lt;div class=&quot;folium-map&quot; id=&quot;map_56cee8ce9cbf6ccb3e49812e154bd0a5&quot; &gt;&lt;/div&gt;
+        
+&lt;/body&gt;
+&lt;script&gt;
+    
+    
+            var map_56cee8ce9cbf6ccb3e49812e154bd0a5 = L.map(
+                &quot;map_56cee8ce9cbf6ccb3e49812e154bd0a5&quot;,
+                {
+                    center: [37.7749, -122.4194],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  &quot;zoom&quot;: 13,
+  &quot;zoomControl&quot;: true,
+  &quot;preferCanvas&quot;: false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_1d9591624b1a8a2b0dd41974f769e991 = L.tileLayer(
+                &quot;https://tile.openstreetmap.org/{z}/{x}/{y}.png&quot;,
+                {
+  &quot;minZoom&quot;: 0,
+  &quot;maxZoom&quot;: 19,
+  &quot;maxNativeZoom&quot;: 19,
+  &quot;noWrap&quot;: false,
+  &quot;attribution&quot;: &quot;\u0026copy; \u003ca href=\&quot;https://www.openstreetmap.org/copyright\&quot;\u003eOpenStreetMap\u003c/a\u003e contributors&quot;,
+  &quot;subdomains&quot;: &quot;abc&quot;,
+  &quot;detectRetina&quot;: false,
+  &quot;tms&quot;: false,
+  &quot;opacity&quot;: 1,
+}
+
+            );
+        
+    
+            tile_layer_1d9591624b1a8a2b0dd41974f769e991.addTo(map_56cee8ce9cbf6ccb3e49812e154bd0a5);
+        
+    
+            var marker_264e0318c1826d84b1a9188308d89a2c = L.marker(
+                [37.79643, -122.40538],
+                {
+}
+            ).addTo(map_56cee8ce9cbf6ccb3e49812e154bd0a5);
+        
+    
+            var icon_badd3a0725b86925714f97068cbb14c3 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_068910cc06fa7b1c3146a0effa7eff9c = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_42d6b4e40b1638b003b5672318ba11a8 = $(`&lt;div id=&quot;html_42d6b4e40b1638b003b5672318ba11a8&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;House of Nanking, 919 Kearny&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Matrix Resurrections&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 2021&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_068910cc06fa7b1c3146a0effa7eff9c.setContent(html_42d6b4e40b1638b003b5672318ba11a8);
+            
+        
+
+        marker_264e0318c1826d84b1a9188308d89a2c.bindPopup(popup_068910cc06fa7b1c3146a0effa7eff9c)
+        ;
+
+        
+    
+    
+            marker_264e0318c1826d84b1a9188308d89a2c.bindTooltip(
+                `&lt;div&gt;
+                     House of Nanking, 919 Kearny
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_264e0318c1826d84b1a9188308d89a2c.setIcon(icon_badd3a0725b86925714f97068cbb14c3);
+            
+    
+            var marker_792dc84cc94fd7b922b11508990d82b9 = L.marker(
+                [37.79279, -122.40135],
+                {
+}
+            ).addTo(map_56cee8ce9cbf6ccb3e49812e154bd0a5);
+        
+    
+            var icon_b21740e6a1aa757f8f24517c7df0a8c2 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_b248bcd970bceb24f1eeaba47b8077b4 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_94ca1f161ddd47c9c0c41bc2361666b0 = $(`&lt;div id=&quot;html_94ca1f161ddd47c9c0c41bc2361666b0&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;425 California&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Matrix Resurrections&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 2021&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_b248bcd970bceb24f1eeaba47b8077b4.setContent(html_94ca1f161ddd47c9c0c41bc2361666b0);
+            
+        
+
+        marker_792dc84cc94fd7b922b11508990d82b9.bindPopup(popup_b248bcd970bceb24f1eeaba47b8077b4)
+        ;
+
+        
+    
+    
+            marker_792dc84cc94fd7b922b11508990d82b9.bindTooltip(
+                `&lt;div&gt;
+                     425 California
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_792dc84cc94fd7b922b11508990d82b9.setIcon(icon_b21740e6a1aa757f8f24517c7df0a8c2);
+            
+    
+            var marker_2d925a6a907cbe046fabeea42e131447 = L.marker(
+                [37.79518, -122.39382],
+                {
+}
+            ).addTo(map_56cee8ce9cbf6ccb3e49812e154bd0a5);
+        
+    
+            var icon_f34873a9e59342bfabdf3588326b3629 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_910bc7fd9fffc6c118930c45d2418ab3 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_45bcbb0fb22f00aa331d4a0a05df2968 = $(`&lt;div id=&quot;html_45bcbb0fb22f00aa331d4a0a05df2968&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Harry Bridges Plaza and Embarcadero&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Matrix Resurrections&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 2021&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_910bc7fd9fffc6c118930c45d2418ab3.setContent(html_45bcbb0fb22f00aa331d4a0a05df2968);
+            
+        
+
+        marker_2d925a6a907cbe046fabeea42e131447.bindPopup(popup_910bc7fd9fffc6c118930c45d2418ab3)
+        ;
+
+        
+    
+    
+            marker_2d925a6a907cbe046fabeea42e131447.bindTooltip(
+                `&lt;div&gt;
+                     Harry Bridges Plaza and Embarcadero
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_2d925a6a907cbe046fabeea42e131447.setIcon(icon_f34873a9e59342bfabdf3588326b3629);
+            
+    
+            var marker_ad2106685ccff2369fac3ea88edb650c = L.marker(
+                [37.79553, -122.4033],
+                {
+}
+            ).addTo(map_56cee8ce9cbf6ccb3e49812e154bd0a5);
+        
+    
+            var icon_4a6d24ff51536abc402e8e71b120a324 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_92d6b7fc69c2ff4bea82f5ef82a1ccab = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_4a1a4b1761319fa1b9f5ebbe4f6224e3 = $(`&lt;div id=&quot;html_4a1a4b1761319fa1b9f5ebbe4f6224e3&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Montgomery between Washington and Bush&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Matrix Resurrections&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 2021&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_92d6b7fc69c2ff4bea82f5ef82a1ccab.setContent(html_4a1a4b1761319fa1b9f5ebbe4f6224e3);
+            
+        
+
+        marker_ad2106685ccff2369fac3ea88edb650c.bindPopup(popup_92d6b7fc69c2ff4bea82f5ef82a1ccab)
+        ;
+
+        
+    
+    
+            marker_ad2106685ccff2369fac3ea88edb650c.bindTooltip(
+                `&lt;div&gt;
+                     Montgomery between Washington and Bush
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_ad2106685ccff2369fac3ea88edb650c.setIcon(icon_4a6d24ff51536abc402e8e71b120a324);
+            
+    
+            var marker_cc73205f36fd655a9ec14e218fa96c2d = L.marker(
+                [37.79256, -122.40213],
+                {
+}
+            ).addTo(map_56cee8ce9cbf6ccb3e49812e154bd0a5);
+        
+    
+            var icon_2dda5e1bfb3a3bd24c74a77347cc65d5 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_0cc77a1b88e62f8f427012596b258d46 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_fd2ef430035aea41a6bd0c2626da4fa1 = $(`&lt;div id=&quot;html_fd2ef430035aea41a6bd0c2626da4fa1&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;465 California&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Matrix Resurrections&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 2021&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_0cc77a1b88e62f8f427012596b258d46.setContent(html_fd2ef430035aea41a6bd0c2626da4fa1);
+            
+        
+
+        marker_cc73205f36fd655a9ec14e218fa96c2d.bindPopup(popup_0cc77a1b88e62f8f427012596b258d46)
+        ;
+
+        
+    
+    
+            marker_cc73205f36fd655a9ec14e218fa96c2d.bindTooltip(
+                `&lt;div&gt;
+                     465 California
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_cc73205f36fd655a9ec14e218fa96c2d.setIcon(icon_2dda5e1bfb3a3bd24c74a77347cc65d5);
+            
+    
+            var marker_4bd864dc70be843c8bd750f7fcc89526 = L.marker(
+                [37.79401, -122.40132],
+                {
+}
+            ).addTo(map_56cee8ce9cbf6ccb3e49812e154bd0a5);
+        
+    
+            var icon_6e9e9d49c2594debf9b49cae0ddeddf7 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_b3e1bd1aab5f11d81888ee42b961de65 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_e20429a04ff710eb944833328728edd8 = $(`&lt;div id=&quot;html_e20429a04ff710eb944833328728edd8&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Sansome, Sacramento, and California&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Matrix Resurrections&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 2021&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_b3e1bd1aab5f11d81888ee42b961de65.setContent(html_e20429a04ff710eb944833328728edd8);
+            
+        
+
+        marker_4bd864dc70be843c8bd750f7fcc89526.bindPopup(popup_b3e1bd1aab5f11d81888ee42b961de65)
+        ;
+
+        
+    
+    
+            marker_4bd864dc70be843c8bd750f7fcc89526.bindTooltip(
+                `&lt;div&gt;
+                     Sansome, Sacramento, and California
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_4bd864dc70be843c8bd750f7fcc89526.setIcon(icon_6e9e9d49c2594debf9b49cae0ddeddf7);
+            
+    
+            var marker_4614c69f51dbd99a4eefdf75c4eccd83 = L.marker(
+                [37.78907, -122.39493],
+                {
+}
+            ).addTo(map_56cee8ce9cbf6ccb3e49812e154bd0a5);
+        
+    
+            var icon_90fbb2929411c5c695eb02109e71ba45 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_a1c9b5c1e4006f76cc19dc7aff79b7da = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_4affcdbfd51012cb301ced4f2ce30140 = $(`&lt;div id=&quot;html_4affcdbfd51012cb301ced4f2ce30140&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Pier 14 San Francisco&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Matrix Resurrections&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 2021&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_a1c9b5c1e4006f76cc19dc7aff79b7da.setContent(html_4affcdbfd51012cb301ced4f2ce30140);
+            
+        
+
+        marker_4614c69f51dbd99a4eefdf75c4eccd83.bindPopup(popup_a1c9b5c1e4006f76cc19dc7aff79b7da)
+        ;
+
+        
+    
+    
+            marker_4614c69f51dbd99a4eefdf75c4eccd83.bindTooltip(
+                `&lt;div&gt;
+                     Pier 14 San Francisco
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_4614c69f51dbd99a4eefdf75c4eccd83.setIcon(icon_90fbb2929411c5c695eb02109e71ba45);
+            
+    
+            var marker_57fb6a22ba2e6d7956eb5ef516d08282 = L.marker(
+                [37.79047, -122.39669],
+                {
+}
+            ).addTo(map_56cee8ce9cbf6ccb3e49812e154bd0a5);
+        
+    
+            var icon_4f3445f1f4f375754cf9aa4a7c9eb50b = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_ed3da6c97d86783e8d24f0be565072b8 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_ca51212a8f52b898514f2df188d968b2 = $(`&lt;div id=&quot;html_ca51212a8f52b898514f2df188d968b2&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Fremont at Mission&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Matrix Resurrections&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 2021&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_ed3da6c97d86783e8d24f0be565072b8.setContent(html_ca51212a8f52b898514f2df188d968b2);
+            
+        
+
+        marker_57fb6a22ba2e6d7956eb5ef516d08282.bindPopup(popup_ed3da6c97d86783e8d24f0be565072b8)
+        ;
+
+        
+    
+    
+            marker_57fb6a22ba2e6d7956eb5ef516d08282.bindTooltip(
+                `&lt;div&gt;
+                     Fremont at Mission
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_57fb6a22ba2e6d7956eb5ef516d08282.setIcon(icon_4f3445f1f4f375754cf9aa4a7c9eb50b);
+            
+    
+            var marker_cb0c3fc066abbc0c53d068719c5882e5 = L.marker(
+                [37.78958, -122.40196],
+                {
+}
+            ).addTo(map_56cee8ce9cbf6ccb3e49812e154bd0a5);
+        
+    
+            var icon_871922f74f049fb188c9516fd459c593 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_d19868a49d393f5454dc6e24804a759b = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_09a8c57625530399c292f4d2e9586541 = $(`&lt;div id=&quot;html_09a8c57625530399c292f4d2e9586541&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;44 Montogomery&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Matrix Resurrections&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 2021&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_d19868a49d393f5454dc6e24804a759b.setContent(html_09a8c57625530399c292f4d2e9586541);
+            
+        
+
+        marker_cb0c3fc066abbc0c53d068719c5882e5.bindPopup(popup_d19868a49d393f5454dc6e24804a759b)
+        ;
+
+        
+    
+    
+            marker_cb0c3fc066abbc0c53d068719c5882e5.bindTooltip(
+                `&lt;div&gt;
+                     44 Montogomery
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_cb0c3fc066abbc0c53d068719c5882e5.setIcon(icon_871922f74f049fb188c9516fd459c593);
+            
+    
+            var marker_59a0cd68ca21a82c394355f6d78e2df9 = L.marker(
+                [37.79151, -122.40572],
+                {
+}
+            ).addTo(map_56cee8ce9cbf6ccb3e49812e154bd0a5);
+        
+    
+            var icon_e97ef95f7df24d4d8c703b127ea10457 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_a56d138192c7f3b9bec41c48d2db5ded = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_8c3165a80503b1eda1fa82f0c0ac7bff = $(`&lt;div id=&quot;html_8c3165a80503b1eda1fa82f0c0ac7bff&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Pine and Grant Ave&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Matrix Resurrections&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 2021&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_a56d138192c7f3b9bec41c48d2db5ded.setContent(html_8c3165a80503b1eda1fa82f0c0ac7bff);
+            
+        
+
+        marker_59a0cd68ca21a82c394355f6d78e2df9.bindPopup(popup_a56d138192c7f3b9bec41c48d2db5ded)
+        ;
+
+        
+    
+    
+            marker_59a0cd68ca21a82c394355f6d78e2df9.bindTooltip(
+                `&lt;div&gt;
+                     Pine and Grant Ave
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_59a0cd68ca21a82c394355f6d78e2df9.setIcon(icon_e97ef95f7df24d4d8c703b127ea10457);
+            
+    
+            var marker_13a42236a217bc3449cf4f856e0ec843 = L.marker(
+                [37.79186, -122.39862],
+                {
+}
+            ).addTo(map_56cee8ce9cbf6ccb3e49812e154bd0a5);
+        
+    
+            var icon_766c31b2d5be666ea10e09cd86ed6287 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_41cc378888bfe199eec4bf3796d76943 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_51ee058479b8b2227319cc4750b81f27 = $(`&lt;div id=&quot;html_51ee058479b8b2227319cc4750b81f27&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;1 Front St&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Matrix Resurrections&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 2021&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_41cc378888bfe199eec4bf3796d76943.setContent(html_51ee058479b8b2227319cc4750b81f27);
+            
+        
+
+        marker_13a42236a217bc3449cf4f856e0ec843.bindPopup(popup_41cc378888bfe199eec4bf3796d76943)
+        ;
+
+        
+    
+    
+            marker_13a42236a217bc3449cf4f856e0ec843.bindTooltip(
+                `&lt;div&gt;
+                     1 Front St
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_13a42236a217bc3449cf4f856e0ec843.setIcon(icon_766c31b2d5be666ea10e09cd86ed6287);
+            
+    
+            var marker_2008750a8b31f8f30cf94b1c192cdffa = L.marker(
+                [37.79142, -122.4026],
+                {
+}
+            ).addTo(map_56cee8ce9cbf6ccb3e49812e154bd0a5);
+        
+    
+            var icon_d143f07389af46b75ba9964783455a15 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_e2af98d5bb24f97e9c2ecee742371f07 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_9a33d2a1af1bf35e99f9a0741c90ca04 = $(`&lt;div id=&quot;html_9a33d2a1af1bf35e99f9a0741c90ca04&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Joe &amp; The Juice, 235 Montgomery&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Matrix Resurrections&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 2021&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_e2af98d5bb24f97e9c2ecee742371f07.setContent(html_9a33d2a1af1bf35e99f9a0741c90ca04);
+            
+        
+
+        marker_2008750a8b31f8f30cf94b1c192cdffa.bindPopup(popup_e2af98d5bb24f97e9c2ecee742371f07)
+        ;
+
+        
+    
+    
+            marker_2008750a8b31f8f30cf94b1c192cdffa.bindTooltip(
+                `&lt;div&gt;
+                     Joe &amp; The Juice, 235 Montgomery
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_2008750a8b31f8f30cf94b1c192cdffa.setIcon(icon_d143f07389af46b75ba9964783455a15);
+            
+    
+            var marker_37958f6a66d38ae2094d6ecbb98bcd19 = L.marker(
+                [37.79375, -122.39573],
+                {
+}
+            ).addTo(map_56cee8ce9cbf6ccb3e49812e154bd0a5);
+        
+    
+            var icon_57ae26aad140a20093561ab93ffcc55c = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_aab525faafcf1e0ca2bfee326fb9e294 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_49e4b944a8b39068a1aa4b729151d7a4 = $(`&lt;div id=&quot;html_49e4b944a8b39068a1aa4b729151d7a4&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Powell between California and Market&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Matrix Resurrections&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 2021&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_aab525faafcf1e0ca2bfee326fb9e294.setContent(html_49e4b944a8b39068a1aa4b729151d7a4);
+            
+        
+
+        marker_37958f6a66d38ae2094d6ecbb98bcd19.bindPopup(popup_aab525faafcf1e0ca2bfee326fb9e294)
+        ;
+
+        
+    
+    
+            marker_37958f6a66d38ae2094d6ecbb98bcd19.bindTooltip(
+                `&lt;div&gt;
+                     Powell between California and Market
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_37958f6a66d38ae2094d6ecbb98bcd19.setIcon(icon_57ae26aad140a20093561ab93ffcc55c);
+            
+    
+            var marker_d33a4ac27520a0483c72248158b2dd1f = L.marker(
+                [37.79367, -122.39846],
+                {
+}
+            ).addTo(map_56cee8ce9cbf6ccb3e49812e154bd0a5);
+        
+    
+            var icon_fd9bc23728a13bcd6499fc1697cac6c7 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_420dfbfbbeeb5a110cf5cd9ab3c40738 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_a1e247c31f497e08a186a133f5291a17 = $(`&lt;div id=&quot;html_a1e247c31f497e08a186a133f5291a17&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;150 California&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Matrix Resurrections&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 2021&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_420dfbfbbeeb5a110cf5cd9ab3c40738.setContent(html_a1e247c31f497e08a186a133f5291a17);
+            
+        
+
+        marker_d33a4ac27520a0483c72248158b2dd1f.bindPopup(popup_420dfbfbbeeb5a110cf5cd9ab3c40738)
+        ;
+
+        
+    
+    
+            marker_d33a4ac27520a0483c72248158b2dd1f.bindTooltip(
+                `&lt;div&gt;
+                     150 California
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_d33a4ac27520a0483c72248158b2dd1f.setIcon(icon_fd9bc23728a13bcd6499fc1697cac6c7);
+            
+    
+            var marker_9ad3e9a5f4bbf94ca7859ed7821b167f = L.marker(
+                [37.7879, -122.39438],
+                {
+}
+            ).addTo(map_56cee8ce9cbf6ccb3e49812e154bd0a5);
+        
+    
+            var icon_5abece80b050173120496a6b0f4e62db = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_11438050981b407161c67313cff53680 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_e28886cece32c037b5b717f4f076ff1e = $(`&lt;div id=&quot;html_e28886cece32c037b5b717f4f076ff1e&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;The Avery, 488 Folsom&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Matrix Resurrections&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 2021&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_11438050981b407161c67313cff53680.setContent(html_e28886cece32c037b5b717f4f076ff1e);
+            
+        
+
+        marker_9ad3e9a5f4bbf94ca7859ed7821b167f.bindPopup(popup_11438050981b407161c67313cff53680)
+        ;
+
+        
+    
+    
+            marker_9ad3e9a5f4bbf94ca7859ed7821b167f.bindTooltip(
+                `&lt;div&gt;
+                     The Avery, 488 Folsom
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_9ad3e9a5f4bbf94ca7859ed7821b167f.setIcon(icon_5abece80b050173120496a6b0f4e62db);
+            
+    
+            var marker_fc5e60278453f248077905ba6723c951 = L.marker(
+                [37.76959, -122.40694],
+                {
+}
+            ).addTo(map_56cee8ce9cbf6ccb3e49812e154bd0a5);
+        
+    
+            var icon_db57fe916dc31dec7d8e100255a8e93e = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_df722a36cc8f26526cd0024384749250 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_26b2be9e5de626f718936ce3085fa9ec = $(`&lt;div id=&quot;html_26b2be9e5de626f718936ce3085fa9ec&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Fitness SF, 1001 Brannan&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Matrix Resurrections&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 2021&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_df722a36cc8f26526cd0024384749250.setContent(html_26b2be9e5de626f718936ce3085fa9ec);
+            
+        
+
+        marker_fc5e60278453f248077905ba6723c951.bindPopup(popup_df722a36cc8f26526cd0024384749250)
+        ;
+
+        
+    
+    
+            marker_fc5e60278453f248077905ba6723c951.bindTooltip(
+                `&lt;div&gt;
+                     Fitness SF, 1001 Brannan
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_fc5e60278453f248077905ba6723c951.setIcon(icon_db57fe916dc31dec7d8e100255a8e93e);
+            
+    
+            var marker_cf96268965f26fbd2ea3d46c99ec9816 = L.marker(
+                [37.79239, -122.39862],
+                {
+}
+            ).addTo(map_56cee8ce9cbf6ccb3e49812e154bd0a5);
+        
+    
+            var icon_ea0117ce058cdfcd257df2a70ba3f576 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_fa6ac1bcb40457eb116677bcf22e73d6 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_aaa32d90161329f1ff845c7820603e0b = $(`&lt;div id=&quot;html_aaa32d90161329f1ff845c7820603e0b&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Pine between Front and Montgomery&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Matrix Resurrections&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 2021&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_fa6ac1bcb40457eb116677bcf22e73d6.setContent(html_aaa32d90161329f1ff845c7820603e0b);
+            
+        
+
+        marker_cf96268965f26fbd2ea3d46c99ec9816.bindPopup(popup_fa6ac1bcb40457eb116677bcf22e73d6)
+        ;
+
+        
+    
+    
+            marker_cf96268965f26fbd2ea3d46c99ec9816.bindTooltip(
+                `&lt;div&gt;
+                     Pine between Front and Montgomery
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_cf96268965f26fbd2ea3d46c99ec9816.setIcon(icon_ea0117ce058cdfcd257df2a70ba3f576);
+            
+    
+            var marker_dc2819511dd5123c8c33f33ace23da28 = L.marker(
+                [37.79246, -122.40589],
+                {
+}
+            ).addTo(map_56cee8ce9cbf6ccb3e49812e154bd0a5);
+        
+    
+            var icon_ff09324f22924cbf1c18b42b0755f6e6 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_f1e397547c96969867560aedb52e9b70 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_ca1bb383ecfe873488ed7829eab0994f = $(`&lt;div id=&quot;html_ca1bb383ecfe873488ed7829eab0994f&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;California at Grant Ave&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Matrix Resurrections&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 2021&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_f1e397547c96969867560aedb52e9b70.setContent(html_ca1bb383ecfe873488ed7829eab0994f);
+            
+        
+
+        marker_dc2819511dd5123c8c33f33ace23da28.bindPopup(popup_f1e397547c96969867560aedb52e9b70)
+        ;
+
+        
+    
+    
+            marker_dc2819511dd5123c8c33f33ace23da28.bindTooltip(
+                `&lt;div&gt;
+                     California at Grant Ave
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_dc2819511dd5123c8c33f33ace23da28.setIcon(icon_ff09324f22924cbf1c18b42b0755f6e6);
+            
+    
+            var marker_9dd8aae0ecc923518814895760003f48 = L.marker(
+                [37.79865, -122.40836],
+                {
+}
+            ).addTo(map_56cee8ce9cbf6ccb3e49812e154bd0a5);
+        
+    
+            var icon_fda107f83722770852bbe83c040e79a7 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_e5103032c015e04738d3edaa52def85a = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_4d07d768f844fecb54ca7eba60bb6512 = $(`&lt;div id=&quot;html_4d07d768f844fecb54ca7eba60bb6512&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Vallejo at Jones&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Matrix Resurrections&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 2021&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_e5103032c015e04738d3edaa52def85a.setContent(html_4d07d768f844fecb54ca7eba60bb6512);
+            
+        
+
+        marker_9dd8aae0ecc923518814895760003f48.bindPopup(popup_e5103032c015e04738d3edaa52def85a)
+        ;
+
+        
+    
+    
+            marker_9dd8aae0ecc923518814895760003f48.bindTooltip(
+                `&lt;div&gt;
+                     Vallejo at Jones
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_9dd8aae0ecc923518814895760003f48.setIcon(icon_fda107f83722770852bbe83c040e79a7);
+            
+    
+            var marker_deece0369195e16650642373e2a8e955 = L.marker(
+                [37.79327, -122.39845],
+                {
+}
+            ).addTo(map_56cee8ce9cbf6ccb3e49812e154bd0a5);
+        
+    
+            var icon_6aa1bc2ccd9f561ac5d9c84fe573d629 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_0c56402deb98dc03d29e5f66ba0c259d = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_f2b7b26e9fcef2c6ab14eccf7be561b7 = $(`&lt;div id=&quot;html_f2b7b26e9fcef2c6ab14eccf7be561b7&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;155 California&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Matrix Resurrections&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 2021&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_0c56402deb98dc03d29e5f66ba0c259d.setContent(html_f2b7b26e9fcef2c6ab14eccf7be561b7);
+            
+        
+
+        marker_deece0369195e16650642373e2a8e955.bindPopup(popup_0c56402deb98dc03d29e5f66ba0c259d)
+        ;
+
+        
+    
+    
+            marker_deece0369195e16650642373e2a8e955.bindTooltip(
+                `&lt;div&gt;
+                     155 California
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_deece0369195e16650642373e2a8e955.setIcon(icon_6aa1bc2ccd9f561ac5d9c84fe573d629);
+            
+    
+            var marker_6f5bb37ef37b3102d94dcd8f907e4828 = L.marker(
+                [3.0596, -76.65875],
+                {
+}
+            ).addTo(map_56cee8ce9cbf6ccb3e49812e154bd0a5);
+        
+    
+            var icon_6e181cc791deb11a7e18311f6915d24c = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_4e5fb57da812f5013c85955160f4a94b = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_dec3caa6263331f37ffa4cb6e17cf1cf = $(`&lt;div id=&quot;html_dec3caa6263331f37ffa4cb6e17cf1cf&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;skyline/ exterior scenes&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Matrix&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 1999&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_4e5fb57da812f5013c85955160f4a94b.setContent(html_dec3caa6263331f37ffa4cb6e17cf1cf);
+            
+        
+
+        marker_6f5bb37ef37b3102d94dcd8f907e4828.bindPopup(popup_4e5fb57da812f5013c85955160f4a94b)
+        ;
+
+        
+    
+    
+            marker_6f5bb37ef37b3102d94dcd8f907e4828.bindTooltip(
+                `&lt;div&gt;
+                     skyline/ exterior scenes
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_6f5bb37ef37b3102d94dcd8f907e4828.setIcon(icon_6e181cc791deb11a7e18311f6915d24c);
+            
+    
+            var marker_f87acc28eb5f98e6b99410e00e500e7f = L.marker(
+                [37.79192, -122.40255],
+                {
+}
+            ).addTo(map_56cee8ce9cbf6ccb3e49812e154bd0a5);
+        
+    
+            var icon_21ca6f43cf2304ba8b2dffee006873d2 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_94a9b8316ffc8a3202e663a50c1e0016 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_f254c726248f960860622f8dbc6f2ca7 = $(`&lt;div id=&quot;html_f254c726248f960860622f8dbc6f2ca7&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Montgomery and Pine&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Matrix Resurrections&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 2021&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_94a9b8316ffc8a3202e663a50c1e0016.setContent(html_f254c726248f960860622f8dbc6f2ca7);
+            
+        
+
+        marker_f87acc28eb5f98e6b99410e00e500e7f.bindPopup(popup_94a9b8316ffc8a3202e663a50c1e0016)
+        ;
+
+        
+    
+    
+            marker_f87acc28eb5f98e6b99410e00e500e7f.bindTooltip(
+                `&lt;div&gt;
+                     Montgomery and Pine
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_f87acc28eb5f98e6b99410e00e500e7f.setIcon(icon_21ca6f43cf2304ba8b2dffee006873d2);
+            
+&lt;/script&gt;
+&lt;/html&gt;" style="position:absolute;width:100%;height:100%;left:0;top:0;border:none !important;" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe></div></div>
+        </div>
+        
+        <div id="results">
+            <h2>Detailed Results</h2>
+            <pre>{
+  "data": {
+    "_type": "GeoDataFrame",
+    "data": [
+      {
+        "id": 71,
+        "Title": "The Matrix Resurrections",
+        "Year": 2021,
+        "Locations": "House of Nanking, 919 Kearny",
+        "Fun_Facts": "",
+        "Director": "Lana Wachowski",
+        "Writer": "Lana Wachowski, David Mitchell, Aleksander Hemon",
+        "Actor_1": "Keanu Reeves",
+        "Actor_2": "Keanu Reeves",
+        "Actor_3": "Neil Patrick Harris",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -122.40538,
+            37.79643
+          ]
+        }
+      },
+      {
+        "id": 133,
+        "Title": "The Matrix Resurrections",
+        "Year": 2021,
+        "Locations": "425 California",
+        "Fun_Facts": "",
+        "Director": "Lana Wachowski",
+        "Writer": "Lana Wachowski, David Mitchell, Aleksander Hemon",
+        "Actor_1": "Keanu Reeves",
+        "Actor_2": "Keanu Reeves",
+        "Actor_3": "Neil Patrick Harris",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -122.40135,
+            37.79279
+          ]
+        }
+      },
+      {
+        "id": 245,
+        "Title": "The Matrix Resurrections",
+        "Year": 2021,
+        "Locations": "Harry Bridges Plaza and Embarcadero",
+        "Fun_Facts": "",
+        "Director": "Lana Wachowski",
+        "Writer": "Lana Wachowski, David Mitchell, Aleksander Hemon",
+        "Actor_1": "Keanu Reeves",
+        "Actor_2": "Keanu Reeves",
+        "Actor_3": "Neil Patrick Harris",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -122.39382,
+            37.79518
+          ]
+        }
+      },
+      {
+        "id": 369,
+        "Title": "The Matrix Resurrections",
+        "Year": 2021,
+        "Locations": "Montgomery between Washington and Bush",
+        "Fun_Facts": "",
+        "Director": "Lana Wachowski",
+        "Writer": "Lana Wachowski, David Mitchell, Aleksander Hemon",
+        "Actor_1": "Keanu Reeves",
+        "Actor_2": "Keanu Reeves",
+        "Actor_3": "Neil Patrick Harris",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -122.4033,
+            37.79553
+          ]
+        }
+      },
+      {
+        "id": 432,
+        "Title": "The Matrix Resurrections",
+        "Year": 2021,
+        "Locations": "465 California",
+        "Fun_Facts": "",
+        "Director": "Lana Wachowski",
+        "Writer": "Lana Wachowski, David Mitchell, Aleksander Hemon",
+        "Actor_1": "Keanu Reeves",
+        "Actor_2": "Keanu Reeves",
+        "Actor_3": "Neil Patrick Harris",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -122.40213,
+            37.79256
+          ]
+        }
+      },
+      {
+        "id": 510,
+        "Title": "The Matrix Resurrections",
+        "Year": 2021,
+        "Locations": "Sansome, Sacramento, and California",
+        "Fun_Facts": "",
+        "Director": "Lana Wachowski",
+        "Writer": "Lana Wachowski, David Mitchell, Aleksander Hemon",
+        "Actor_1": "Keanu Reeves",
+        "Actor_2": "Keanu Reeves",
+        "Actor_3": "Neil Patrick Harris",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -122.40132,
+            37.79401
+          ]
+        }
+      },
+      {
+        "id": 657,
+        "Title": "The Matrix Resurrections",
+        "Year": 2021,
+        "Locations": "Pier 14 San Francisco",
+        "Fun_Facts": "",
+        "Director": "Lana Wachowski",
+        "Writer": "Lana Wachowski, David Mitchell, Aleksander Hemon",
+        "Actor_1": "Keanu Reeves",
+        "Actor_2": "Keanu Reeves",
+        "Actor_3": "Neil Patrick Harris",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -122.39493,
+            37.78907
+          ]
+        }
+      },
+      {
+        "id": 745,
+        "Title": "The Matrix Resurrections",
+        "Year": 2021,
+        "Locations": "Fremont at Mission",
+        "Fun_Facts": "",
+        "Director": "Lana Wachowski",
+        "Writer": "Lana Wachowski, David Mitchell, Aleksander Hemon",
+        "Actor_1": "Keanu Reeves",
+        "Actor_2": "Keanu Reeves",
+        "Actor_3": "Neil Patrick Harris",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -122.39669,
+            37.79047
+          ]
+        }
+      },
+      {
+        "id": 795,
+        "Title": "The Matrix Resurrections",
+        "Year": 2021,
+        "Locations": "44 Montogomery",
+        "Fun_Facts": "",
+        "Director": "Lana Wachowski",
+        "Writer": "Lana Wachowski, David Mitchell, Aleksander Hemon",
+        "Actor_1": "Keanu Reeves",
+        "Actor_2": "Keanu Reeves",
+        "Actor_3": "Neil Patrick Harris",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -122.40196,
+            37.78958
+          ]
+        }
+      },
+      {
+        "id": 878,
+        "Title": "The Matrix Resurrections",
+        "Year": 2021,
+        "Locations": "Pine and Grant Ave",
+        "Fun_Facts": "",
+        "Director": "Lana Wachowski",
+        "Writer": "Lana Wachowski, David Mitchell, Aleksander Hemon",
+        "Actor_1": "Keanu Reeves",
+        "Actor_2": "Keanu Reeves",
+        "Actor_3": "Neil Patrick Harris",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -122.40572,
+            37.79151
+          ]
+        }
+      },
+      {
+        "id": 1003,
+        "Title": "The Matrix Resurrections",
+        "Year": 2021,
+        "Locations": "1 Front St",
+        "Fun_Facts": "",
+        "Director": "Lana Wachowski",
+        "Writer": "Lana Wachowski, David Mitchell, Aleksander Hemon",
+        "Actor_1": "Keanu Reeves",
+        "Actor_2": "Keanu Reeves",
+        "Actor_3": "Neil Patrick Harris",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -122.39862,
+            37.79186
+          ]
+        }
+      },
+      {
+        "id": 1085,
+        "Title": "The Matrix Resurrections",
+        "Year": 2021,
+        "Locations": "Joe & The Juice, 235 Montgomery",
+        "Fun_Facts": "",
+        "Director": "Lana Wachowski",
+        "Writer": "Lana Wachowski, David Mitchell, Aleksander Hemon",
+        "Actor_1": "Keanu Reeves",
+        "Actor_2": "Keanu Reeves",
+        "Actor_3": "Neil Patrick Harris",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -122.4026,
+            37.79142
+          ]
+        }
+      },
+      {
+        "id": 1222,
+        "Title": "The Matrix Resurrections",
+        "Year": 2021,
+        "Locations": "Powell between California and Market",
+        "Fun_Facts": "",
+        "Director": "Lana Wachowski",
+        "Writer": "Lana Wachowski, David Mitchell, Aleksander Hemon",
+        "Actor_1": "Keanu Reeves",
+        "Actor_2": "Keanu Reeves",
+        "Actor_3": "Neil Patrick Harris",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -122.39573,
+            37.79375
+          ]
+        }
+      },
+      {
+        "id": 1368,
+        "Title": "The Matrix Resurrections",
+        "Year": 2021,
+        "Locations": "150 California",
+        "Fun_Facts": "",
+        "Director": "Lana Wachowski",
+        "Writer": "Lana Wachowski, David Mitchell, Aleksander Hemon",
+        "Actor_1": "Keanu Reeves",
+        "Actor_2": "Keanu Reeves",
+        "Actor_3": "Neil Patrick Harris",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -122.39846,
+            37.79367
+          ]
+        }
+      },
+      {
+        "id": 1431,
+        "Title": "The Matrix Resurrections",
+        "Year": 2021,
+        "Locations": "The Avery, 488 Folsom",
+        "Fun_Facts": "",
+        "Director": "Lana Wachowski",
+        "Writer": "Lana Wachowski, David Mitchell, Aleksander Hemon",
+        "Actor_1": "Keanu Reeves",
+        "Actor_2": "Keanu Reeves",
+        "Actor_3": "Neil Patrick Harris",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -122.39438,
+            37.7879
+          ]
+        }
+      },
+      {
+        "id": 1462,
+        "Title": "The Matrix Resurrections",
+        "Year": 2021,
+        "Locations": "Fitness SF, 1001 Brannan",
+        "Fun_Facts": "",
+        "Director": "Lana Wachowski",
+        "Writer": "Lana Wachowski, David Mitchell, Aleksander Hemon",
+        "Actor_1": "Keanu Reeves",
+        "Actor_2": "Keanu Reeves",
+        "Actor_3": "Neil Patrick Harris",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -122.40694,
+            37.76959
+          ]
+        }
+      },
+      {
+        "id": 1592,
+        "Title": "The Matrix Resurrections",
+        "Year": 2021,
+        "Locations": "Pine between Front and Montgomery",
+        "Fun_Facts": "",
+        "Director": "Lana Wachowski",
+        "Writer": "Lana Wachowski, David Mitchell, Aleksander Hemon",
+        "Actor_1": "Keanu Reeves",
+        "Actor_2": "Keanu Reeves",
+        "Actor_3": "Neil Patrick Harris",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -122.39862,
+            37.79239
+          ]
+        }
+      },
+      {
+        "id": 1647,
+        "Title": "The Matrix Resurrections",
+        "Year": 2021,
+        "Locations": "California at Grant Ave",
+        "Fun_Facts": "",
+        "Director": "Lana Wachowski",
+        "Writer": "Lana Wachowski, David Mitchell, Aleksander Hemon",
+        "Actor_1": "Keanu Reeves",
+        "Actor_2": "Keanu Reeves",
+        "Actor_3": "Neil Patrick Harris",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -122.40589,
+            37.79246
+          ]
+        }
+      },
+      {
+        "id": 1831,
+        "Title": "The Matrix Resurrections",
+        "Year": 2021,
+        "Locations": "Vallejo at Jones",
+        "Fun_Facts": "",
+        "Director": "Lana Wachowski",
+        "Writer": "Lana Wachowski, David Mitchell, Aleksander Hemon",
+        "Actor_1": "Keanu Reeves",
+        "Actor_2": "Keanu Reeves",
+        "Actor_3": "Neil Patrick Harris",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -122.40836,
+            37.79865
+          ]
+        }
+      },
+      {
+        "id": 1976,
+        "Title": "The Matrix Resurrections",
+        "Year": 2021,
+        "Locations": "155 California",
+        "Fun_Facts": "",
+        "Director": "Lana Wachowski",
+        "Writer": "Lana Wachowski, David Mitchell, Aleksander Hemon",
+        "Actor_1": "Keanu Reeves",
+        "Actor_2": "Keanu Reeves",
+        "Actor_3": "Neil Patrick Harris",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -122.39845,
+            37.79327
+          ]
+        }
+      },
+      {
+        "id": 1985,
+        "Title": "The Matrix",
+        "Year": 1999,
+        "Locations": "skyline/ exterior scenes",
+        "Fun_Facts": "",
+        "Director": "The Wachowski Brothers",
+        "Writer": "The Wachowski Brothers",
+        "Actor_1": "Keanu Reeves",
+        "Actor_2": "Laurence Fishburne",
+        "Actor_3": "",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -76.65875,
+            3.0596
+          ]
+        }
+      },
+      {
+        "id": 2035,
+        "Title": "The Matrix Resurrections",
+        "Year": 2021,
+        "Locations": "Montgomery and Pine",
+        "Fun_Facts": "",
+        "Director": "Lana Wachowski",
+        "Writer": "Lana Wachowski, David Mitchell, Aleksander Hemon",
+        "Actor_1": "Keanu Reeves",
+        "Actor_2": "Keanu Reeves",
+        "Actor_3": "Neil Patrick Harris",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -122.40255,
+            37.79192
+          ]
+        }
+      }
+    ],
+    "columns": [
+      "id",
+      "Title",
+      "Year",
+      "Locations",
+      "Fun_Facts",
+      "Director",
+      "Writer",
+      "Actor_1",
+      "Actor_2",
+      "Actor_3",
+      "geometry"
+    ],
+    "shape": [
+      22,
+      11
+    ],
+    "crs": "EPSG:4326"
+  },
+  "summary": "Found 22 film locations with 'matrix' in the title.",
+  "metadata": {
+    "query_type": "title_search",
+    "title_filter": "matrix",
+    "data_cleaning": "Excluded empty/null/whitespace by rule; numeric Year coerced when needed."
+  }
+}</pre>
+        </div>
+    </body>
+    </html>
+    

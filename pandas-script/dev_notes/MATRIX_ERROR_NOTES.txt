@@ -1,0 +1,39 @@
+Execution Result:
+⚠️no printint out for now! modify it if you want to!
+⚠️⚠️⚠️ Error writing to code_exec_results.jsonl: Object of type DataFrame is not JSON serializable
+%%%%%%%%%%%%%%%%%%%%
+execution result
+
+
+{'success': True, 'data': {'data':                          Title                               Locations
+70    The Matrix Resurrections            House of Nanking, 919 Kearny
+132   The Matrix Resurrections                          425 California
+244   The Matrix Resurrections     Harry Bridges Plaza and Embarcadero
+368   The Matrix Resurrections  Montgomery between Washington and Bush
+431   The Matrix Resurrections                          465 California
+509   The Matrix Resurrections     Sansome, Sacramento, and California
+656   The Matrix Resurrections                   Pier 14 San Francisco
+744   The Matrix Resurrections                      Fremont at Mission
+794   The Matrix Resurrections                          44 Montogomery
+877   The Matrix Resurrections                      Pine and Grant Ave
+1002  The Matrix Resurrections                              1 Front St
+1084  The Matrix Resurrections         Joe & The Juice, 235 Montgomery
+1221  The Matrix Resurrections    Powell between California and Market
+1367  The Matrix Resurrections                          150 California
+1430  The Matrix Resurrections                   The Avery, 488 Folsom
+1461  The Matrix Resurrections                Fitness SF, 1001 Brannan
+1591  The Matrix Resurrections       Pine between Front and Montgomery
+1646  The Matrix Resurrections                 California at Grant Ave
+1830  The Matrix Resurrections                        Vallejo at Jones
+1975  The Matrix Resurrections                          155 California
+1984                The Matrix                skyline/ exterior scenes
+2034  The Matrix Resurrections                     Montgomery and Pine, 'summary': "Found 22 locations for films with 'matrix' in the title.", 'metadata': {'query_type': 'film_locations_by_title', 'data_cleaning': 'Excluded empty/null/whitespace by rule; numeric Year coerced when needed.', 'title_filter': 'matrix'}}, 'summary': 'Returned dictionary with 3 keys', 'metadata': {'result_type': 'dictionary', 'execution_status': 'completed', 'keys': ['data', 'summary', 'metadata'], 'validation': {'is_valid': True, 'issues': [], 'code_length': 2790}}}
+^_^_^_^_^_^_^_^_^_^_^_^_^_^_^_^_^_^_^_^_
+
+MAP Analysis verdict:
+
+
+{'can_map': True, 'reason': 'Found 22 mappable locations', 'location_data': [{'location_name': 'House of Nanking, 919 Kearny', 'geometry': <POINT (-122.405 37.796)>, 'metadata': {'Title': 'The Matrix Resurrections', 'Locations': 'House of Nanking, 919 Kearny'}}, {'location_name': '425 California', 'geometry': <POINT (-122.401 37.793)>, 'metadata': {'Title': 'The Matrix Resurrections', 'Locations': '425 California'}}, {'location_name': 'Harry Bridges Plaza and Embarcadero', 'geometry': <POINT (-122.394 37.795)>, 'metadata': {'Title': 'The Matrix Resurrections', 'Locations': 'Harry Bridges Plaza and Embarcadero'}}, {'location_name': 'Montgomery between Washington and Bush', 'geometry': <POINT (-122.403 37.796)>, 'metadata': {'Title': 'The Matrix Resurrections', 'Locations': 'Montgomery between Washington and Bush'}}, {'location_name': '465 California', 'geometry': <POINT (-122.402 37.793)>, 'metadata': {'Title': 'The Matrix Resurrections', 'Locations': '465 California'}}, {'location_name': 'Sansome, Sacramento, and California', 'geometry': <POINT (-122.401 37.794)>, 'metadata': {'Title': 'The Matrix Resurrections', 'Locations': 'Sansome, Sacramento, and California'}}, {'location_name': 'Pier 14 San Francisco', 'geometry': <POINT (-122.395 37.789)>, 'metadata': {'Title': 'The Matrix Resurrections', 'Locations': 'Pier 14 San Francisco'}}, {'location_name': 'Fremont at Mission', 'geometry': <POINT (-122.397 37.79)>, 'metadata': {'Title': 'The Matrix Resurrections', 'Locations': 'Fremont at Mission'}}, {'location_name': '44 Montogomery', 'geometry': <POINT (-122.402 37.79)>, 'metadata': {'Title': 'The Matrix Resurrections', 'Locations': '44 Montogomery'}}, {'location_name': 'Pine and Grant Ave', 'geometry': <POINT (-122.406 37.792)>, 'metadata': {'Title': 'The Matrix Resurrections', 'Locations': 'Pine and Grant Ave'}}, {'location_name': '1 Front St', 'geometry': <POINT (-122.399 37.792)>, 'metadata': {'Title': 'The Matrix Resurrections', 'Locations': '1 Front St'}}, {'location_name': 'Joe & The Juice, 235 Montgomery', 'geometry': <POINT (-122.403 37.791)>, 'metadata': {'Title': 'The Matrix Resurrections', 'Locations': 'Joe & The Juice, 235 Montgomery'}}, {'location_name': 'Powell between California and Market', 'geometry': <POINT (-122.396 37.794)>, 'metadata': {'Title': 'The Matrix Resurrections', 'Locations': 'Powell between California and Market'}}, {'location_name': '150 California', 'geometry': <POINT (-122.398 37.794)>, 'metadata': {'Title': 'The Matrix Resurrections', 'Locations': '150 California'}}, {'location_name': 'The Avery, 488 Folsom', 'geometry': <POINT (-122.394 37.788)>, 'metadata': {'Title': 'The Matrix Resurrections', 'Locations': 'The Avery, 488 Folsom'}}, {'location_name': 'Fitness SF, 1001 Brannan', 'geometry': <POINT (-122.407 37.77)>, 'metadata': {'Title': 'The Matrix Resurrections', 'Locations': 'Fitness SF, 1001 Brannan'}}, {'location_name': 'Pine between Front and Montgomery', 'geometry': <POINT (-122.399 37.792)>, 'metadata': {'Title': 'The Matrix Resurrections', 'Locations': 'Pine between Front and Montgomery'}}, {'location_name': 'California at Grant Ave', 'geometry': <POINT (-122.406 37.792)>, 'metadata': {'Title': 'The Matrix Resurrections', 'Locations': 'California at Grant Ave'}}, {'location_name': 'Vallejo at Jones', 'geometry': <POINT (-122.408 37.799)>, 'metadata': {'Title': 'The Matrix Resurrections', 'Locations': 'Vallejo at Jones'}}, {'location_name': '155 California', 'geometry': <POINT (-122.398 37.793)>, 'metadata': {'Title': 'The Matrix Resurrections', 'Locations': '155 California'}}, {'location_name': 'skyline/ exterior scenes', 'geometry': <POINT (-76.659 3.06)>, 'metadata': {'Title': 'The Matrix', 'Locations': 'skyline/ exterior scenes'}}, {'location_name': 'Montgomery and Pine', 'geometry': <POINT (-122.403 37.792)>, 'metadata': {'Title': 'The Matrix Resurrections', 'Locations': 'Montgomery and Pine'}}], 'location_mentioned': True, 'data_type': 'DataFrame'}
+✅😸🐬🐶 Successfully wrote to C:\Users\ninam\Documents\coding\FILM\gemini-project\pandas-script\log\map_analysis_results.jsonl
+✓ Map created: Found 22 mappable locations
+Error processing query: Error in query processing pipeline: Object of type DataFrame is not JSON serializable

@@ -1,0 +1,1262 @@
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>SF Film Locations Map</title>
+        <meta charset="utf-8">
+        <style>
+           
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, 
+                        "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        
+        h1, h2 {
+            font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        #query-info {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        #map-container {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        #results {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        pre {
+            font-family: "SF Mono", "Monaco", "Inconsolata", monospace;
+            font-size: 14px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+        }
+    
+        </style>
+    </head>
+    <body>
+        <h1>Query Results</h1>
+        <div id="query-info">
+            <p><strong>Query:</strong> Show me all Hitchcock filming locations</p>
+            <p><strong>Summary:</strong> Returned dictionary with 3 keys</p>
+        </div>
+        
+        <div id="map-container">
+            <div style="width:100%;"><div style="position:relative;width:100%;height:0;padding-bottom:60%;"><span style="color:#565656">Make this Notebook Trusted to load map: File -> Trust Notebook</span><iframe srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    
+    &lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=UTF-8&quot; /&gt;
+    
+        &lt;script&gt;
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        &lt;/script&gt;
+    
+    &lt;style&gt;html, body {width: 100%;height: 100%;margin: 0;padding: 0;}&lt;/style&gt;
+    &lt;style&gt;#map {position:absolute;top:0;bottom:0;right:0;left:0;}&lt;/style&gt;
+    &lt;script src=&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://code.jquery.com/jquery-3.7.1.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js&quot;&gt;&lt;/script&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css&quot;/&gt;
+    
+            &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no&quot; /&gt;
+            &lt;style&gt;
+                #map_d3bb2911a0e1ad980b0d774b517d76c4 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            &lt;/style&gt;
+        
+&lt;/head&gt;
+&lt;body&gt;
+    
+    
+        &lt;div style=&quot;position: fixed; 
+                    top: 10px; left: 50px; right: 50px; 
+                    z-index:9999; 
+                    background-color:white;
+                    border:2px solid grey;
+                    border-radius: 5px;
+                    padding: 10px;
+                    text-align: center;&quot;&gt;
+            &lt;h3 style=&quot;margin:0;&quot;&gt;Filming locations for films directed by Hitchcock.&lt;/h3&gt;
+            &lt;p style=&quot;margin:5px 0 0 0; font-size:14px; color:#666;&quot;&gt;
+                22 locations found
+            &lt;/p&gt;
+        &lt;/div&gt;
+        
+    
+            &lt;div class=&quot;folium-map&quot; id=&quot;map_d3bb2911a0e1ad980b0d774b517d76c4&quot; &gt;&lt;/div&gt;
+        
+&lt;/body&gt;
+&lt;script&gt;
+    
+    
+            var map_d3bb2911a0e1ad980b0d774b517d76c4 = L.map(
+                &quot;map_d3bb2911a0e1ad980b0d774b517d76c4&quot;,
+                {
+                    center: [37.7749, -122.4194],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  &quot;zoom&quot;: 13,
+  &quot;zoomControl&quot;: true,
+  &quot;preferCanvas&quot;: false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_b7a5523ea0fcad1acb37ec261870bd71 = L.tileLayer(
+                &quot;https://tile.openstreetmap.org/{z}/{x}/{y}.png&quot;,
+                {
+  &quot;minZoom&quot;: 0,
+  &quot;maxZoom&quot;: 19,
+  &quot;maxNativeZoom&quot;: 19,
+  &quot;noWrap&quot;: false,
+  &quot;attribution&quot;: &quot;\u0026copy; \u003ca href=\&quot;https://www.openstreetmap.org/copyright\&quot;\u003eOpenStreetMap\u003c/a\u003e contributors&quot;,
+  &quot;subdomains&quot;: &quot;abc&quot;,
+  &quot;detectRetina&quot;: false,
+  &quot;tms&quot;: false,
+  &quot;opacity&quot;: 1,
+}
+
+            );
+        
+    
+            tile_layer_b7a5523ea0fcad1acb37ec261870bd71.addTo(map_d3bb2911a0e1ad980b0d774b517d76c4);
+        
+    
+            var marker_570f3fb4c0c0b09b29b276a6d762b3b1 = L.marker(
+                [37.78261, -122.42432],
+                {
+}
+            ).addTo(map_d3bb2911a0e1ad980b0d774b517d76c4);
+        
+    
+            var icon_f0cb63f4e890edc6be22b2f475d151b1 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_bb036a5adee605025172939ae6c5fd14 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_a35e709e9afacefc457c1243d84f73f8 = $(`&lt;div id=&quot;html_a35e709e9afacefc457c1243d84f73f8&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;1007 Gough Street&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; Vertigo&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 1958&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_bb036a5adee605025172939ae6c5fd14.setContent(html_a35e709e9afacefc457c1243d84f73f8);
+            
+        
+
+        marker_570f3fb4c0c0b09b29b276a6d762b3b1.bindPopup(popup_bb036a5adee605025172939ae6c5fd14)
+        ;
+
+        
+    
+    
+            marker_570f3fb4c0c0b09b29b276a6d762b3b1.bindTooltip(
+                `&lt;div&gt;
+                     1007 Gough Street
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_570f3fb4c0c0b09b29b276a6d762b3b1.setIcon(icon_f0cb63f4e890edc6be22b2f475d151b1);
+            
+    
+            var marker_36a3fb9537f9bc70208e978cb4c8d478 = L.marker(
+                [37.76688, -122.4396],
+                {
+}
+            ).addTo(map_d3bb2911a0e1ad980b0d774b517d76c4);
+        
+    
+            var icon_18430b0f2ce1673ebd79be697dd82740 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_3cf04b423ac9817d92b6aa7a837bd2c9 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_87169e7150abe03748e8094775c7eaad = $(`&lt;div id=&quot;html_87169e7150abe03748e8094775c7eaad&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Park Hill Sanatorium (351 Buena Vista Avenue East)&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; Vertigo&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 1958&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_3cf04b423ac9817d92b6aa7a837bd2c9.setContent(html_87169e7150abe03748e8094775c7eaad);
+            
+        
+
+        marker_36a3fb9537f9bc70208e978cb4c8d478.bindPopup(popup_3cf04b423ac9817d92b6aa7a837bd2c9)
+        ;
+
+        
+    
+    
+            marker_36a3fb9537f9bc70208e978cb4c8d478.bindTooltip(
+                `&lt;div&gt;
+                     Park Hill Sanatorium (351 Buena Vista Avenue East)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_36a3fb9537f9bc70208e978cb4c8d478.setIcon(icon_18430b0f2ce1673ebd79be697dd82740);
+            
+    
+            var marker_38c9d1714365096b125288e79932e0ff = L.marker(
+                [37.79242, -122.41009],
+                {
+}
+            ).addTo(map_d3bb2911a0e1ad980b0d774b517d76c4);
+        
+    
+            var icon_346625a8c189cdc1d02b7ba89a748914 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_0b1f78e70c4adb101fa17276646c67f3 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_eca0e8e6ca7c9d735401224ef917baac = $(`&lt;div id=&quot;html_eca0e8e6ca7c9d735401224ef917baac&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Fairmont Hotel (950 Mason Street, Nob Hill)&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; Jade&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 1995&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_0b1f78e70c4adb101fa17276646c67f3.setContent(html_eca0e8e6ca7c9d735401224ef917baac);
+            
+        
+
+        marker_38c9d1714365096b125288e79932e0ff.bindPopup(popup_0b1f78e70c4adb101fa17276646c67f3)
+        ;
+
+        
+    
+    
+            marker_38c9d1714365096b125288e79932e0ff.bindTooltip(
+                `&lt;div&gt;
+                     Fairmont Hotel (950 Mason Street, Nob Hill)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_38c9d1714365096b125288e79932e0ff.setIcon(icon_346625a8c189cdc1d02b7ba89a748914);
+            
+    
+            var marker_1d17c70d77c411244659481f8d94014c = L.marker(
+                [37.79055, -122.43056],
+                {
+}
+            ).addTo(map_d3bb2911a0e1ad980b0d774b517d76c4);
+        
+    
+            var icon_08f59079ded999a429693236c3a67a7b = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_8b27648a76ec0beb13c89b1ccfee316e = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_b77ac4f31361a38ad5d9297f159c0a58 = $(`&lt;div id=&quot;html_b77ac4f31361a38ad5d9297f159c0a58&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;2230 Sacramento Street&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; Family Plot&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 1976&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_8b27648a76ec0beb13c89b1ccfee316e.setContent(html_b77ac4f31361a38ad5d9297f159c0a58);
+            
+        
+
+        marker_1d17c70d77c411244659481f8d94014c.bindPopup(popup_8b27648a76ec0beb13c89b1ccfee316e)
+        ;
+
+        
+    
+    
+            marker_1d17c70d77c411244659481f8d94014c.bindTooltip(
+                `&lt;div&gt;
+                     2230 Sacramento Street
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_1d17c70d77c411244659481f8d94014c.setIcon(icon_08f59079ded999a429693236c3a67a7b);
+            
+    
+            var marker_e3de30883d3515c52c262351a3dcc079 = L.marker(
+                [37.76335, -122.40246],
+                {
+}
+            ).addTo(map_d3bb2911a0e1ad980b0d774b517d76c4);
+        
+    
+            var icon_12d9f26294342c8e3328fec033adfe93 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_7b40bf839b614403f3174d15db2bc9cd = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_b0af5433c62d91fb5e515baa962dd4fb = $(`&lt;div id=&quot;html_b0af5433c62d91fb5e515baa962dd4fb&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Mission San Juan Bautista (2nd &amp; Mariposa Streets)&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; Vertigo&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 1958&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_7b40bf839b614403f3174d15db2bc9cd.setContent(html_b0af5433c62d91fb5e515baa962dd4fb);
+            
+        
+
+        marker_e3de30883d3515c52c262351a3dcc079.bindPopup(popup_7b40bf839b614403f3174d15db2bc9cd)
+        ;
+
+        
+    
+    
+            marker_e3de30883d3515c52c262351a3dcc079.bindTooltip(
+                `&lt;div&gt;
+                     Mission San Juan Bautista (2nd &amp; Mariposa Streets)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_e3de30883d3515c52c262351a3dcc079.setIcon(icon_12d9f26294342c8e3328fec033adfe93);
+            
+    
+            var marker_8e061929f331e80c2b49fb7aee6d99ac = L.marker(
+                [37.8029, -122.44835],
+                {
+}
+            ).addTo(map_d3bb2911a0e1ad980b0d774b517d76c4);
+        
+    
+            var icon_de117b5ca1dd0254449bd74c36fb40e2 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_547f966832256dfc76bd6b2a59ab3fa9 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_863510026a2fc6de80d2e6201ba424f5 = $(`&lt;div id=&quot;html_863510026a2fc6de80d2e6201ba424f5&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Palace of Fine Arts (3301 Lyon Street)&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; Edtv&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 1999&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_547f966832256dfc76bd6b2a59ab3fa9.setContent(html_863510026a2fc6de80d2e6201ba424f5);
+            
+        
+
+        marker_8e061929f331e80c2b49fb7aee6d99ac.bindPopup(popup_547f966832256dfc76bd6b2a59ab3fa9)
+        ;
+
+        
+    
+    
+            marker_8e061929f331e80c2b49fb7aee6d99ac.bindTooltip(
+                `&lt;div&gt;
+                     Palace of Fine Arts (3301 Lyon Street)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_8e061929f331e80c2b49fb7aee6d99ac.setIcon(icon_de117b5ca1dd0254449bd74c36fb40e2);
+            
+    
+            var marker_520bcb5d69bf4a345ca0c0f1e50b0acb = L.marker(
+                [37.80897, -122.4737],
+                {
+}
+            ).addTo(map_d3bb2911a0e1ad980b0d774b517d76c4);
+        
+    
+            var icon_876b07c13fd2e055436169de134aa942 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_c48aae37dadb6c5abb9e9f1f2d093dc8 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_ce2eaea6d1d6325026c3965f07eea9d3 = $(`&lt;div id=&quot;html_ce2eaea6d1d6325026c3965f07eea9d3&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Fort Point (Presidio, Golden Gate National Recreation Area)&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; Petulia&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 1968&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_c48aae37dadb6c5abb9e9f1f2d093dc8.setContent(html_ce2eaea6d1d6325026c3965f07eea9d3);
+            
+        
+
+        marker_520bcb5d69bf4a345ca0c0f1e50b0acb.bindPopup(popup_c48aae37dadb6c5abb9e9f1f2d093dc8)
+        ;
+
+        
+    
+    
+            marker_520bcb5d69bf4a345ca0c0f1e50b0acb.bindTooltip(
+                `&lt;div&gt;
+                     Fort Point (Presidio, Golden Gate National Recreation Area)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_520bcb5d69bf4a345ca0c0f1e50b0acb.setIcon(icon_876b07c13fd2e055436169de134aa942);
+            
+    
+            var marker_5db95dd28c47ff046e8624dcab8e29ca = L.marker(
+                [37.79242, -122.41009],
+                {
+}
+            ).addTo(map_d3bb2911a0e1ad980b0d774b517d76c4);
+        
+    
+            var icon_25558e9be46a7260f37d9b44782fcab6 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_0af062e5d46ac9be3ab0246e380fa95f = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_bc44a63906b301ebd5fea6e5365f0d60 = $(`&lt;div id=&quot;html_bc44a63906b301ebd5fea6e5365f0d60&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Fairmont Hotel (950 Mason Street, Nob Hill)&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; Jade&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 1995&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_0af062e5d46ac9be3ab0246e380fa95f.setContent(html_bc44a63906b301ebd5fea6e5365f0d60);
+            
+        
+
+        marker_5db95dd28c47ff046e8624dcab8e29ca.bindPopup(popup_0af062e5d46ac9be3ab0246e380fa95f)
+        ;
+
+        
+    
+    
+            marker_5db95dd28c47ff046e8624dcab8e29ca.bindTooltip(
+                `&lt;div&gt;
+                     Fairmont Hotel (950 Mason Street, Nob Hill)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_5db95dd28c47ff046e8624dcab8e29ca.setIcon(icon_25558e9be46a7260f37d9b44782fcab6);
+            
+    
+            var marker_6fb0c963b6b4c0a9d37ffc285283b3f1 = L.marker(
+                [37.78454, -122.50074],
+                {
+}
+            ).addTo(map_d3bb2911a0e1ad980b0d774b517d76c4);
+        
+    
+            var icon_ab610a4f150cd11e188dbf349d20e75e = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_5e29f934ab9188751dbd138cf59e6cf7 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_2fd8a727ca6f6f64d8d744979d979752 = $(`&lt;div id=&quot;html_2fd8a727ca6f6f64d8d744979d979752&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;California Palace of the Legion of Honor (34th Avenue &amp; Clement, Lincoln Park)&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; Vertigo&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 1958&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_5e29f934ab9188751dbd138cf59e6cf7.setContent(html_2fd8a727ca6f6f64d8d744979d979752);
+            
+        
+
+        marker_6fb0c963b6b4c0a9d37ffc285283b3f1.bindPopup(popup_5e29f934ab9188751dbd138cf59e6cf7)
+        ;
+
+        
+    
+    
+            marker_6fb0c963b6b4c0a9d37ffc285283b3f1.bindTooltip(
+                `&lt;div&gt;
+                     California Palace of the Legion of Honor (34th Avenue &amp; Clement, Lincoln Park)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_6fb0c963b6b4c0a9d37ffc285283b3f1.setIcon(icon_ab610a4f150cd11e188dbf349d20e75e);
+            
+    
+            var marker_2651c50325bddc106a715ff1e2c56dfa = L.marker(
+                [37.76335, -122.40246],
+                {
+}
+            ).addTo(map_d3bb2911a0e1ad980b0d774b517d76c4);
+        
+    
+            var icon_06ad7ea69fc3237a5da37560b11d5f6a = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_7ed4f86ddbbbc20eb5b21f147300528e = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_149a1caf18a2a9dd4a0631ce2a00d8c7 = $(`&lt;div id=&quot;html_149a1caf18a2a9dd4a0631ce2a00d8c7&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;On Board the SS President Cleveland, docked at Pier 50&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; Susan Slade&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 1961&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_7ed4f86ddbbbc20eb5b21f147300528e.setContent(html_149a1caf18a2a9dd4a0631ce2a00d8c7);
+            
+        
+
+        marker_2651c50325bddc106a715ff1e2c56dfa.bindPopup(popup_7ed4f86ddbbbc20eb5b21f147300528e)
+        ;
+
+        
+    
+    
+            marker_2651c50325bddc106a715ff1e2c56dfa.bindTooltip(
+                `&lt;div&gt;
+                     On Board the SS President Cleveland, docked at Pier 50
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_2651c50325bddc106a715ff1e2c56dfa.setIcon(icon_06ad7ea69fc3237a5da37560b11d5f6a);
+            
+    
+            var marker_8a92e20efd3a450ad24fabea16f28cdf = L.marker(
+                [37.79072, -122.40435],
+                {
+}
+            ).addTo(map_d3bb2911a0e1ad980b0d774b517d76c4);
+        
+    
+            var icon_17d218a63189d99fb1c8f8450e811994 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_d0e23a168f6fac467091242c16cc928d = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_53d99f8e3e895bcee47d41c838a568da = $(`&lt;div id=&quot;html_53d99f8e3e895bcee47d41c838a568da&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Claude Lane at Bush Street&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; Vertigo&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 1958&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_d0e23a168f6fac467091242c16cc928d.setContent(html_53d99f8e3e895bcee47d41c838a568da);
+            
+        
+
+        marker_8a92e20efd3a450ad24fabea16f28cdf.bindPopup(popup_d0e23a168f6fac467091242c16cc928d)
+        ;
+
+        
+    
+    
+            marker_8a92e20efd3a450ad24fabea16f28cdf.bindTooltip(
+                `&lt;div&gt;
+                     Claude Lane at Bush Street
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_8a92e20efd3a450ad24fabea16f28cdf.setIcon(icon_17d218a63189d99fb1c8f8450e811994);
+            
+    
+            var marker_f06b8b4988e130c7aaf3a21b73844d33 = L.marker(
+                [37.78858, -122.41593],
+                {
+}
+            ).addTo(map_d3bb2911a0e1ad980b0d774b517d76c4);
+        
+    
+            var icon_4a3a98d3f9a38109ad7d2d94467652bf = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_6893ffee7ac8764e3f3b120d44acfbcc = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_f18b5bc02f4b842bb697b3baf9570eb5 = $(`&lt;div id=&quot;html_f18b5bc02f4b842bb697b3baf9570eb5&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;York Hotel (940 Sutter Street)&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; Vertigo&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 1958&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_6893ffee7ac8764e3f3b120d44acfbcc.setContent(html_f18b5bc02f4b842bb697b3baf9570eb5);
+            
+        
+
+        marker_f06b8b4988e130c7aaf3a21b73844d33.bindPopup(popup_6893ffee7ac8764e3f3b120d44acfbcc)
+        ;
+
+        
+    
+    
+            marker_f06b8b4988e130c7aaf3a21b73844d33.bindTooltip(
+                `&lt;div&gt;
+                     York Hotel (940 Sutter Street)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_f06b8b4988e130c7aaf3a21b73844d33.setIcon(icon_4a3a98d3f9a38109ad7d2d94467652bf);
+            
+    
+            var marker_2a395715d43ce983c691559276527f2c = L.marker(
+                [37.79309, -122.41047],
+                {
+}
+            ).addTo(map_d3bb2911a0e1ad980b0d774b517d76c4);
+        
+    
+            var icon_11a03c0a0acff1d5fc164960bf2d3902 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_6426601f5c41c5c28d8a7fe941956973 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_7db06df3aa6b49315bc4f34c9902115d = $(`&lt;div id=&quot;html_7db06df3aa6b49315bc4f34c9902115d&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Brocklebank Apartments (1000 Mason Street)&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; Sudden Fear&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 1952&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_6426601f5c41c5c28d8a7fe941956973.setContent(html_7db06df3aa6b49315bc4f34c9902115d);
+            
+        
+
+        marker_2a395715d43ce983c691559276527f2c.bindPopup(popup_6426601f5c41c5c28d8a7fe941956973)
+        ;
+
+        
+    
+    
+            marker_2a395715d43ce983c691559276527f2c.bindTooltip(
+                `&lt;div&gt;
+                     Brocklebank Apartments (1000 Mason Street)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_2a395715d43ce983c691559276527f2c.setIcon(icon_11a03c0a0acff1d5fc164960bf2d3902);
+            
+    
+            var marker_23c204280a7245e121de78a874465aca = L.marker(
+                [37.78259, -122.42426],
+                {
+}
+            ).addTo(map_d3bb2911a0e1ad980b0d774b517d76c4);
+        
+    
+            var icon_ac7199f4d7a76f12404293ad1e90f245 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_afc218f4391e5a68b820012ca6a41108 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_5206affd30bf2b829c58464661a94c7c = $(`&lt;div id=&quot;html_5206affd30bf2b829c58464661a94c7c&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Gough &amp; Eddy Streets (Western Addition)&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; Vertigo&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 1958&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_afc218f4391e5a68b820012ca6a41108.setContent(html_5206affd30bf2b829c58464661a94c7c);
+            
+        
+
+        marker_23c204280a7245e121de78a874465aca.bindPopup(popup_afc218f4391e5a68b820012ca6a41108)
+        ;
+
+        
+    
+    
+            marker_23c204280a7245e121de78a874465aca.bindTooltip(
+                `&lt;div&gt;
+                     Gough &amp; Eddy Streets (Western Addition)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_23c204280a7245e121de78a874465aca.setIcon(icon_ac7199f4d7a76f12404293ad1e90f245);
+            
+    
+            var marker_820cefca8ac250719e08b4663b47efc2 = L.marker(
+                [37.792, -122.41338],
+                {
+}
+            ).addTo(map_d3bb2911a0e1ad980b0d774b517d76c4);
+        
+    
+            var icon_69f86f5602c848c775a15f1e05bcae60 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_add0e5ca0f4e99692e7d191bcffdd54e = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_b363d772df80c632d6da646df6ac4714 = $(`&lt;div id=&quot;html_b363d772df80c632d6da646df6ac4714&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Grace Cathedral Episcopal Church (1100 California Street)&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; Milk&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 2008&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_add0e5ca0f4e99692e7d191bcffdd54e.setContent(html_b363d772df80c632d6da646df6ac4714);
+            
+        
+
+        marker_820cefca8ac250719e08b4663b47efc2.bindPopup(popup_add0e5ca0f4e99692e7d191bcffdd54e)
+        ;
+
+        
+    
+    
+            marker_820cefca8ac250719e08b4663b47efc2.bindTooltip(
+                `&lt;div&gt;
+                     Grace Cathedral Episcopal Church (1100 California Street)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_820cefca8ac250719e08b4663b47efc2.setIcon(icon_69f86f5602c848c775a15f1e05bcae60);
+            
+    
+            var marker_8877a2a13b28b1e6c45f2ffddb1fd80b = L.marker(
+                [37.77108, -122.45647],
+                {
+}
+            ).addTo(map_d3bb2911a0e1ad980b0d774b517d76c4);
+        
+    
+            var icon_04a28eb156b0135b169e44bf5bf6cc19 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_61044165a253e8ee30cf74ee60c889ff = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_758a32795353e2b49789a6e480f4a968 = $(`&lt;div id=&quot;html_758a32795353e2b49789a6e480f4a968&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Conservatory of Flowers (Golden Gate Park)&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; Vertigo&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 1958&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_61044165a253e8ee30cf74ee60c889ff.setContent(html_758a32795353e2b49789a6e480f4a968);
+            
+        
+
+        marker_8877a2a13b28b1e6c45f2ffddb1fd80b.bindPopup(popup_61044165a253e8ee30cf74ee60c889ff)
+        ;
+
+        
+    
+    
+            marker_8877a2a13b28b1e6c45f2ffddb1fd80b.bindTooltip(
+                `&lt;div&gt;
+                     Conservatory of Flowers (Golden Gate Park)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_8877a2a13b28b1e6c45f2ffddb1fd80b.setIcon(icon_04a28eb156b0135b169e44bf5bf6cc19);
+            
+    
+            var marker_d504dbe07db3845dcf064584ea4c0a67 = L.marker(
+                [37.76056, -122.38758],
+                {
+}
+            ).addTo(map_d3bb2911a0e1ad980b0d774b517d76c4);
+        
+    
+            var icon_52761813587b3255287584c42c5f3e7b = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_5d9c457ac14c293c0293b5f3875ede8b = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_83c420f75f49817e1c32c3852a44513d = $(`&lt;div id=&quot;html_83c420f75f49817e1c32c3852a44513d&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;San Francisco Drydock (20th and Illinois Streets)&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; Vertigo&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 1958&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_5d9c457ac14c293c0293b5f3875ede8b.setContent(html_83c420f75f49817e1c32c3852a44513d);
+            
+        
+
+        marker_d504dbe07db3845dcf064584ea4c0a67.bindPopup(popup_5d9c457ac14c293c0293b5f3875ede8b)
+        ;
+
+        
+    
+    
+            marker_d504dbe07db3845dcf064584ea4c0a67.bindTooltip(
+                `&lt;div&gt;
+                     San Francisco Drydock (20th and Illinois Streets)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_d504dbe07db3845dcf064584ea4c0a67.setIcon(icon_52761813587b3255287584c42c5f3e7b);
+            
+    
+            var marker_3dc191a0cd6f3ab7472304677835473a = L.marker(
+                [37.79694, -122.40373],
+                {
+}
+            ).addTo(map_d3bb2911a0e1ad980b0d774b517d76c4);
+        
+    
+            var icon_328f35ed1b1c26cdf50191718fda32c1 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_7619e99cdfdf5ab002e36ee786cb42af = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_7c6b5c965dbc766f77ac5138c487739a = $(`&lt;div id=&quot;html_7c6b5c965dbc766f77ac5138c487739a&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Ernie&#x27;s Restaurant (847 Montgomery Street)&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; Vertigo&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 1958&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_7619e99cdfdf5ab002e36ee786cb42af.setContent(html_7c6b5c965dbc766f77ac5138c487739a);
+            
+        
+
+        marker_3dc191a0cd6f3ab7472304677835473a.bindPopup(popup_7619e99cdfdf5ab002e36ee786cb42af)
+        ;
+
+        
+    
+    
+            marker_3dc191a0cd6f3ab7472304677835473a.bindTooltip(
+                `&lt;div&gt;
+                     Ernie&#x27;s Restaurant (847 Montgomery Street)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_3dc191a0cd6f3ab7472304677835473a.setIcon(icon_328f35ed1b1c26cdf50191718fda32c1);
+            
+    
+            var marker_dec48fb5e9cd9ad8c32e44c9e5037876 = L.marker(
+                [37.76435, -122.42749],
+                {
+}
+            ).addTo(map_d3bb2911a0e1ad980b0d774b517d76c4);
+        
+    
+            var icon_f0abbe23d6e0213f33a039ac5681efe3 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_d6accf4e2fc4e29b1456ab1e5cc4ab64 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_75e8277980e8c8eaf75121248a97aea3 = $(`&lt;div id=&quot;html_75e8277980e8c8eaf75121248a97aea3&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Mission Dolores (3321 16th Street, Mission District)&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; Vertigo&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 1958&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_d6accf4e2fc4e29b1456ab1e5cc4ab64.setContent(html_75e8277980e8c8eaf75121248a97aea3);
+            
+        
+
+        marker_dec48fb5e9cd9ad8c32e44c9e5037876.bindPopup(popup_d6accf4e2fc4e29b1456ab1e5cc4ab64)
+        ;
+
+        
+    
+    
+            marker_dec48fb5e9cd9ad8c32e44c9e5037876.bindTooltip(
+                `&lt;div&gt;
+                     Mission Dolores (3321 16th Street, Mission District)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_dec48fb5e9cd9ad8c32e44c9e5037876.setIcon(icon_f0abbe23d6e0213f33a039ac5681efe3);
+            
+    
+            var marker_b4f2213bfb7a7d2fdb24a3d56294b145 = L.marker(
+                [37.79336, -122.41787],
+                {
+}
+            ).addTo(map_d3bb2911a0e1ad980b0d774b517d76c4);
+        
+    
+            var icon_202d284d657bd1dd14f9a61056161cb4 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_1803904fa1c509515be212378f35ff86 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_b76bcd139b2c6dd992114a7b5ad6954e = $(`&lt;div id=&quot;html_b76bcd139b2c6dd992114a7b5ad6954e&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Nob Hill&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; Family Plot&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 1976&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_1803904fa1c509515be212378f35ff86.setContent(html_b76bcd139b2c6dd992114a7b5ad6954e);
+            
+        
+
+        marker_b4f2213bfb7a7d2fdb24a3d56294b145.bindPopup(popup_1803904fa1c509515be212378f35ff86)
+        ;
+
+        
+    
+    
+            marker_b4f2213bfb7a7d2fdb24a3d56294b145.bindTooltip(
+                `&lt;div&gt;
+                     Nob Hill
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_b4f2213bfb7a7d2fdb24a3d56294b145.setIcon(icon_202d284d657bd1dd14f9a61056161cb4);
+            
+    
+            var marker_1b4018c809c5f4441469c9212d1e0be2 = L.marker(
+                [37.78736, -122.40821],
+                {
+}
+            ).addTo(map_d3bb2911a0e1ad980b0d774b517d76c4);
+        
+    
+            var icon_7d2b440d218fe9020134484c27c1a6c4 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_e0099e79e125c2247dbbb148674ae968 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_beefc9e08432a3325d9930ea936163ac = $(`&lt;div id=&quot;html_beefc9e08432a3325d9930ea936163ac&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Powell and Geary Streets (Union Square)&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Birds&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 1963&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_e0099e79e125c2247dbbb148674ae968.setContent(html_beefc9e08432a3325d9930ea936163ac);
+            
+        
+
+        marker_1b4018c809c5f4441469c9212d1e0be2.bindPopup(popup_e0099e79e125c2247dbbb148674ae968)
+        ;
+
+        
+    
+    
+            marker_1b4018c809c5f4441469c9212d1e0be2.bindTooltip(
+                `&lt;div&gt;
+                     Powell and Geary Streets (Union Square)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_1b4018c809c5f4441469c9212d1e0be2.setIcon(icon_7d2b440d218fe9020134484c27c1a6c4);
+            
+    
+            var marker_093ebc0421565cbfbc60f78732e41dc4 = L.marker(
+                [37.80253, -122.4166],
+                {
+}
+            ).addTo(map_d3bb2911a0e1ad980b0d774b517d76c4);
+        
+    
+            var icon_8d62a4d069a30d6d3f29347d78c87ec4 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_9e61060481f6224e46b144feb8c470db = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_0d399ebb5215bf22b3d68025b5e315bd = $(`&lt;div id=&quot;html_0d399ebb5215bf22b3d68025b5e315bd&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;900 Lombard Street&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; Vertigo&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 1958&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_9e61060481f6224e46b144feb8c470db.setContent(html_0d399ebb5215bf22b3d68025b5e315bd);
+            
+        
+
+        marker_093ebc0421565cbfbc60f78732e41dc4.bindPopup(popup_9e61060481f6224e46b144feb8c470db)
+        ;
+
+        
+    
+    
+            marker_093ebc0421565cbfbc60f78732e41dc4.bindTooltip(
+                `&lt;div&gt;
+                     900 Lombard Street
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_093ebc0421565cbfbc60f78732e41dc4.setIcon(icon_8d62a4d069a30d6d3f29347d78c87ec4);
+            
+&lt;/script&gt;
+&lt;/html&gt;" style="position:absolute;width:100%;height:100%;left:0;top:0;border:none !important;" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe></div></div>
+        </div>
+        
+        <div id="results">
+            <h2>Detailed Results</h2>
+            <pre>{
+  "data": [
+    "1007 Gough Street",
+    "Park Hill Sanatorium (351 Buena Vista Avenue East)",
+    "Fairmont Hotel (950 Mason Street, Nob Hill)",
+    "2230 Sacramento Street",
+    "Mission San Juan Bautista (2nd & Mariposa Streets)",
+    "Palace of Fine Arts (3301 Lyon Street)",
+    "Fort Point (Presidio, Golden Gate National Recreation Area)",
+    "Fairmont Hotel (950 Mason Street, Nob Hill)",
+    "California Palace of the Legion of Honor (34th Avenue & Clement, Lincoln Park)",
+    "On Board the SS President Cleveland, docked at Pier 50",
+    "Claude Lane at Bush Street",
+    "York Hotel (940 Sutter Street)",
+    "Brocklebank Apartments (1000 Mason Street)",
+    "Gough & Eddy Streets (Western Addition)",
+    "Grace Cathedral Episcopal Church (1100 California Street)",
+    "Conservatory of Flowers (Golden Gate Park)",
+    "San Francisco Drydock (20th and Illinois Streets)",
+    "Ernie's Restaurant (847 Montgomery Street)",
+    "Mission Dolores (3321 16th Street, Mission District)",
+    "Nob Hill",
+    "Powell and Geary Streets (Union Square)",
+    "900 Lombard Street"
+  ],
+  "summary": "Filming locations for films directed by Hitchcock.",
+  "metadata": {
+    "query_type": "locations_by_director",
+    "director": "Hitchcock",
+    "data_cleaning": "Excluded empty/null/whitespace by rule; numeric Year coerced when needed."
+  }
+}</pre>
+        </div>
+    </body>
+    </html>
+    

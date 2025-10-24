@@ -1,0 +1,1215 @@
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>SF Film Locations Map</title>
+        <meta charset="utf-8">
+        <style>
+           
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, 
+                        "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        
+        h1, h2 {
+            font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        #query-info {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        #map-container {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        #results {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        pre {
+            font-family: "SF Mono", "Monaco", "Inconsolata", monospace;
+            font-size: 14px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+        }
+    
+        </style>
+    </head>
+    <body>
+        <h1>Query Results</h1>
+        <div id="query-info">
+            <p><strong>Query:</strong> Show me all Hitchcock filming locations</p>
+            <p><strong>Summary:</strong> Returned dictionary with 3 keys</p>
+        </div>
+        
+        <div id="map-container">
+            <div style="width:100%;"><div style="position:relative;width:100%;height:0;padding-bottom:60%;"><span style="color:#565656">Make this Notebook Trusted to load map: File -> Trust Notebook</span><iframe srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    
+    &lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=UTF-8&quot; /&gt;
+    
+        &lt;script&gt;
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        &lt;/script&gt;
+    
+    &lt;style&gt;html, body {width: 100%;height: 100%;margin: 0;padding: 0;}&lt;/style&gt;
+    &lt;style&gt;#map {position:absolute;top:0;bottom:0;right:0;left:0;}&lt;/style&gt;
+    &lt;script src=&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://code.jquery.com/jquery-3.7.1.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js&quot;&gt;&lt;/script&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css&quot;/&gt;
+    
+            &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no&quot; /&gt;
+            &lt;style&gt;
+                #map_2d0406589b1bd7dde6aa4eadc4e85f2d {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            &lt;/style&gt;
+        
+&lt;/head&gt;
+&lt;body&gt;
+    
+    
+        &lt;div style=&quot;position: fixed; 
+                    top: 10px; left: 50px; right: 50px; 
+                    z-index:9999; 
+                    background-color:white;
+                    border:2px solid grey;
+                    border-radius: 5px;
+                    padding: 10px;
+                    text-align: center;&quot;&gt;
+            &lt;h3 style=&quot;margin:0;&quot;&gt;Filming locations for films directed by Hitchcock: 22 locations found.&lt;/h3&gt;
+            &lt;p style=&quot;margin:5px 0 0 0; font-size:14px; color:#666;&quot;&gt;
+                21 unique locations • 
+                22 total appearances
+            &lt;/p&gt;
+        &lt;/div&gt;
+        
+    
+            &lt;div class=&quot;folium-map&quot; id=&quot;map_2d0406589b1bd7dde6aa4eadc4e85f2d&quot; &gt;&lt;/div&gt;
+        
+&lt;/body&gt;
+&lt;script&gt;
+    
+    
+            var map_2d0406589b1bd7dde6aa4eadc4e85f2d = L.map(
+                &quot;map_2d0406589b1bd7dde6aa4eadc4e85f2d&quot;,
+                {
+                    center: [37.7749, -122.4194],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  &quot;zoom&quot;: 13,
+  &quot;zoomControl&quot;: true,
+  &quot;preferCanvas&quot;: false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_b83027152719c8ee70783ed8b296820c = L.tileLayer(
+                &quot;https://tile.openstreetmap.org/{z}/{x}/{y}.png&quot;,
+                {
+  &quot;minZoom&quot;: 0,
+  &quot;maxZoom&quot;: 19,
+  &quot;maxNativeZoom&quot;: 19,
+  &quot;noWrap&quot;: false,
+  &quot;attribution&quot;: &quot;\u0026copy; \u003ca href=\&quot;https://www.openstreetmap.org/copyright\&quot;\u003eOpenStreetMap\u003c/a\u003e contributors&quot;,
+  &quot;subdomains&quot;: &quot;abc&quot;,
+  &quot;detectRetina&quot;: false,
+  &quot;tms&quot;: false,
+  &quot;opacity&quot;: 1,
+}
+
+            );
+        
+    
+            tile_layer_b83027152719c8ee70783ed8b296820c.addTo(map_2d0406589b1bd7dde6aa4eadc4e85f2d);
+        
+    
+            var marker_cbb5ca04c0e76440177d87b253db62e0 = L.marker(
+                [37.78261, -122.42432],
+                {
+}
+            ).addTo(map_2d0406589b1bd7dde6aa4eadc4e85f2d);
+        
+    
+            var icon_6dab93d0499ba89cfc31aae16673c70c = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_2f9c4329a675f1b7a58af77cf6515ed8 = L.popup({
+  &quot;maxWidth&quot;: 350,
+});
+
+        
+            
+                var html_36ed8d33ef3f9f2181b195ad735fcb45 = $(`&lt;div id=&quot;html_36ed8d33ef3f9f2181b195ad735fcb45&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;1007 Gough Street&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_2f9c4329a675f1b7a58af77cf6515ed8.setContent(html_36ed8d33ef3f9f2181b195ad735fcb45);
+            
+        
+
+        marker_cbb5ca04c0e76440177d87b253db62e0.bindPopup(popup_2f9c4329a675f1b7a58af77cf6515ed8)
+        ;
+
+        
+    
+    
+            marker_cbb5ca04c0e76440177d87b253db62e0.bindTooltip(
+                `&lt;div&gt;
+                     1007 Gough Street (1 film)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_cbb5ca04c0e76440177d87b253db62e0.setIcon(icon_6dab93d0499ba89cfc31aae16673c70c);
+            
+    
+            var marker_791eaccb2e4a8d8813d2cdb3d1d0a1fa = L.marker(
+                [37.76688, -122.4396],
+                {
+}
+            ).addTo(map_2d0406589b1bd7dde6aa4eadc4e85f2d);
+        
+    
+            var icon_650e68f537c7f3e7e0840e3259ea3a9f = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_94bacb5f8136d733732f5a09621d167a = L.popup({
+  &quot;maxWidth&quot;: 350,
+});
+
+        
+            
+                var html_507801466a217d4cf4d84bbbc76b4bc0 = $(`&lt;div id=&quot;html_507801466a217d4cf4d84bbbc76b4bc0&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Park Hill Sanatorium (351 Buena Vista Avenue East)&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_94bacb5f8136d733732f5a09621d167a.setContent(html_507801466a217d4cf4d84bbbc76b4bc0);
+            
+        
+
+        marker_791eaccb2e4a8d8813d2cdb3d1d0a1fa.bindPopup(popup_94bacb5f8136d733732f5a09621d167a)
+        ;
+
+        
+    
+    
+            marker_791eaccb2e4a8d8813d2cdb3d1d0a1fa.bindTooltip(
+                `&lt;div&gt;
+                     Park Hill Sanatorium (351 Buena Vista Avenue East) (1 film)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_791eaccb2e4a8d8813d2cdb3d1d0a1fa.setIcon(icon_650e68f537c7f3e7e0840e3259ea3a9f);
+            
+    
+            var marker_a522f439b3311a398214046aadc00cfe = L.marker(
+                [37.79242, -122.41009],
+                {
+}
+            ).addTo(map_2d0406589b1bd7dde6aa4eadc4e85f2d);
+        
+    
+            var icon_e9bf19571afa8c58012c977bcc130a08 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;blue&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_617a925f2ddaf50ca480cc8b7345498b = L.popup({
+  &quot;maxWidth&quot;: 350,
+});
+
+        
+            
+                var html_70605541e2a880ea4c9d5a49f1f8e700 = $(`&lt;div id=&quot;html_70605541e2a880ea4c9d5a49f1f8e700&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Fairmont Hotel (950 Mason Street, Nob Hill)&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;🎬 Featured in 2 films:&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_617a925f2ddaf50ca480cc8b7345498b.setContent(html_70605541e2a880ea4c9d5a49f1f8e700);
+            
+        
+
+        marker_a522f439b3311a398214046aadc00cfe.bindPopup(popup_617a925f2ddaf50ca480cc8b7345498b)
+        ;
+
+        
+    
+    
+            marker_a522f439b3311a398214046aadc00cfe.bindTooltip(
+                `&lt;div&gt;
+                     Fairmont Hotel (950 Mason Street, Nob Hill) (2 films)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_a522f439b3311a398214046aadc00cfe.setIcon(icon_e9bf19571afa8c58012c977bcc130a08);
+            
+    
+            var marker_1935169eef219b7d88285d5b8b6f3bc0 = L.marker(
+                [37.79055, -122.43056],
+                {
+}
+            ).addTo(map_2d0406589b1bd7dde6aa4eadc4e85f2d);
+        
+    
+            var icon_bd4f743ff358931bcf274f68ed38ff28 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_c274345ddc3a829f7c68fbf6fd7ad7a0 = L.popup({
+  &quot;maxWidth&quot;: 350,
+});
+
+        
+            
+                var html_e6013d22984019aee7b65b645179c00b = $(`&lt;div id=&quot;html_e6013d22984019aee7b65b645179c00b&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;2230 Sacramento Street&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_c274345ddc3a829f7c68fbf6fd7ad7a0.setContent(html_e6013d22984019aee7b65b645179c00b);
+            
+        
+
+        marker_1935169eef219b7d88285d5b8b6f3bc0.bindPopup(popup_c274345ddc3a829f7c68fbf6fd7ad7a0)
+        ;
+
+        
+    
+    
+            marker_1935169eef219b7d88285d5b8b6f3bc0.bindTooltip(
+                `&lt;div&gt;
+                     2230 Sacramento Street (1 film)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_1935169eef219b7d88285d5b8b6f3bc0.setIcon(icon_bd4f743ff358931bcf274f68ed38ff28);
+            
+    
+            var marker_892f8724047cea4628330cf712674f43 = L.marker(
+                [37.76335, -122.40246],
+                {
+}
+            ).addTo(map_2d0406589b1bd7dde6aa4eadc4e85f2d);
+        
+    
+            var icon_1cc0c6f9c6112f5c9642774d2b71af4a = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_a15d918235c79744619cab26a1520282 = L.popup({
+  &quot;maxWidth&quot;: 350,
+});
+
+        
+            
+                var html_fcb4a6110f84f606b32f225c3fd4b39f = $(`&lt;div id=&quot;html_fcb4a6110f84f606b32f225c3fd4b39f&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Mission San Juan Bautista (2nd &amp; Mariposa Streets)&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_a15d918235c79744619cab26a1520282.setContent(html_fcb4a6110f84f606b32f225c3fd4b39f);
+            
+        
+
+        marker_892f8724047cea4628330cf712674f43.bindPopup(popup_a15d918235c79744619cab26a1520282)
+        ;
+
+        
+    
+    
+            marker_892f8724047cea4628330cf712674f43.bindTooltip(
+                `&lt;div&gt;
+                     Mission San Juan Bautista (2nd &amp; Mariposa Streets) (1 film)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_892f8724047cea4628330cf712674f43.setIcon(icon_1cc0c6f9c6112f5c9642774d2b71af4a);
+            
+    
+            var marker_cc917458880798348d04abc6995341f1 = L.marker(
+                [37.8029, -122.44835],
+                {
+}
+            ).addTo(map_2d0406589b1bd7dde6aa4eadc4e85f2d);
+        
+    
+            var icon_2b415889ca6703e1c87582a4e9f73147 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_f1c2ced656556cdc47e1f086e61b9f24 = L.popup({
+  &quot;maxWidth&quot;: 350,
+});
+
+        
+            
+                var html_2e50ce95135e915815478e8bc8da44fa = $(`&lt;div id=&quot;html_2e50ce95135e915815478e8bc8da44fa&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Palace of Fine Arts (3301 Lyon Street)&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_f1c2ced656556cdc47e1f086e61b9f24.setContent(html_2e50ce95135e915815478e8bc8da44fa);
+            
+        
+
+        marker_cc917458880798348d04abc6995341f1.bindPopup(popup_f1c2ced656556cdc47e1f086e61b9f24)
+        ;
+
+        
+    
+    
+            marker_cc917458880798348d04abc6995341f1.bindTooltip(
+                `&lt;div&gt;
+                     Palace of Fine Arts (3301 Lyon Street) (1 film)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_cc917458880798348d04abc6995341f1.setIcon(icon_2b415889ca6703e1c87582a4e9f73147);
+            
+    
+            var marker_549a64ee7b143945310bbf36eb0ae7bd = L.marker(
+                [37.80897, -122.4737],
+                {
+}
+            ).addTo(map_2d0406589b1bd7dde6aa4eadc4e85f2d);
+        
+    
+            var icon_f7790c13ffbdeebda9b82a9ed513327e = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_40181f8e184d468ac8ead9225bc5a4ec = L.popup({
+  &quot;maxWidth&quot;: 350,
+});
+
+        
+            
+                var html_0c2b1df39f9bb67589d0085c8956e371 = $(`&lt;div id=&quot;html_0c2b1df39f9bb67589d0085c8956e371&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Fort Point (Presidio, Golden Gate National Recreation Area)&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_40181f8e184d468ac8ead9225bc5a4ec.setContent(html_0c2b1df39f9bb67589d0085c8956e371);
+            
+        
+
+        marker_549a64ee7b143945310bbf36eb0ae7bd.bindPopup(popup_40181f8e184d468ac8ead9225bc5a4ec)
+        ;
+
+        
+    
+    
+            marker_549a64ee7b143945310bbf36eb0ae7bd.bindTooltip(
+                `&lt;div&gt;
+                     Fort Point (Presidio, Golden Gate National Recreation Area) (1 film)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_549a64ee7b143945310bbf36eb0ae7bd.setIcon(icon_f7790c13ffbdeebda9b82a9ed513327e);
+            
+    
+            var marker_a6e25737f428ce61be27908eeab4fd46 = L.marker(
+                [37.78454, -122.50074],
+                {
+}
+            ).addTo(map_2d0406589b1bd7dde6aa4eadc4e85f2d);
+        
+    
+            var icon_cb97667b8a18772b28c9ea74515a604c = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_0d37654a35b70c070e35428996d3c9ab = L.popup({
+  &quot;maxWidth&quot;: 350,
+});
+
+        
+            
+                var html_0f919ecb9334a3106f5ed36bbe411b3e = $(`&lt;div id=&quot;html_0f919ecb9334a3106f5ed36bbe411b3e&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;California Palace of the Legion of Honor (34th Avenue &amp; Clement, Lincoln Park)&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_0d37654a35b70c070e35428996d3c9ab.setContent(html_0f919ecb9334a3106f5ed36bbe411b3e);
+            
+        
+
+        marker_a6e25737f428ce61be27908eeab4fd46.bindPopup(popup_0d37654a35b70c070e35428996d3c9ab)
+        ;
+
+        
+    
+    
+            marker_a6e25737f428ce61be27908eeab4fd46.bindTooltip(
+                `&lt;div&gt;
+                     California Palace of the Legion of Honor (34th Avenue &amp; Clement, Lincoln Park) (1 film)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_a6e25737f428ce61be27908eeab4fd46.setIcon(icon_cb97667b8a18772b28c9ea74515a604c);
+            
+    
+            var marker_5e6826eb78d06c84679c72f4439b5d11 = L.marker(
+                [37.76335, -122.40246],
+                {
+}
+            ).addTo(map_2d0406589b1bd7dde6aa4eadc4e85f2d);
+        
+    
+            var icon_861a9e78b05d872208952cb946cdadee = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_9aed7dcbad8510e6ca31c6b7c6efaf9c = L.popup({
+  &quot;maxWidth&quot;: 350,
+});
+
+        
+            
+                var html_d3d759fb37eba25d6b820154b46cf622 = $(`&lt;div id=&quot;html_d3d759fb37eba25d6b820154b46cf622&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;On Board the SS President Cleveland, docked at Pier 50&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_9aed7dcbad8510e6ca31c6b7c6efaf9c.setContent(html_d3d759fb37eba25d6b820154b46cf622);
+            
+        
+
+        marker_5e6826eb78d06c84679c72f4439b5d11.bindPopup(popup_9aed7dcbad8510e6ca31c6b7c6efaf9c)
+        ;
+
+        
+    
+    
+            marker_5e6826eb78d06c84679c72f4439b5d11.bindTooltip(
+                `&lt;div&gt;
+                     On Board the SS President Cleveland, docked at Pier 50 (1 film)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_5e6826eb78d06c84679c72f4439b5d11.setIcon(icon_861a9e78b05d872208952cb946cdadee);
+            
+    
+            var marker_fe1f18ff4e34d7b2c818915c7eb23790 = L.marker(
+                [37.79072, -122.40435],
+                {
+}
+            ).addTo(map_2d0406589b1bd7dde6aa4eadc4e85f2d);
+        
+    
+            var icon_ff9e0e4691b38ffe169aaed9a2775842 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_f4a4d42e2d5ad63d5ddf913f8447d96c = L.popup({
+  &quot;maxWidth&quot;: 350,
+});
+
+        
+            
+                var html_49413c580a9e6f811e299e58ac1806d9 = $(`&lt;div id=&quot;html_49413c580a9e6f811e299e58ac1806d9&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Claude Lane at Bush Street&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_f4a4d42e2d5ad63d5ddf913f8447d96c.setContent(html_49413c580a9e6f811e299e58ac1806d9);
+            
+        
+
+        marker_fe1f18ff4e34d7b2c818915c7eb23790.bindPopup(popup_f4a4d42e2d5ad63d5ddf913f8447d96c)
+        ;
+
+        
+    
+    
+            marker_fe1f18ff4e34d7b2c818915c7eb23790.bindTooltip(
+                `&lt;div&gt;
+                     Claude Lane at Bush Street (1 film)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_fe1f18ff4e34d7b2c818915c7eb23790.setIcon(icon_ff9e0e4691b38ffe169aaed9a2775842);
+            
+    
+            var marker_8e383c8d18d74a746935e61f8591dd35 = L.marker(
+                [37.78858, -122.41593],
+                {
+}
+            ).addTo(map_2d0406589b1bd7dde6aa4eadc4e85f2d);
+        
+    
+            var icon_5b77ded22c8ddc87f6ecb153a3d29457 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_74c88b317bcda887a0d1ec82575f7b34 = L.popup({
+  &quot;maxWidth&quot;: 350,
+});
+
+        
+            
+                var html_054b9db42306d23aab2a64f75874fd30 = $(`&lt;div id=&quot;html_054b9db42306d23aab2a64f75874fd30&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;York Hotel (940 Sutter Street)&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_74c88b317bcda887a0d1ec82575f7b34.setContent(html_054b9db42306d23aab2a64f75874fd30);
+            
+        
+
+        marker_8e383c8d18d74a746935e61f8591dd35.bindPopup(popup_74c88b317bcda887a0d1ec82575f7b34)
+        ;
+
+        
+    
+    
+            marker_8e383c8d18d74a746935e61f8591dd35.bindTooltip(
+                `&lt;div&gt;
+                     York Hotel (940 Sutter Street) (1 film)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_8e383c8d18d74a746935e61f8591dd35.setIcon(icon_5b77ded22c8ddc87f6ecb153a3d29457);
+            
+    
+            var marker_a84f0fd1c8c0eba05a1e68c1d934c487 = L.marker(
+                [37.79309, -122.41047],
+                {
+}
+            ).addTo(map_2d0406589b1bd7dde6aa4eadc4e85f2d);
+        
+    
+            var icon_04ee05bb1527eaef998c3699d61bee3a = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_728aeea06973ba669939faf44bc51402 = L.popup({
+  &quot;maxWidth&quot;: 350,
+});
+
+        
+            
+                var html_7be87be8b87eb8acc460aa885e5ff543 = $(`&lt;div id=&quot;html_7be87be8b87eb8acc460aa885e5ff543&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Brocklebank Apartments (1000 Mason Street)&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_728aeea06973ba669939faf44bc51402.setContent(html_7be87be8b87eb8acc460aa885e5ff543);
+            
+        
+
+        marker_a84f0fd1c8c0eba05a1e68c1d934c487.bindPopup(popup_728aeea06973ba669939faf44bc51402)
+        ;
+
+        
+    
+    
+            marker_a84f0fd1c8c0eba05a1e68c1d934c487.bindTooltip(
+                `&lt;div&gt;
+                     Brocklebank Apartments (1000 Mason Street) (1 film)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_a84f0fd1c8c0eba05a1e68c1d934c487.setIcon(icon_04ee05bb1527eaef998c3699d61bee3a);
+            
+    
+            var marker_46f02bf74720954d28c796fcc49021c2 = L.marker(
+                [37.78259, -122.42426],
+                {
+}
+            ).addTo(map_2d0406589b1bd7dde6aa4eadc4e85f2d);
+        
+    
+            var icon_b2cc2fa9fbbfd773f68c2d9df68ff91c = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_f1b3ef87570f1303787a6ecb9ca0d46f = L.popup({
+  &quot;maxWidth&quot;: 350,
+});
+
+        
+            
+                var html_e1d27c43f0cf7bf2beb15a6574a5437d = $(`&lt;div id=&quot;html_e1d27c43f0cf7bf2beb15a6574a5437d&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Gough &amp; Eddy Streets (Western Addition)&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_f1b3ef87570f1303787a6ecb9ca0d46f.setContent(html_e1d27c43f0cf7bf2beb15a6574a5437d);
+            
+        
+
+        marker_46f02bf74720954d28c796fcc49021c2.bindPopup(popup_f1b3ef87570f1303787a6ecb9ca0d46f)
+        ;
+
+        
+    
+    
+            marker_46f02bf74720954d28c796fcc49021c2.bindTooltip(
+                `&lt;div&gt;
+                     Gough &amp; Eddy Streets (Western Addition) (1 film)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_46f02bf74720954d28c796fcc49021c2.setIcon(icon_b2cc2fa9fbbfd773f68c2d9df68ff91c);
+            
+    
+            var marker_c320276b53fdea0174400fc68e71c4c6 = L.marker(
+                [37.792, -122.41338],
+                {
+}
+            ).addTo(map_2d0406589b1bd7dde6aa4eadc4e85f2d);
+        
+    
+            var icon_a6b9e0b282685759543a876b96cf009c = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_13de78fa3316739a14a416312749c440 = L.popup({
+  &quot;maxWidth&quot;: 350,
+});
+
+        
+            
+                var html_6717d5f129fe7dfa804f8a4565ad5fc0 = $(`&lt;div id=&quot;html_6717d5f129fe7dfa804f8a4565ad5fc0&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Grace Cathedral Episcopal Church (1100 California Street)&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_13de78fa3316739a14a416312749c440.setContent(html_6717d5f129fe7dfa804f8a4565ad5fc0);
+            
+        
+
+        marker_c320276b53fdea0174400fc68e71c4c6.bindPopup(popup_13de78fa3316739a14a416312749c440)
+        ;
+
+        
+    
+    
+            marker_c320276b53fdea0174400fc68e71c4c6.bindTooltip(
+                `&lt;div&gt;
+                     Grace Cathedral Episcopal Church (1100 California Street) (1 film)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_c320276b53fdea0174400fc68e71c4c6.setIcon(icon_a6b9e0b282685759543a876b96cf009c);
+            
+    
+            var marker_7814f8edb07bbe8bfe48632c164ae5d1 = L.marker(
+                [37.77108, -122.45647],
+                {
+}
+            ).addTo(map_2d0406589b1bd7dde6aa4eadc4e85f2d);
+        
+    
+            var icon_2da7043b4fa5e447988742c2399e3667 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_78406ae06da8d54c4d280d3a9f2a673f = L.popup({
+  &quot;maxWidth&quot;: 350,
+});
+
+        
+            
+                var html_bb70ef1977e3ec3a984a57357cac8537 = $(`&lt;div id=&quot;html_bb70ef1977e3ec3a984a57357cac8537&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Conservatory of Flowers (Golden Gate Park)&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_78406ae06da8d54c4d280d3a9f2a673f.setContent(html_bb70ef1977e3ec3a984a57357cac8537);
+            
+        
+
+        marker_7814f8edb07bbe8bfe48632c164ae5d1.bindPopup(popup_78406ae06da8d54c4d280d3a9f2a673f)
+        ;
+
+        
+    
+    
+            marker_7814f8edb07bbe8bfe48632c164ae5d1.bindTooltip(
+                `&lt;div&gt;
+                     Conservatory of Flowers (Golden Gate Park) (1 film)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_7814f8edb07bbe8bfe48632c164ae5d1.setIcon(icon_2da7043b4fa5e447988742c2399e3667);
+            
+    
+            var marker_38112d3833682e2a73c49b561279648c = L.marker(
+                [37.76056, -122.38758],
+                {
+}
+            ).addTo(map_2d0406589b1bd7dde6aa4eadc4e85f2d);
+        
+    
+            var icon_b773841a47f92385c2eef64fa812275a = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_6c20e69862327c36b8705fb287292f47 = L.popup({
+  &quot;maxWidth&quot;: 350,
+});
+
+        
+            
+                var html_886adb0072bb7b6b775d2b0f9d0ff01d = $(`&lt;div id=&quot;html_886adb0072bb7b6b775d2b0f9d0ff01d&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;San Francisco Drydock (20th and Illinois Streets)&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_6c20e69862327c36b8705fb287292f47.setContent(html_886adb0072bb7b6b775d2b0f9d0ff01d);
+            
+        
+
+        marker_38112d3833682e2a73c49b561279648c.bindPopup(popup_6c20e69862327c36b8705fb287292f47)
+        ;
+
+        
+    
+    
+            marker_38112d3833682e2a73c49b561279648c.bindTooltip(
+                `&lt;div&gt;
+                     San Francisco Drydock (20th and Illinois Streets) (1 film)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_38112d3833682e2a73c49b561279648c.setIcon(icon_b773841a47f92385c2eef64fa812275a);
+            
+    
+            var marker_4053526d6a1f47f0ab8a14260b5c0097 = L.marker(
+                [37.79694, -122.40373],
+                {
+}
+            ).addTo(map_2d0406589b1bd7dde6aa4eadc4e85f2d);
+        
+    
+            var icon_0fb4429839dac73a741db7240ab0def9 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_7a24c058c9c5673f43cc1799f19a602a = L.popup({
+  &quot;maxWidth&quot;: 350,
+});
+
+        
+            
+                var html_d14cf3055fcad3c26313af3311b0abb1 = $(`&lt;div id=&quot;html_d14cf3055fcad3c26313af3311b0abb1&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Ernie&#x27;s Restaurant (847 Montgomery Street)&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_7a24c058c9c5673f43cc1799f19a602a.setContent(html_d14cf3055fcad3c26313af3311b0abb1);
+            
+        
+
+        marker_4053526d6a1f47f0ab8a14260b5c0097.bindPopup(popup_7a24c058c9c5673f43cc1799f19a602a)
+        ;
+
+        
+    
+    
+            marker_4053526d6a1f47f0ab8a14260b5c0097.bindTooltip(
+                `&lt;div&gt;
+                     Ernie&#x27;s Restaurant (847 Montgomery Street) (1 film)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_4053526d6a1f47f0ab8a14260b5c0097.setIcon(icon_0fb4429839dac73a741db7240ab0def9);
+            
+    
+            var marker_1275fed8317abe5287c5e2a4b0e9c368 = L.marker(
+                [37.76435, -122.42749],
+                {
+}
+            ).addTo(map_2d0406589b1bd7dde6aa4eadc4e85f2d);
+        
+    
+            var icon_0e1aec96764f55fc040cc1cf6747e702 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_a5f440c801d7c2604dfe5478f81a3bec = L.popup({
+  &quot;maxWidth&quot;: 350,
+});
+
+        
+            
+                var html_1713b121e2b5b6200197044865549730 = $(`&lt;div id=&quot;html_1713b121e2b5b6200197044865549730&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Mission Dolores (3321 16th Street, Mission District)&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_a5f440c801d7c2604dfe5478f81a3bec.setContent(html_1713b121e2b5b6200197044865549730);
+            
+        
+
+        marker_1275fed8317abe5287c5e2a4b0e9c368.bindPopup(popup_a5f440c801d7c2604dfe5478f81a3bec)
+        ;
+
+        
+    
+    
+            marker_1275fed8317abe5287c5e2a4b0e9c368.bindTooltip(
+                `&lt;div&gt;
+                     Mission Dolores (3321 16th Street, Mission District) (1 film)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_1275fed8317abe5287c5e2a4b0e9c368.setIcon(icon_0e1aec96764f55fc040cc1cf6747e702);
+            
+    
+            var marker_45f6f72d7820af9fea90e03fb976b67d = L.marker(
+                [37.79336, -122.41787],
+                {
+}
+            ).addTo(map_2d0406589b1bd7dde6aa4eadc4e85f2d);
+        
+    
+            var icon_a54e326791584944876238791c0245be = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_33f1ba52181cdf432b5b029bf6595bf6 = L.popup({
+  &quot;maxWidth&quot;: 350,
+});
+
+        
+            
+                var html_5b319099ae13774216f12065bbbedadf = $(`&lt;div id=&quot;html_5b319099ae13774216f12065bbbedadf&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Nob Hill&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_33f1ba52181cdf432b5b029bf6595bf6.setContent(html_5b319099ae13774216f12065bbbedadf);
+            
+        
+
+        marker_45f6f72d7820af9fea90e03fb976b67d.bindPopup(popup_33f1ba52181cdf432b5b029bf6595bf6)
+        ;
+
+        
+    
+    
+            marker_45f6f72d7820af9fea90e03fb976b67d.bindTooltip(
+                `&lt;div&gt;
+                     Nob Hill (1 film)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_45f6f72d7820af9fea90e03fb976b67d.setIcon(icon_a54e326791584944876238791c0245be);
+            
+    
+            var marker_464195f3e3416849dd84a6acdbbb0d3c = L.marker(
+                [37.78736, -122.40821],
+                {
+}
+            ).addTo(map_2d0406589b1bd7dde6aa4eadc4e85f2d);
+        
+    
+            var icon_22cdab56d11771b0781203e2a4d44914 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_bc3b5e8564b4cb915122e21b3dd8fae3 = L.popup({
+  &quot;maxWidth&quot;: 350,
+});
+
+        
+            
+                var html_4e65e570e42d6dabd32723da1a8f5b12 = $(`&lt;div id=&quot;html_4e65e570e42d6dabd32723da1a8f5b12&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Powell and Geary Streets (Union Square)&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_bc3b5e8564b4cb915122e21b3dd8fae3.setContent(html_4e65e570e42d6dabd32723da1a8f5b12);
+            
+        
+
+        marker_464195f3e3416849dd84a6acdbbb0d3c.bindPopup(popup_bc3b5e8564b4cb915122e21b3dd8fae3)
+        ;
+
+        
+    
+    
+            marker_464195f3e3416849dd84a6acdbbb0d3c.bindTooltip(
+                `&lt;div&gt;
+                     Powell and Geary Streets (Union Square) (1 film)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_464195f3e3416849dd84a6acdbbb0d3c.setIcon(icon_22cdab56d11771b0781203e2a4d44914);
+            
+    
+            var marker_433ebcfb6a22ac8b2b160307315f4284 = L.marker(
+                [37.80253, -122.4166],
+                {
+}
+            ).addTo(map_2d0406589b1bd7dde6aa4eadc4e85f2d);
+        
+    
+            var icon_522a6f605839053ff37cd86c69fc29a0 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_fce0c8554e27e96d188fbdbd0619fa17 = L.popup({
+  &quot;maxWidth&quot;: 350,
+});
+
+        
+            
+                var html_b4b89944980cb752c04188d1ba9120d2 = $(`&lt;div id=&quot;html_b4b89944980cb752c04188d1ba9120d2&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;900 Lombard Street&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_fce0c8554e27e96d188fbdbd0619fa17.setContent(html_b4b89944980cb752c04188d1ba9120d2);
+            
+        
+
+        marker_433ebcfb6a22ac8b2b160307315f4284.bindPopup(popup_fce0c8554e27e96d188fbdbd0619fa17)
+        ;
+
+        
+    
+    
+            marker_433ebcfb6a22ac8b2b160307315f4284.bindTooltip(
+                `&lt;div&gt;
+                     900 Lombard Street (1 film)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_433ebcfb6a22ac8b2b160307315f4284.setIcon(icon_522a6f605839053ff37cd86c69fc29a0);
+            
+&lt;/script&gt;
+&lt;/html&gt;" style="position:absolute;width:100%;height:100%;left:0;top:0;border:none !important;" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe></div></div>
+        </div>
+        
+        <div id="results">
+            <h2>Detailed Results</h2>
+            <pre>{
+  "data": [
+    "1007 Gough Street",
+    "Park Hill Sanatorium (351 Buena Vista Avenue East)",
+    "Fairmont Hotel (950 Mason Street, Nob Hill)",
+    "2230 Sacramento Street",
+    "Mission San Juan Bautista (2nd & Mariposa Streets)",
+    "Palace of Fine Arts (3301 Lyon Street)",
+    "Fort Point (Presidio, Golden Gate National Recreation Area)",
+    "Fairmont Hotel (950 Mason Street, Nob Hill)",
+    "California Palace of the Legion of Honor (34th Avenue & Clement, Lincoln Park)",
+    "On Board the SS President Cleveland, docked at Pier 50",
+    "Claude Lane at Bush Street",
+    "York Hotel (940 Sutter Street)",
+    "Brocklebank Apartments (1000 Mason Street)",
+    "Gough & Eddy Streets (Western Addition)",
+    "Grace Cathedral Episcopal Church (1100 California Street)",
+    "Conservatory of Flowers (Golden Gate Park)",
+    "San Francisco Drydock (20th and Illinois Streets)",
+    "Ernie's Restaurant (847 Montgomery Street)",
+    "Mission Dolores (3321 16th Street, Mission District)",
+    "Nob Hill",
+    "Powell and Geary Streets (Union Square)",
+    "900 Lombard Street"
+  ],
+  "summary": "Filming locations for films directed by Hitchcock: 22 locations found.",
+  "metadata": {
+    "query_type": "director_locations",
+    "director": "Hitchcock",
+    "data_cleaning": "Excluded empty/null/whitespace by rule; numeric Year coerced when needed."
+  }
+}</pre>
+        </div>
+    </body>
+    </html>
+    

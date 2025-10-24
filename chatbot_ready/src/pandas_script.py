@@ -275,6 +275,9 @@ class QueryProcessor:
         Returns:
             Dict containing results from each step and the final code
         """
+
+        print(f"\n🔥🔥🔥 QUERYPROCESSOR.process_query() CALLED! Query: '{user_query}' 🔥🔥🔥")
+
         results = {}
 
         try:
@@ -300,24 +303,22 @@ class QueryProcessor:
             results["code"] = code_result
 
             # log to file the result so far
+            # temporary commenting it out
             write_to_log_file(results, 'log.json', self.user_query)
-
-            # with open('log.json', 'a') as f:
-            #     f.write(' '*50 + '\n')
-            #     f.write(json.dumps(results))
-            #     f.write(' '*50 + '\n')
 
             # Step 4: Execute Code
             if "code" in results:
-                # print("Generated Code:")
-                # print(results["code"]["code"])
 
                 # Execution ...
                 execution_result = self.execute_generated_code(
                     results["code"]["code"])
-                 # 🔧🔧🔧 ADD execution result to the result object to make life easier in chatbot!🔧🔧🔧
-                results["execution_result"] = execution_result
+                # Debug statement
+                print(f"✅ EXECUTION DONE: {type(execution_result)}")
+
                 
+                # 🔧🔧🔧 ADD execution result to the result object to make life easier in chatbot!🔧🔧🔧
+                results["execution_result"] = execution_result
+    
                 print("\nExecution Result:")
                 print("⚠️no printint out for now! modify it if you want to!")
                 # print(execution_result)
@@ -327,20 +328,18 @@ class QueryProcessor:
                     self.user_query,
                     jsonlines_flag=True
                 )
-                # with jsonlines.open('code_exec_results.jsonl', mode='a') as writer:
-                #     writer.write(
-                #         {'id': query, 'code_execution_result': execution_result})
 
             # Step 5: Pre-Mapping Analysis (NEW)
-            if self.need_map:  # Only if query had spatial intent
+            if self.need_map:
+                print(f"🗺️ STARTING MAP ANALYSIS...")
                 from src.map_analyzer import MapDataAnalyzer
-                # from src.map_generator import MapGenerator
-
                 analyzer = MapDataAnalyzer(self.gdf)
-                analysis = analyzer.analyze(
-                    execution_result.get('data'), user_query)
+                print(f"🗺️ CALLING analyzer.analyze()...")
+                analysis = analyzer.analyze(execution_result.get('data'), user_query)
+                print(f"✅ MAP ANALYSIS DONE")
                 results["map_analysis"] = analysis
                 # print(results)
+                print(f"🔍 can_map={analysis['can_map']}, reason={analysis['reason']}")  # NEW
 
                 # let's print to console some useful info for now
                 print('%'*20)
@@ -360,13 +359,19 @@ class QueryProcessor:
 
                 # Step 6: Generate Map (only if can_map is True)
                 if analysis['can_map']:
+                    print(f"🗺️ STARTING MAP GENERATION...")  # NEW
+
                     from src.map_generator import MapGenerator
                     
                     map_gen = MapGenerator()
+                    print(f"🗺️ CALLING create_point_map()...")  # NEW
+
                     map_obj = map_gen.create_point_map(
                         analysis['location_data'],
-                        title=execution_result.get('summary', 'SF Film Locations')
+                        title=execution_result["data"].get('summary', 'SF Film Locations')
                     )
+                    print(f"✅ MAP GENERATED")  # NEW
+
                     results["map"] = map_obj
                     results["map_html"] = map_obj._repr_html_()
                     print(f"✓ Map created: {analysis['reason']}")
@@ -379,12 +384,10 @@ class QueryProcessor:
                     # let's try the custom HTML option too
                     embed_in_custom_html(self.user_query,execution_result, results["map_html"])
 
-
-
-                    # OPTION to explore: Then open in browser
-                    # import webbrowser
-                    # webbrowser.open('map/map_output.html')
-
+            print(f"\n🔍 QUERYPROCESSOR: About to return results")
+            print(f"🔍 QUERYPROCESSOR: Final results keys: {results.keys()}")
+            print(f"🔍 QUERYPROCESSOR: 'execution_result' in final results: {'execution_result' in results}")
+        
             return results
 
         except Exception as e:
@@ -399,19 +402,6 @@ if __name__ == "__main__":
         "are there any film with the word matrix in their title shot in SF? "]
     queries = ["How many movies were made in each year?"]
     queries = ["what are the top 10 most frequent actors?"]
-    # queries = ["what are the top 10 most frequent locations used? Could you also include the name of films for each location?"]
-    # queries = ["what are all the location within 0.5 mile radius of Union Square?"]
-    # queries = ["what are all the location within 0.2 mile radius of Embarcadero?"]
-    # queries = ["what are the films made from 1900 to 1930? Please giv me all the infor for each film!"]
-    # queries = ["what is the number of unique locations in the database?"]
-    # queries = ["Provide me with info about the number of rows in the database?"]
-
-    # queries = ["which direcotr made the most films in SF? List their films too!"]
-    # queries = [
-    #     "list all films with each one's complete dataset that has the word matrix in their title."]
-
-    # queries = [
-    #     "are there any film with an actor, writer or director called Chaplin "]
     queries = [
         "are there any film with the word matrix in their title shot in SF? ",
         "what are all the films starring Sean Penn and all their locations in SF?",
@@ -420,58 +410,9 @@ if __name__ == "__main__":
         "which actor has appeared in a movie shot at the golden gate bridge the most times?",
         "find all movies shot within 0.5 mile radius of the Union Square. List the film names and the specific location."
     ]
-
-    # queries = ["what are the top 10 most frequent locations?"]
-    # queries = ["find all movies shot within 0.5 mile radius of the Union Square. List the film names and the specific location."]
-    # queries = ["find all the locations of the film Mrs. Doubtfire."]
-    # queries = [ "which actor has appeared in a movie shot at the golden gate bridge the most times?"]
-    # queries = ["what year had the most number of unique films shot in SF?"]
-    # queries = [ "how many unique actors have appeared in the 6 least popular filming locations?"]
-    # queries = [ "weighted by number of films at each location, what is the average latitude and longitude of all movies in the database?"]
-    # queries = [ "we assign a score 'x' to a film based on the following attributes: 100 points for a movie shot at the center of SF at 37.7749° N, 122.4194° W, falling off by 10 points per 100 yards. if a movie was shot in multiple places in SF, use the place closest to the center. Add 100 points for a movie made in 2025, falling off by 5 points per year (ie. 95 points for a movie made in 2024). what are x for the top 5 movies and bottom 5 movies? do this all in memory, do not modify the database."]
-    # queries = ["what are all the films starring Sean Penn and all their locations in SF?"]
-    # queries = [
-    #     "how many unique actors have appeared in the 6 least popular filming locations? List the locations too."]
-    # queries = ["what are all the films starring Sean Penn and all their locations in SF?"]
-    # Process the queryu
-    # queries = ["what are the top 10 most frequent locations?"]
     queries = ["are there any film with the word matrix in their title shot in SF? "]
     for query in queries:
         try:
             results = processor.process_query(query)
-            # print(f"need map situation is: {processor.need_map}")
-            # log to file
-            # with open('log.json', 'a') as f:
-            #     f.write(' '*50 + '\n')
-            #     f.write(json.dumps(results))
-            #     f.write(' '*50 + '\n')
-
-            # Print code
-            # if "code" in results:
-            #     # print("Complete Results so far:")
-            #     # print(results)
-
-            #     print("Generated Code:")
-            #     print(results["code"]["code"])
-
-            #     # Execute code
-            #     execution_result = processor.execute_generated_code(
-            #         results["code"]["code"])
-            #     print("\nExecution Result:")
-            #     print(execution_result)
-            #     with jsonlines.open('code_exec_results.jsonl', mode='a') as writer:
-            #         writer.write(
-            #             {'id': query, 'code_execution_result': execution_result})
-            # f.write(' '*50 + '\n')
-            # f.write(json.dumps(results))
-
-            # needs_map = processor.need_map
-            # locations_found = processor._extract_locations_from_results(execution_result)
-
-            # if needs_map and locations_found:
-            #     map_result = processor._create_location_map(locations_found)
-            # print(f"need map situation is: {processor.need_map}")
-            # print(results)
-
         except Exception as e:
             print(f"Error processing query: {str(e)}")

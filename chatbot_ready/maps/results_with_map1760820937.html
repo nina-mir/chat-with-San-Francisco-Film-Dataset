@@ -1,0 +1,1713 @@
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>SF Film Locations Map</title>
+        <meta charset="utf-8">
+        <style>
+           
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, 
+                        "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        
+        h1, h2 {
+            font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        #query-info {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        #map-container {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        #results {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        pre {
+            font-family: "SF Mono", "Monaco", "Inconsolata", monospace;
+            font-size: 14px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+        }
+    
+        </style>
+    </head>
+    <body>
+        <h1>Query Results</h1>
+        <div id="query-info">
+            <p><strong>Query:</strong>         "what are all the films starring Sean Penn and all their locations in SF?"</p>
+            <p><strong>Summary:</strong> Returned dictionary with 3 keys</p>
+        </div>
+        
+        <div id="map-container">
+            <div style="width:100%;"><div style="position:relative;width:100%;height:0;padding-bottom:60%;"><span style="color:#565656">Make this Notebook Trusted to load map: File -> Trust Notebook</span><iframe srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    
+    &lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=UTF-8&quot; /&gt;
+    
+        &lt;script&gt;
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        &lt;/script&gt;
+    
+    &lt;style&gt;html, body {width: 100%;height: 100%;margin: 0;padding: 0;}&lt;/style&gt;
+    &lt;style&gt;#map {position:absolute;top:0;bottom:0;right:0;left:0;}&lt;/style&gt;
+    &lt;script src=&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://code.jquery.com/jquery-3.7.1.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js&quot;&gt;&lt;/script&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css&quot;/&gt;
+    
+            &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no&quot; /&gt;
+            &lt;style&gt;
+                #map_ad1dcbe367e2dfde05f34ccf94c098cf {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            &lt;/style&gt;
+        
+&lt;/head&gt;
+&lt;body&gt;
+    
+    
+        &lt;div style=&quot;position: fixed; 
+                    top: 10px; left: 50px; right: 50px; 
+                    z-index:9999; 
+                    background-color:white;
+                    border:2px solid grey;
+                    border-radius: 5px;
+                    padding: 10px;
+                    text-align: center;&quot;&gt;
+            &lt;h3 style=&quot;margin:0;&quot;&gt;Returned dictionary with 3 keys&lt;/h3&gt;
+            &lt;p style=&quot;margin:5px 0 0 0; font-size:14px; color:#666;&quot;&gt;
+                31 locations found
+            &lt;/p&gt;
+        &lt;/div&gt;
+        
+    
+            &lt;div class=&quot;folium-map&quot; id=&quot;map_ad1dcbe367e2dfde05f34ccf94c098cf&quot; &gt;&lt;/div&gt;
+        
+&lt;/body&gt;
+&lt;script&gt;
+    
+    
+            var map_ad1dcbe367e2dfde05f34ccf94c098cf = L.map(
+                &quot;map_ad1dcbe367e2dfde05f34ccf94c098cf&quot;,
+                {
+                    center: [37.7749, -122.4194],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  &quot;zoom&quot;: 13,
+  &quot;zoomControl&quot;: true,
+  &quot;preferCanvas&quot;: false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_fcfeda6b2c42a4c7dec466bee12fea77 = L.tileLayer(
+                &quot;https://tile.openstreetmap.org/{z}/{x}/{y}.png&quot;,
+                {
+  &quot;minZoom&quot;: 0,
+  &quot;maxZoom&quot;: 19,
+  &quot;maxNativeZoom&quot;: 19,
+  &quot;noWrap&quot;: false,
+  &quot;attribution&quot;: &quot;\u0026copy; \u003ca href=\&quot;https://www.openstreetmap.org/copyright\&quot;\u003eOpenStreetMap\u003c/a\u003e contributors&quot;,
+  &quot;subdomains&quot;: &quot;abc&quot;,
+  &quot;detectRetina&quot;: false,
+  &quot;tms&quot;: false,
+  &quot;opacity&quot;: 1,
+}
+
+            );
+        
+    
+            tile_layer_fcfeda6b2c42a4c7dec466bee12fea77.addTo(map_ad1dcbe367e2dfde05f34ccf94c098cf);
+        
+    
+            var marker_2e63a9ce7d1156e1d2a7a34701735720 = L.marker(
+                [37.76108, -122.4286],
+                {
+}
+            ).addTo(map_ad1dcbe367e2dfde05f34ccf94c098cf);
+        
+    
+            var icon_9642c5ddaac06cef782037db7a9808c3 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_d19400b508caf337eddafd19df6220d0 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_92e20c9a156c270d1153620df7699126 = $(`&lt;div id=&quot;html_92e20c9a156c270d1153620df7699126&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Mission Dolores Park (Mission District) via J-Church MUNI Train&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Category:&lt;/b&gt; Casualties of War (1989)&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; Casualties of War&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 1989&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_d19400b508caf337eddafd19df6220d0.setContent(html_92e20c9a156c270d1153620df7699126);
+            
+        
+
+        marker_2e63a9ce7d1156e1d2a7a34701735720.bindPopup(popup_d19400b508caf337eddafd19df6220d0)
+        ;
+
+        
+    
+    
+            marker_2e63a9ce7d1156e1d2a7a34701735720.bindTooltip(
+                `&lt;div&gt;
+                     Mission Dolores Park (Mission District) via J-Church MUNI Train
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_2e63a9ce7d1156e1d2a7a34701735720.setIcon(icon_9642c5ddaac06cef782037db7a9808c3);
+            
+    
+            var marker_7a360eb78eb7714622dfdda92c05a378 = L.marker(
+                [37.7528, -122.41173],
+                {
+}
+            ).addTo(map_ad1dcbe367e2dfde05f34ccf94c098cf);
+        
+    
+            var icon_51313418d8fabc3eb54d289153afae85 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_e2ff702f0762e71a84b11d9d6f852dde = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_8c64447ea773b0c4140477a78537782f = $(`&lt;div id=&quot;html_8c64447ea773b0c4140477a78537782f&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;24th Street between Mission Street and Potrero Avenue&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Category:&lt;/b&gt; Crackers (1984)&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; Crackers&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 1984&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_e2ff702f0762e71a84b11d9d6f852dde.setContent(html_8c64447ea773b0c4140477a78537782f);
+            
+        
+
+        marker_7a360eb78eb7714622dfdda92c05a378.bindPopup(popup_e2ff702f0762e71a84b11d9d6f852dde)
+        ;
+
+        
+    
+    
+            marker_7a360eb78eb7714622dfdda92c05a378.bindTooltip(
+                `&lt;div&gt;
+                     24th Street between Mission Street and Potrero Avenue
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_7a360eb78eb7714622dfdda92c05a378.setIcon(icon_51313418d8fabc3eb54d289153afae85);
+            
+    
+            var marker_3f7065457b23fbeeec336af531d6a608 = L.marker(
+                [37.75835, -122.42107],
+                {
+}
+            ).addTo(map_ad1dcbe367e2dfde05f34ccf94c098cf);
+        
+    
+            var icon_3927d9c6d0496ccee9d4bd244bb25b7a = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_9ffc4b57e6f8e67dd5a7825e9e5f45b3 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_053f897edcc989bc993bbdb142547e03 = $(`&lt;div id=&quot;html_053f897edcc989bc993bbdb142547e03&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;La Rondalla (Valencia and 20th Streets)&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Category:&lt;/b&gt; Crackers (1984)&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; Crackers&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 1984&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_9ffc4b57e6f8e67dd5a7825e9e5f45b3.setContent(html_053f897edcc989bc993bbdb142547e03);
+            
+        
+
+        marker_3f7065457b23fbeeec336af531d6a608.bindPopup(popup_9ffc4b57e6f8e67dd5a7825e9e5f45b3)
+        ;
+
+        
+    
+    
+            marker_3f7065457b23fbeeec336af531d6a608.bindTooltip(
+                `&lt;div&gt;
+                     La Rondalla (Valencia and 20th Streets)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_3f7065457b23fbeeec336af531d6a608.setIcon(icon_3927d9c6d0496ccee9d4bd244bb25b7a);
+            
+    
+            var marker_915320bc60304716deb6594d970ddaff = L.marker(
+                [37.76856, -122.42651],
+                {
+}
+            ).addTo(map_ad1dcbe367e2dfde05f34ccf94c098cf);
+        
+    
+            var icon_9143d811d95d1c862756acaddee6eb94 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_3694c8fd3b0c8a007124a924294a4e72 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_97673779273b669ec0c3315e1cbb40fd = $(`&lt;div id=&quot;html_97673779273b669ec0c3315e1cbb40fd&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;29th and Dolores Street&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Category:&lt;/b&gt; Milk (2008)&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; Milk&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 2008&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_3694c8fd3b0c8a007124a924294a4e72.setContent(html_97673779273b669ec0c3315e1cbb40fd);
+            
+        
+
+        marker_915320bc60304716deb6594d970ddaff.bindPopup(popup_3694c8fd3b0c8a007124a924294a4e72)
+        ;
+
+        
+    
+    
+            marker_915320bc60304716deb6594d970ddaff.bindTooltip(
+                `&lt;div&gt;
+                     29th and Dolores Street
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_915320bc60304716deb6594d970ddaff.setIcon(icon_9143d811d95d1c862756acaddee6eb94);
+            
+    
+            var marker_ce317b951307e1ec17b15f0ad416635c = L.marker(
+                [37.79423, -122.40119],
+                {
+}
+            ).addTo(map_ad1dcbe367e2dfde05f34ccf94c098cf);
+        
+    
+            var icon_afc17e260975ee1e33efb2bc9c97b727 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_3ad004355678cf4578b329597abb46f2 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_b558b25e7a63f5d49c3f7c4fe5a21696 = $(`&lt;div id=&quot;html_b558b25e7a63f5d49c3f7c4fe5a21696&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;424 Sansome Street&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Category:&lt;/b&gt; Milk (2008)&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; Milk&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 2008&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_3ad004355678cf4578b329597abb46f2.setContent(html_b558b25e7a63f5d49c3f7c4fe5a21696);
+            
+        
+
+        marker_ce317b951307e1ec17b15f0ad416635c.bindPopup(popup_3ad004355678cf4578b329597abb46f2)
+        ;
+
+        
+    
+    
+            marker_ce317b951307e1ec17b15f0ad416635c.bindTooltip(
+                `&lt;div&gt;
+                     424 Sansome Street
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_ce317b951307e1ec17b15f0ad416635c.setIcon(icon_afc17e260975ee1e33efb2bc9c97b727);
+            
+    
+            var marker_28598a7066a7e31b4d004ea8301ece9e = L.marker(
+                [37.79694, -122.40681],
+                {
+}
+            ).addTo(map_ad1dcbe367e2dfde05f34ccf94c098cf);
+        
+    
+            var icon_b002496785985cfc2e2fc8bb8c0c272d = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_bafdeb85548f5d783b8016f7a064b65c = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_e04caf22e4b5a2ca438fd88091a1b25a = $(`&lt;div id=&quot;html_e04caf22e4b5a2ca438fd88091a1b25a&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Chinatown&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Category:&lt;/b&gt; Milk (2008)&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; Boys and Girls&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 2000&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_bafdeb85548f5d783b8016f7a064b65c.setContent(html_e04caf22e4b5a2ca438fd88091a1b25a);
+            
+        
+
+        marker_28598a7066a7e31b4d004ea8301ece9e.bindPopup(popup_bafdeb85548f5d783b8016f7a064b65c)
+        ;
+
+        
+    
+    
+            marker_28598a7066a7e31b4d004ea8301ece9e.bindTooltip(
+                `&lt;div&gt;
+                     Chinatown
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_28598a7066a7e31b4d004ea8301ece9e.setIcon(icon_b002496785985cfc2e2fc8bb8c0c272d);
+            
+    
+            var marker_af089887126f58618d3859f2e8f92d71 = L.marker(
+                [37.77932, -122.41882],
+                {
+}
+            ).addTo(map_ad1dcbe367e2dfde05f34ccf94c098cf);
+        
+    
+            var icon_fba7d2881ebd2f15ae2ebddeba7e6620 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_fa85249da695c83cb80bce637f8a2a5c = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_281591efa3ffa1541ef4aa45742fd134 = $(`&lt;div id=&quot;html_281591efa3ffa1541ef4aa45742fd134&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;City Hall&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Category:&lt;/b&gt; Milk (2008)&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Right Stuff&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 1983&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_fa85249da695c83cb80bce637f8a2a5c.setContent(html_281591efa3ffa1541ef4aa45742fd134);
+            
+        
+
+        marker_af089887126f58618d3859f2e8f92d71.bindPopup(popup_fa85249da695c83cb80bce637f8a2a5c)
+        ;
+
+        
+    
+    
+            marker_af089887126f58618d3859f2e8f92d71.bindTooltip(
+                `&lt;div&gt;
+                     City Hall
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_af089887126f58618d3859f2e8f92d71.setIcon(icon_fba7d2881ebd2f15ae2ebddeba7e6620);
+            
+    
+            var marker_bde77c03939fdce5faa33293a095c2d6 = L.marker(
+                [37.76934, -122.43111],
+                {
+}
+            ).addTo(map_ad1dcbe367e2dfde05f34ccf94c098cf);
+        
+    
+            var icon_e39500c2b54464ad3ed7b4aef06296c5 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_019c953aa22cbb00b34b82dcddf83a3b = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_7e29f11512a4870ffe45ecb94f3879df = $(`&lt;div id=&quot;html_7e29f11512a4870ffe45ecb94f3879df&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Duboce Park&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Category:&lt;/b&gt; Milk (2008)&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; DEVS&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 2020&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_019c953aa22cbb00b34b82dcddf83a3b.setContent(html_7e29f11512a4870ffe45ecb94f3879df);
+            
+        
+
+        marker_bde77c03939fdce5faa33293a095c2d6.bindPopup(popup_019c953aa22cbb00b34b82dcddf83a3b)
+        ;
+
+        
+    
+    
+            marker_bde77c03939fdce5faa33293a095c2d6.bindTooltip(
+                `&lt;div&gt;
+                     Duboce Park
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_bde77c03939fdce5faa33293a095c2d6.setIcon(icon_e39500c2b54464ad3ed7b4aef06296c5);
+            
+    
+            var marker_c9e1d12ab7db2a32a6a9d95e5cae6276 = L.marker(
+                [37.78447, -122.50161],
+                {
+}
+            ).addTo(map_ad1dcbe367e2dfde05f34ccf94c098cf);
+        
+    
+            var icon_89824497734c5770d84c558b18f97e6b = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_e0ac728f169dad74c5f39535298746b3 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_3d182a3fb7b1dcda332856cd6a38e4de = $(`&lt;div id=&quot;html_3d182a3fb7b1dcda332856cd6a38e4de&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;El Camino Del Mar&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Category:&lt;/b&gt; Milk (2008)&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; Milk&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 2008&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_e0ac728f169dad74c5f39535298746b3.setContent(html_3d182a3fb7b1dcda332856cd6a38e4de);
+            
+        
+
+        marker_c9e1d12ab7db2a32a6a9d95e5cae6276.bindPopup(popup_e0ac728f169dad74c5f39535298746b3)
+        ;
+
+        
+    
+    
+            marker_c9e1d12ab7db2a32a6a9d95e5cae6276.bindTooltip(
+                `&lt;div&gt;
+                     El Camino Del Mar
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_c9e1d12ab7db2a32a6a9d95e5cae6276.setIcon(icon_89824497734c5770d84c558b18f97e6b);
+            
+    
+            var marker_94fd07a1feb6c6506b321e4ce89e8fc4 = L.marker(
+                [37.8183, -122.47846],
+                {
+}
+            ).addTo(map_ad1dcbe367e2dfde05f34ccf94c098cf);
+        
+    
+            var icon_4092998d905eb1b514dff442b9fc841f = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_0cf964e17beead9406169ea708121abd = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_1d17b203664919d036b139ad65979aaf = $(`&lt;div id=&quot;html_1d17b203664919d036b139ad65979aaf&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Golden Gate Bridge&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Category:&lt;/b&gt; Milk (2008)&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; Herbie Rides Again&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 1974&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_0cf964e17beead9406169ea708121abd.setContent(html_1d17b203664919d036b139ad65979aaf);
+            
+        
+
+        marker_94fd07a1feb6c6506b321e4ce89e8fc4.bindPopup(popup_0cf964e17beead9406169ea708121abd)
+        ;
+
+        
+    
+    
+            marker_94fd07a1feb6c6506b321e4ce89e8fc4.bindTooltip(
+                `&lt;div&gt;
+                     Golden Gate Bridge
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_94fd07a1feb6c6506b321e4ce89e8fc4.setIcon(icon_4092998d905eb1b514dff442b9fc841f);
+            
+    
+            var marker_efcc4355ca292c1c21a6168bb50238b7 = L.marker(
+                [37.792, -122.41338],
+                {
+}
+            ).addTo(map_ad1dcbe367e2dfde05f34ccf94c098cf);
+        
+    
+            var icon_34a2dc329d4536428cc3b514ca59f902 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_a9de87921d825f79883123e154d19163 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_01868ee1cfc2ca639aae545998be69dd = $(`&lt;div id=&quot;html_01868ee1cfc2ca639aae545998be69dd&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Grace Cathedral Episcopal Church (1100 California Street)&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Category:&lt;/b&gt; Milk (2008)&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; Milk&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 2008&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_a9de87921d825f79883123e154d19163.setContent(html_01868ee1cfc2ca639aae545998be69dd);
+            
+        
+
+        marker_efcc4355ca292c1c21a6168bb50238b7.bindPopup(popup_a9de87921d825f79883123e154d19163)
+        ;
+
+        
+    
+    
+            marker_efcc4355ca292c1c21a6168bb50238b7.bindTooltip(
+                `&lt;div&gt;
+                     Grace Cathedral Episcopal Church (1100 California Street)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_efcc4355ca292c1c21a6168bb50238b7.setIcon(icon_34a2dc329d4536428cc3b514ca59f902);
+            
+    
+            var marker_15464558977476afe6295af27a85006c = L.marker(
+                [37.77023, -122.44529],
+                {
+}
+            ).addTo(map_ad1dcbe367e2dfde05f34ccf94c098cf);
+        
+    
+            var icon_33ce5328b2567f7360e6a1cede77e5ef = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_dc7b06b28bbd31ef5e1c89dc57970eb0 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_5f19862160fd2e5282026c34f85be7b7 = $(`&lt;div id=&quot;html_5f19862160fd2e5282026c34f85be7b7&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Lower Haight Street&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Category:&lt;/b&gt; Milk (2008)&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; Milk&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 2008&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_dc7b06b28bbd31ef5e1c89dc57970eb0.setContent(html_5f19862160fd2e5282026c34f85be7b7);
+            
+        
+
+        marker_15464558977476afe6295af27a85006c.bindPopup(popup_dc7b06b28bbd31ef5e1c89dc57970eb0)
+        ;
+
+        
+    
+    
+            marker_15464558977476afe6295af27a85006c.bindTooltip(
+                `&lt;div&gt;
+                     Lower Haight Street
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_15464558977476afe6295af27a85006c.setIcon(icon_33ce5328b2567f7360e6a1cede77e5ef);
+            
+    
+            var marker_6c61a9525e79c5afae6ba74c6884eb75 = L.marker(
+                [37.78594, -122.39779],
+                {
+}
+            ).addTo(map_ad1dcbe367e2dfde05f34ccf94c098cf);
+        
+    
+            var icon_bd64e6ec9e65ab3aefafa7b847a8572b = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_6028b671da19be99f70afb927db93477 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_429d2fcb4ec0069d52b613d6dc6c0717 = $(`&lt;div id=&quot;html_429d2fcb4ec0069d52b613d6dc6c0717&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Marine Fireman&#x27;s Union Headquarters&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Category:&lt;/b&gt; Milk (2008)&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; Milk&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 2008&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_6028b671da19be99f70afb927db93477.setContent(html_429d2fcb4ec0069d52b613d6dc6c0717);
+            
+        
+
+        marker_6c61a9525e79c5afae6ba74c6884eb75.bindPopup(popup_6028b671da19be99f70afb927db93477)
+        ;
+
+        
+    
+    
+            marker_6c61a9525e79c5afae6ba74c6884eb75.bindTooltip(
+                `&lt;div&gt;
+                     Marine Fireman&#x27;s Union Headquarters
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_6c61a9525e79c5afae6ba74c6884eb75.setIcon(icon_bd64e6ec9e65ab3aefafa7b847a8572b);
+            
+    
+            var marker_799bdc42c0391d0b3a86221fb992f12f = L.marker(
+                [37.76264, -122.43516],
+                {
+}
+            ).addTo(map_ad1dcbe367e2dfde05f34ccf94c098cf);
+        
+    
+            var icon_54c8fe5758d160d5c9f15838489e5b98 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_2f2c5b89d9f961405397110aec04dc2c = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_a657695365c7c40a202253fa6f5e5631 = $(`&lt;div id=&quot;html_a657695365c7c40a202253fa6f5e5631&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Market &amp; Castro Street&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Category:&lt;/b&gt; Milk (2008)&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; Milk&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 2008&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_2f2c5b89d9f961405397110aec04dc2c.setContent(html_a657695365c7c40a202253fa6f5e5631);
+            
+        
+
+        marker_799bdc42c0391d0b3a86221fb992f12f.bindPopup(popup_2f2c5b89d9f961405397110aec04dc2c)
+        ;
+
+        
+    
+    
+            marker_799bdc42c0391d0b3a86221fb992f12f.bindTooltip(
+                `&lt;div&gt;
+                     Market &amp; Castro Street
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_799bdc42c0391d0b3a86221fb992f12f.setIcon(icon_54c8fe5758d160d5c9f15838489e5b98);
+            
+    
+            var marker_58fe59122d77035ef940c5fa8a8ce5cb = L.marker(
+                [37.82489, -122.37087],
+                {
+}
+            ).addTo(map_ad1dcbe367e2dfde05f34ccf94c098cf);
+        
+    
+            var icon_af3bc3f794b2905adeae18e1c4341750 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_e4350cf50734bf463e041b284c46c356 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_a3f67ddd097fbca1b0c46c792d0ae943 = $(`&lt;div id=&quot;html_a3f67ddd097fbca1b0c46c792d0ae943&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Treasure Island&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Category:&lt;/b&gt; Milk (2008)&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; Bicentennial Man&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 1999&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_e4350cf50734bf463e041b284c46c356.setContent(html_a3f67ddd097fbca1b0c46c792d0ae943);
+            
+        
+
+        marker_58fe59122d77035ef940c5fa8a8ce5cb.bindPopup(popup_e4350cf50734bf463e041b284c46c356)
+        ;
+
+        
+    
+    
+            marker_58fe59122d77035ef940c5fa8a8ce5cb.bindTooltip(
+                `&lt;div&gt;
+                     Treasure Island
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_58fe59122d77035ef940c5fa8a8ce5cb.setIcon(icon_af3bc3f794b2905adeae18e1c4341750);
+            
+    
+            var marker_4146f7f1ba41061fd64f9c780eb75915 = L.marker(
+                [37.78894, -122.41312],
+                {
+}
+            ).addTo(map_ad1dcbe367e2dfde05f34ccf94c098cf);
+        
+    
+            var icon_ab715a4935034bde216dc690b07d7589 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_fdcf3593098d2f2b439bf4a40510ba64 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_323e4ce0b56303b855baaf0334ad3767 = $(`&lt;div id=&quot;html_323e4ce0b56303b855baaf0334ad3767&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;766 Sutter Street&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Category:&lt;/b&gt; The Assassination of Richard Nixon (2004)&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Assassination of Richard Nixon&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 2004&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_fdcf3593098d2f2b439bf4a40510ba64.setContent(html_323e4ce0b56303b855baaf0334ad3767);
+            
+        
+
+        marker_4146f7f1ba41061fd64f9c780eb75915.bindPopup(popup_fdcf3593098d2f2b439bf4a40510ba64)
+        ;
+
+        
+    
+    
+            marker_4146f7f1ba41061fd64f9c780eb75915.bindTooltip(
+                `&lt;div&gt;
+                     766 Sutter Street
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_4146f7f1ba41061fd64f9c780eb75915.setIcon(icon_ab715a4935034bde216dc690b07d7589);
+            
+    
+            var marker_633f9ee0814462b63bb66ce4884e293b = L.marker(
+                [37.79754, -122.40593],
+                {
+}
+            ).addTo(map_ad1dcbe367e2dfde05f34ccf94c098cf);
+        
+    
+            var icon_c7aaa6af5a1a8e1f487cfcb6c566b305 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_9e242785fd09e0f3cf67745529018cd3 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_ab68e55b903859af1b2665ef43e80c6e = $(`&lt;div id=&quot;html_ab68e55b903859af1b2665ef43e80c6e&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Tosca Café (242 Columbus Avenue, North Beach)&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Category:&lt;/b&gt; The Assassination of Richard Nixon (2004)&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Assassination of Richard Nixon&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 2004&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_9e242785fd09e0f3cf67745529018cd3.setContent(html_ab68e55b903859af1b2665ef43e80c6e);
+            
+        
+
+        marker_633f9ee0814462b63bb66ce4884e293b.bindPopup(popup_9e242785fd09e0f3cf67745529018cd3)
+        ;
+
+        
+    
+    
+            marker_633f9ee0814462b63bb66ce4884e293b.bindTooltip(
+                `&lt;div&gt;
+                     Tosca Café (242 Columbus Avenue, North Beach)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_633f9ee0814462b63bb66ce4884e293b.setIcon(icon_c7aaa6af5a1a8e1f487cfcb6c566b305);
+            
+    
+            var marker_195f66ceb19531593821f82debbd4cee = L.marker(
+                [37.79109, -122.40012],
+                {
+}
+            ).addTo(map_ad1dcbe367e2dfde05f34ccf94c098cf);
+        
+    
+            var icon_3a117e832d73eea919a7d2a24c8f8020 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_1555dd04f346432c9e3310c35794d249 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_9975b2340247bb1866482080d8566d96 = $(`&lt;div id=&quot;html_9975b2340247bb1866482080d8566d96&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;1 Bush Street&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Category:&lt;/b&gt; The Game (1997)&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Game&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 1997&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_1555dd04f346432c9e3310c35794d249.setContent(html_9975b2340247bb1866482080d8566d96);
+            
+        
+
+        marker_195f66ceb19531593821f82debbd4cee.bindPopup(popup_1555dd04f346432c9e3310c35794d249)
+        ;
+
+        
+    
+    
+            marker_195f66ceb19531593821f82debbd4cee.bindTooltip(
+                `&lt;div&gt;
+                     1 Bush Street
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_195f66ceb19531593821f82debbd4cee.setIcon(icon_3a117e832d73eea919a7d2a24c8f8020);
+            
+    
+            var marker_6ecb7e5438f93866c170aa304330c6b4 = L.marker(
+                [37.78949, -122.39426],
+                {
+}
+            ).addTo(map_ad1dcbe367e2dfde05f34ccf94c098cf);
+        
+    
+            var icon_d7da29ef3d52bef93e5f551b000a2dba = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_2dc83409de17a194a75879e87e7c0975 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_71f3229a303e254260564b9d5de0b170 = $(`&lt;div id=&quot;html_71f3229a303e254260564b9d5de0b170&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;301 Howard Street&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Category:&lt;/b&gt; The Game (1997)&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Game&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 1997&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_2dc83409de17a194a75879e87e7c0975.setContent(html_71f3229a303e254260564b9d5de0b170);
+            
+        
+
+        marker_6ecb7e5438f93866c170aa304330c6b4.bindPopup(popup_2dc83409de17a194a75879e87e7c0975)
+        ;
+
+        
+    
+    
+            marker_6ecb7e5438f93866c170aa304330c6b4.bindTooltip(
+                `&lt;div&gt;
+                     301 Howard Street
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_6ecb7e5438f93866c170aa304330c6b4.setIcon(icon_d7da29ef3d52bef93e5f551b000a2dba);
+            
+    
+            var marker_383d89086e1c711f90658b3d159cb157 = L.marker(
+                [37.79219, -122.40354],
+                {
+}
+            ).addTo(map_ad1dcbe367e2dfde05f34ccf94c098cf);
+        
+    
+            var icon_37fd41cb7f59797eac8c3b22af8ed404 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_2cd7a87b13f02cd98969484c264908d9 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_a154f057102ff7b1937fe74f4ddd556f = $(`&lt;div id=&quot;html_a154f057102ff7b1937fe74f4ddd556f&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Bank of America Building (555 California Street)&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Category:&lt;/b&gt; The Game (1997)&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; Fearless&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 1993&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_2cd7a87b13f02cd98969484c264908d9.setContent(html_a154f057102ff7b1937fe74f4ddd556f);
+            
+        
+
+        marker_383d89086e1c711f90658b3d159cb157.bindPopup(popup_2cd7a87b13f02cd98969484c264908d9)
+        ;
+
+        
+    
+    
+            marker_383d89086e1c711f90658b3d159cb157.bindTooltip(
+                `&lt;div&gt;
+                     Bank of America Building (555 California Street)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_383d89086e1c711f90658b3d159cb157.setIcon(icon_37fd41cb7f59797eac8c3b22af8ed404);
+            
+    
+            var marker_cca386d9fecb4b753836851b7425c41e = L.marker(
+                [37.81142, -122.36373],
+                {
+}
+            ).addTo(map_ad1dcbe367e2dfde05f34ccf94c098cf);
+        
+    
+            var icon_a5a0d179752db5663d7e80c2a98465fb = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_9148ed87b36ad19661c29f965b9e3f4b = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_17c311a181fcfeaeb30ec23244ca1664 = $(`&lt;div id=&quot;html_17c311a181fcfeaeb30ec23244ca1664&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Bay Bridge&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Category:&lt;/b&gt; The Game (1997)&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Game&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 1997&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_9148ed87b36ad19661c29f965b9e3f4b.setContent(html_17c311a181fcfeaeb30ec23244ca1664);
+            
+        
+
+        marker_cca386d9fecb4b753836851b7425c41e.bindPopup(popup_9148ed87b36ad19661c29f965b9e3f4b)
+        ;
+
+        
+    
+    
+            marker_cca386d9fecb4b753836851b7425c41e.bindTooltip(
+                `&lt;div&gt;
+                     Bay Bridge
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_cca386d9fecb4b753836851b7425c41e.setIcon(icon_a5a0d179752db5663d7e80c2a98465fb);
+            
+    
+            var marker_a8e4062598fb56c643a8a2ce83605c67 = L.marker(
+                [37.79169, -122.40099],
+                {
+}
+            ).addTo(map_ad1dcbe367e2dfde05f34ccf94c098cf);
+        
+    
+            var icon_f62edbbc22ead37bb8ad87aeade0d0db = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_27d91932b402ccd3ad9c83601ea834bf = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_25b9ae5b48a9e987ac54ce970af34063 = $(`&lt;div id=&quot;html_25b9ae5b48a9e987ac54ce970af34063&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;City Club (155 Sansome Street)&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Category:&lt;/b&gt; The Game (1997)&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Game&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 1997&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_27d91932b402ccd3ad9c83601ea834bf.setContent(html_25b9ae5b48a9e987ac54ce970af34063);
+            
+        
+
+        marker_a8e4062598fb56c643a8a2ce83605c67.bindPopup(popup_27d91932b402ccd3ad9c83601ea834bf)
+        ;
+
+        
+    
+    
+            marker_a8e4062598fb56c643a8a2ce83605c67.bindTooltip(
+                `&lt;div&gt;
+                     City Club (155 Sansome Street)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_a8e4062598fb56c643a8a2ce83605c67.setIcon(icon_f62edbbc22ead37bb8ad87aeade0d0db);
+            
+    
+            var marker_9d1b2da77fbd092f5f17a3c20233c963 = L.marker(
+                [37.79062, -122.38998],
+                {
+}
+            ).addTo(map_ad1dcbe367e2dfde05f34ccf94c098cf);
+        
+    
+            var icon_a4aab909ee9aefa2cc1cb49c0a0fb6ac = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_9696962c50de716b0d98b4564e35ec0b = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_922ce8ac1bb29a62c915b3587d21851f = $(`&lt;div id=&quot;html_922ce8ac1bb29a62c915b3587d21851f&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Harrison Street (The Embarcadero)&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Category:&lt;/b&gt; The Game (1997)&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Game&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 1997&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_9696962c50de716b0d98b4564e35ec0b.setContent(html_922ce8ac1bb29a62c915b3587d21851f);
+            
+        
+
+        marker_9d1b2da77fbd092f5f17a3c20233c963.bindPopup(popup_9696962c50de716b0d98b4564e35ec0b)
+        ;
+
+        
+    
+    
+            marker_9d1b2da77fbd092f5f17a3c20233c963.bindTooltip(
+                `&lt;div&gt;
+                     Harrison Street (The Embarcadero)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_9d1b2da77fbd092f5f17a3c20233c963.setIcon(icon_a4aab909ee9aefa2cc1cb49c0a0fb6ac);
+            
+    
+            var marker_2fe3dacdbfaf5e6d2aa61d84f9c1b46c = L.marker(
+                [37.79183, -122.41079],
+                {
+}
+            ).addTo(map_ad1dcbe367e2dfde05f34ccf94c098cf);
+        
+    
+            var icon_3eb2da808a43c95e911b1002b27f4e07 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_a66229b8933b717e04ede2ef13458f16 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_e086330a20cb136061ba18e4fcc9af88 = $(`&lt;div id=&quot;html_e086330a20cb136061ba18e4fcc9af88&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Mason &amp; California Streets (Nob Hill)&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Category:&lt;/b&gt; The Game (1997)&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; 180&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 2011&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_a66229b8933b717e04ede2ef13458f16.setContent(html_e086330a20cb136061ba18e4fcc9af88);
+            
+        
+
+        marker_2fe3dacdbfaf5e6d2aa61d84f9c1b46c.bindPopup(popup_a66229b8933b717e04ede2ef13458f16)
+        ;
+
+        
+    
+    
+            marker_2fe3dacdbfaf5e6d2aa61d84f9c1b46c.bindTooltip(
+                `&lt;div&gt;
+                     Mason &amp; California Streets (Nob Hill)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_2fe3dacdbfaf5e6d2aa61d84f9c1b46c.setIcon(icon_3eb2da808a43c95e911b1002b27f4e07);
+            
+    
+            var marker_894cffafa991ed7aa19da197525bdfc2 = L.marker(
+                [37.79256, -122.40213],
+                {
+}
+            ).addTo(map_ad1dcbe367e2dfde05f34ccf94c098cf);
+        
+    
+            var icon_9c69913e0218a18c0eee9ebc89f3b780 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_25b1b2ddebbee63b47e50f7c60a50498 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_97d7e99a4d1d58e25ef654d4a22ff617 = $(`&lt;div id=&quot;html_97d7e99a4d1d58e25ef654d4a22ff617&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Merchant Exchange Building&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Category:&lt;/b&gt; The Game (1997)&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Game&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 1997&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_25b1b2ddebbee63b47e50f7c60a50498.setContent(html_97d7e99a4d1d58e25ef654d4a22ff617);
+            
+        
+
+        marker_894cffafa991ed7aa19da197525bdfc2.bindPopup(popup_25b1b2ddebbee63b47e50f7c60a50498)
+        ;
+
+        
+    
+    
+            marker_894cffafa991ed7aa19da197525bdfc2.bindTooltip(
+                `&lt;div&gt;
+                     Merchant Exchange Building
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_894cffafa991ed7aa19da197525bdfc2.setIcon(icon_9c69913e0218a18c0eee9ebc89f3b780);
+            
+    
+            var marker_5bc6ad6cbbe11cf285023e6ee331d0b5 = L.marker(
+                [37.79256, -122.40213],
+                {
+}
+            ).addTo(map_ad1dcbe367e2dfde05f34ccf94c098cf);
+        
+    
+            var icon_3cacdfba1fd7e7eebf240a64cd2dfd1d = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_047fa1207f363b81601c1179299d04cb = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_67a2dfcddb448fbc03db0f714280ffea = $(`&lt;div id=&quot;html_67a2dfcddb448fbc03db0f714280ffea&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Merchant Exchange Building (465 California Street)&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Category:&lt;/b&gt; The Game (1997)&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Game&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 1997&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_047fa1207f363b81601c1179299d04cb.setContent(html_67a2dfcddb448fbc03db0f714280ffea);
+            
+        
+
+        marker_5bc6ad6cbbe11cf285023e6ee331d0b5.bindPopup(popup_047fa1207f363b81601c1179299d04cb)
+        ;
+
+        
+    
+    
+            marker_5bc6ad6cbbe11cf285023e6ee331d0b5.bindTooltip(
+                `&lt;div&gt;
+                     Merchant Exchange Building (465 California Street)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_5bc6ad6cbbe11cf285023e6ee331d0b5.setIcon(icon_3cacdfba1fd7e7eebf240a64cd2dfd1d);
+            
+    
+            var marker_2f7d89fe5ba23a61f460b2484c90f2c9 = L.marker(
+                [37.80197, -122.45682],
+                {
+}
+            ).addTo(map_ad1dcbe367e2dfde05f34ccf94c098cf);
+        
+    
+            var icon_fc2690a2ab31728d402e67b44500595e = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_602edcbf331070e78bc5f0fad154b2c0 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_fddb7bfe0c9f251113d5a14b77cc6316 = $(`&lt;div id=&quot;html_fddb7bfe0c9f251113d5a14b77cc6316&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Presidio (Golden Gate National Recreation Area)&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Category:&lt;/b&gt; The Game (1997)&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Presidio&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 1988&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_602edcbf331070e78bc5f0fad154b2c0.setContent(html_fddb7bfe0c9f251113d5a14b77cc6316);
+            
+        
+
+        marker_2f7d89fe5ba23a61f460b2484c90f2c9.bindPopup(popup_602edcbf331070e78bc5f0fad154b2c0)
+        ;
+
+        
+    
+    
+            marker_2f7d89fe5ba23a61f460b2484c90f2c9.bindTooltip(
+                `&lt;div&gt;
+                     Presidio (Golden Gate National Recreation Area)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_2f7d89fe5ba23a61f460b2484c90f2c9.setIcon(icon_fc2690a2ab31728d402e67b44500595e);
+            
+    
+            var marker_98a048db628b62d67534333b0fc43eb6 = L.marker(
+                [37.79178, -122.40709],
+                {
+}
+            ).addTo(map_ad1dcbe367e2dfde05f34ccf94c098cf);
+        
+    
+            var icon_43abd72264da65c326a5995b1baa50a4 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_6584f72b48f6d47e42b4e37b6d820d83 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_f90476ff900c324dfd9b9a94ef622c9d = $(`&lt;div id=&quot;html_f90476ff900c324dfd9b9a94ef622c9d&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Ritz-Carlton Hotel (600 Stockton Street)&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Category:&lt;/b&gt; The Game (1997)&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Game&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 1997&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_6584f72b48f6d47e42b4e37b6d820d83.setContent(html_f90476ff900c324dfd9b9a94ef622c9d);
+            
+        
+
+        marker_98a048db628b62d67534333b0fc43eb6.bindPopup(popup_6584f72b48f6d47e42b4e37b6d820d83)
+        ;
+
+        
+    
+    
+            marker_98a048db628b62d67534333b0fc43eb6.bindTooltip(
+                `&lt;div&gt;
+                     Ritz-Carlton Hotel (600 Stockton Street)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_98a048db628b62d67534333b0fc43eb6.setIcon(icon_43abd72264da65c326a5995b1baa50a4);
+            
+    
+            var marker_011773865b5c39541163910638371024 = L.marker(
+                [37.78852, -122.40208],
+                {
+}
+            ).addTo(map_ad1dcbe367e2dfde05f34ccf94c098cf);
+        
+    
+            var icon_0386d90319b4f59461bf8a26379ff260 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_2f7907cfb96ebe5b1ba1c059a4eac448 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_f976ab28e6119120e2731d400e51d0fe = $(`&lt;div id=&quot;html_f976ab28e6119120e2731d400e51d0fe&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Sheraton Palace Hotel (639 Market Street)&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Category:&lt;/b&gt; The Game (1997)&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; Herbie Rides Again&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 1974&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_2f7907cfb96ebe5b1ba1c059a4eac448.setContent(html_f976ab28e6119120e2731d400e51d0fe);
+            
+        
+
+        marker_011773865b5c39541163910638371024.bindPopup(popup_2f7907cfb96ebe5b1ba1c059a4eac448)
+        ;
+
+        
+    
+    
+            marker_011773865b5c39541163910638371024.bindTooltip(
+                `&lt;div&gt;
+                     Sheraton Palace Hotel (639 Market Street)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_011773865b5c39541163910638371024.setIcon(icon_0386d90319b4f59461bf8a26379ff260);
+            
+    
+            var marker_805d5641ec5576b9b666746dee06af27 = L.marker(
+                [37.79038, -122.40715],
+                {
+}
+            ).addTo(map_ad1dcbe367e2dfde05f34ccf94c098cf);
+        
+    
+            var icon_c2a8a12fa3ce467f6855a86da836a67b = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_db6a066463ad6c0d4e30417569ee1eb3 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_2aeb318144026bed30359a20877f6ce6 = $(`&lt;div id=&quot;html_2aeb318144026bed30359a20877f6ce6&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stockton Tunnel Southern Approach Overhang (Bush &amp; Stockton Streets, Chinatown)&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Category:&lt;/b&gt; The Game (1997)&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Game&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 1997&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_db6a066463ad6c0d4e30417569ee1eb3.setContent(html_2aeb318144026bed30359a20877f6ce6);
+            
+        
+
+        marker_805d5641ec5576b9b666746dee06af27.bindPopup(popup_db6a066463ad6c0d4e30417569ee1eb3)
+        ;
+
+        
+    
+    
+            marker_805d5641ec5576b9b666746dee06af27.bindTooltip(
+                `&lt;div&gt;
+                     Stockton Tunnel Southern Approach Overhang (Bush &amp; Stockton Streets, Chinatown)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_805d5641ec5576b9b666746dee06af27.setIcon(icon_c2a8a12fa3ce467f6855a86da836a67b);
+            
+    
+            var marker_ea7ec542da7685ede8672d502f1410f2 = L.marker(
+                [37.7951, -122.40699],
+                {
+}
+            ).addTo(map_ad1dcbe367e2dfde05f34ccf94c098cf);
+        
+    
+            var icon_e5cc4d45d9debf6b7ecb2aa15ea775f0 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_f514872653cf20d8ae96bfc45abebe21 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_4dfa284ef4c78894fe34254b2ac94a54 = $(`&lt;div id=&quot;html_4dfa284ef4c78894fe34254b2ac94a54&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Washington Street &amp; Waverly Place (Chinatown)&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Category:&lt;/b&gt; The Game (1997)&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; The Game&lt;br&gt;&lt;b&gt;Year:&lt;/b&gt; 1997&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_f514872653cf20d8ae96bfc45abebe21.setContent(html_4dfa284ef4c78894fe34254b2ac94a54);
+            
+        
+
+        marker_ea7ec542da7685ede8672d502f1410f2.bindPopup(popup_f514872653cf20d8ae96bfc45abebe21)
+        ;
+
+        
+    
+    
+            marker_ea7ec542da7685ede8672d502f1410f2.bindTooltip(
+                `&lt;div&gt;
+                     Washington Street &amp; Waverly Place (Chinatown)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_ea7ec542da7685ede8672d502f1410f2.setIcon(icon_e5cc4d45d9debf6b7ecb2aa15ea775f0);
+            
+&lt;/script&gt;
+&lt;/html&gt;" style="position:absolute;width:100%;height:100%;left:0;top:0;border:none !important;" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe></div></div>
+        </div>
+        
+        <div id="results">
+            <h2>Detailed Results</h2>
+            <pre>{
+  "data": {
+    "Casualties of War (1989)": [
+      "Mission Dolores Park (Mission District) via J-Church MUNI Train"
+    ],
+    "Crackers (1984)": [
+      "24th Street between Mission Street and Potrero Avenue",
+      "La Rondalla (Valencia and 20th Streets)"
+    ],
+    "Milk (2008)": [
+      "29th and Dolores Street",
+      "424 Sansome Street",
+      "Chinatown",
+      "City Hall",
+      "Duboce Park",
+      "El Camino Del Mar",
+      "Golden Gate Bridge",
+      "Grace Cathedral Episcopal Church (1100 California Street)",
+      "Lower Haight Street",
+      "Marine Fireman's Union Headquarters",
+      "Market & Castro Street",
+      "Treasure Island"
+    ],
+    "The Assassination of Richard Nixon (2004)": [
+      "766 Sutter Street",
+      "Tosca Caf\u00e9 (242 Columbus Avenue, North Beach)"
+    ],
+    "The Game (1997)": [
+      "1 Bush Street",
+      "301 Howard Street",
+      "Bank of America Building (555 California Street)",
+      "Bay Bridge",
+      "City Club (155 Sansome Street)",
+      "Harrison Street (The Embarcadero)",
+      "Mason & California Streets (Nob Hill)",
+      "Merchant Exchange Building",
+      "Merchant Exchange Building (465 California Street)",
+      "Presidio (Golden Gate National Recreation Area)",
+      "Ritz-Carlton Hotel (600 Stockton Street)",
+      "Sheraton Palace Hotel (639 Market Street)",
+      "Stockton Tunnel Southern Approach Overhang (Bush & Stockton Streets, Chinatown)",
+      "Washington Street & Waverly Place (Chinatown)"
+    ]
+  },
+  "summary": "Films starring Sean Penn and their locations.",
+  "metadata": {
+    "query_type": "films_by_actor_locations",
+    "actor_name": "Sean Penn",
+    "data_cleaning": "Excluded empty/null/whitespace by rule; numeric Year coerced when needed."
+  }
+}</pre>
+        </div>
+    </body>
+    </html>
+    
