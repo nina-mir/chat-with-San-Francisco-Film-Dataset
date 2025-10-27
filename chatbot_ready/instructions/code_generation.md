@@ -331,3 +331,225 @@ def process_sf_film_query(gdf):
             f.write('='*50 + '\n\n')
         return error_result
 ```
+
+---
+
+## Person Name Extraction Patterns (MUST)
+### Applies to: Actors, Directors, Writers, and All Person Fields
+
+### When Query Asks to "List Names" or "Show Names"
+**ALWAYS return FULL NAMES, never just last names or first names.**
+
+This applies to ANY person-related query:
+- ✅ Actors (Actor_1, Actor_2, Actor_3)
+- ✅ Directors (Director)
+- ✅ Writers (Writer)
+- ✅ Any other person fields
+
+âŒ **WRONG - Returns only last names:**
+```python
+# Don't do this:
+last_name = person_name.split()[-1]
+person_list = [last_name for ...]
+```
+
+âœ… **CORRECT - Returns full names:**
+```python
+# Do this instead:
+person_list = sorted(set(persons_long.tolist()))
+# or
+person_list = persons_long.unique().tolist()
+```
+
+---
+
+### Example 1: Actors whose last name starts with C
+
+```python
+def process_sf_film_query(gdf):
+    """Find actors whose last names start with C - return FULL NAMES"""
+    import pandas as pd
+    import numpy as np
+    
+    # 1) Deduplicate to film level
+    film_df = gdf.drop_duplicates(subset=['Title','Year'], keep='first')
+    
+    # 2) Combine actor columns
+    actor_cols = ['Actor_1', 'Actor_2', 'Actor_3']
+    actors_long = (
+        film_df[actor_cols]
+          .astype(str)
+          .apply(lambda c: c.str.strip())
+          .replace({'': np.nan, 'nan': np.nan, 'None': np.nan, 'NaN': np.nan})
+          .stack(dropna=True)
+    )
+    
+    # 3) Filter for last names starting with target letter
+    # âœ… KEEP FULL NAMES - don't extract just last name
+    def last_name_starts_with(full_name, letter):
+        """Check if last name starts with letter, keeping full name intact"""
+        parts = str(full_name).strip().split()
+        if parts:
+            last_name = parts[-1]
+            return last_name.upper().startswith(letter.upper())
+        return False
+    
+    # Filter but keep full names
+    filtered_actors = actors_long[actors_long.apply(lambda name: last_name_starts_with(name, 'C'))]
+    
+    # 4) Get unique full names
+    unique_actors = sorted(set(filtered_actors.tolist()))
+    
+    # 5) Return structured result with FULL NAMES
+    result = {
+        'data': {
+            'number_of_actors': len(unique_actors),
+            'actor_names': unique_actors  # âœ… Full names, not just last names
+        },
+        'summary': f"Found {len(unique_actors)} actors whose last names start with C",
+        'metadata': {
+            'query_type': 'actor_name_search',
+            'filter_applied': 'last_name_starts_with_C'
+        }
+    }
+    
+    return result
+```
+
+---
+
+### Example 2: Directors whose last name starts with H
+
+```python
+def process_sf_film_query(gdf):
+    """Find directors whose last names start with H - return FULL NAMES"""
+    import pandas as pd
+    import numpy as np
+    
+    # 1) Deduplicate to film level
+    film_df = gdf.drop_duplicates(subset=['Title','Year'], keep='first')
+    
+    # 2) Get directors column
+    directors = film_df['Director'].dropna()
+    directors = directors[directors.astype(str).str.strip() != '']
+    directors = directors[~directors.astype(str).str.lower().isin(['none', 'nan', 'null'])]
+    
+    # 3) Filter for last names starting with H
+    # âœ… KEEP FULL NAMES - don't extract just last name
+    def last_name_starts_with(full_name, letter):
+        """Check if last name starts with letter, keeping full name intact"""
+        parts = str(full_name).strip().split()
+        if parts:
+            last_name = parts[-1]
+            return last_name.upper().startswith(letter.upper())
+        return False
+    
+    # Filter but keep full names
+    filtered_directors = directors[directors.apply(lambda name: last_name_starts_with(name, 'H'))]
+    
+    # 4) Get unique full names
+    unique_directors = sorted(set(filtered_directors.tolist()))
+    
+    # 5) Return structured result with FULL NAMES
+    result = {
+        'data': {
+            'number_of_directors': len(unique_directors),
+            'director_names': unique_directors  # âœ… Full names!
+        },
+        'summary': f"Found {len(unique_directors)} directors whose last names start with H",
+        'metadata': {
+            'query_type': 'director_name_search',
+            'filter_applied': 'last_name_starts_with_H'
+        }
+    }
+    
+    return result
+```
+
+---
+
+### Example 3: Writers whose last name ends with 'son'
+
+```python
+def process_sf_film_query(gdf):
+    """Find writers whose last names end with 'son' - return FULL NAMES"""
+    import pandas as pd
+    import numpy as np
+    
+    # 1) Deduplicate to film level
+    film_df = gdf.drop_duplicates(subset=['Title','Year'], keep='first')
+    
+    # 2) Get writers column
+    writers = film_df['Writer'].dropna()
+    writers = writers[writers.astype(str).str.strip() != '']
+    writers = writers[~writers.astype(str).str.lower().isin(['none', 'nan', 'null'])]
+    
+    # 3) Filter for last names ending with 'son'
+    # âœ… KEEP FULL NAMES
+    def last_name_ends_with(full_name, suffix):
+        """Check if last name ends with suffix, keeping full name intact"""
+        parts = str(full_name).strip().split()
+        if parts:
+            last_name = parts[-1]
+            return last_name.lower().endswith(suffix.lower())
+        return False
+    
+    # Filter but keep full names
+    filtered_writers = writers[writers.apply(lambda name: last_name_ends_with(name, 'son'))]
+    
+    # 4) Get unique full names
+    unique_writers = sorted(set(filtered_writers.tolist()))
+    
+    # 5) Return structured result
+    result = {
+        'data': {
+            'number_of_writers': len(unique_writers),
+            'writer_names': unique_writers  # âœ… Full names!
+        },
+        'summary': f"Found {len(unique_writers)} writers whose last names end with 'son'",
+        'metadata': {
+            'query_type': 'writer_name_search',
+            'filter_applied': 'last_name_ends_with_son'
+        }
+    }
+    
+    return result
+```
+
+---
+
+### Critical Rules for Name Extraction (Universal):
+
+1. **NEVER** create a separate `last_name` or `first_name` variable and return only that
+2. **ALWAYS** return the complete person name from the original data
+3. **Filter based on name criteria** but **return full name**
+4. Use helper functions to check name parts while preserving full name
+5. When user asks to "list names", they mean FULL NAMES (first + last)
+6. **This applies to ALL person fields:** actors, directors, writers, or any future person columns
+
+---
+
+### Pattern for Other Name Queries:
+
+**Last name ends with:** Same pattern, check `last_name.endswith()` but return full name  
+**First name starts with:** Check `first_name.startswith()` but return full name  
+**Contains substring:** Check full name contains substring, return full name  
+**Exact match:** Check full name equals target, return full name
+
+---
+
+### Return Format Pattern (Universal):
+
+For ANY person-related query that asks for names:
+
+```python
+result = {
+    'data': {
+        'number_of_{person_type}': count,      # e.g., number_of_actors, number_of_directors
+        '{person_type}_names': full_names_list  # e.g., actor_names, director_names, writer_names
+    },
+    'summary': "...",
+    'metadata': {...}
+}
+```
+

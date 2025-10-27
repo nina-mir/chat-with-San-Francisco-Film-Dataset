@@ -1,0 +1,1389 @@
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>SF Film Locations Map</title>
+        <meta charset="utf-8">
+        <style>
+           
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, 
+                        "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        
+        h1, h2 {
+            font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        #query-info {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        #map-container {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        #results {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        pre {
+            font-family: "SF Mono", "Monaco", "Inconsolata", monospace;
+            font-size: 14px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+        }
+    
+        </style>
+    </head>
+    <body>
+        <h1>Query Results</h1>
+        <div id="query-info">
+            <p><strong>Query:</strong> what are the most recent films in SF? list all their info. list all their info</p>
+            <p><strong>Summary:</strong> Returned dictionary with 3 keys</p>
+        </div>
+        
+        <div id="map-container">
+            <div style="width:100%;"><div style="position:relative;width:100%;height:0;padding-bottom:60%;"><span style="color:#565656">Make this Notebook Trusted to load map: File -> Trust Notebook</span><iframe srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    
+    &lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=UTF-8&quot; /&gt;
+    
+        &lt;script&gt;
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        &lt;/script&gt;
+    
+    &lt;style&gt;html, body {width: 100%;height: 100%;margin: 0;padding: 0;}&lt;/style&gt;
+    &lt;style&gt;#map {position:absolute;top:0;bottom:0;right:0;left:0;}&lt;/style&gt;
+    &lt;script src=&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://code.jquery.com/jquery-3.7.1.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js&quot;&gt;&lt;/script&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css&quot;/&gt;
+    
+            &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no&quot; /&gt;
+            &lt;style&gt;
+                #map_a075168b4d68685897dbd64a40cbb0e7 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            &lt;/style&gt;
+        
+&lt;/head&gt;
+&lt;body&gt;
+    
+    
+        &lt;div style=&quot;position: fixed; 
+                    top: 10px; left: 50px; right: 50px; 
+                    z-index:9999; 
+                    background-color:white;
+                    border:2px solid grey;
+                    border-radius: 5px;
+                    padding: 10px;
+                    text-align: center;&quot;&gt;
+            &lt;h3 style=&quot;margin:0;&quot;&gt;Films from the most recent year (2023): 18 films.&lt;/h3&gt;
+            &lt;p style=&quot;margin:5px 0 0 0; font-size:14px; color:#666;&quot;&gt;
+                18 unique locations found
+            &lt;/p&gt;
+        &lt;/div&gt;
+        
+    
+            &lt;div class=&quot;folium-map&quot; id=&quot;map_a075168b4d68685897dbd64a40cbb0e7&quot; &gt;&lt;/div&gt;
+        
+&lt;/body&gt;
+&lt;script&gt;
+    
+    
+            var map_a075168b4d68685897dbd64a40cbb0e7 = L.map(
+                &quot;map_a075168b4d68685897dbd64a40cbb0e7&quot;,
+                {
+                    center: [37.7749, -122.4194],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  &quot;zoom&quot;: 13,
+  &quot;zoomControl&quot;: true,
+  &quot;preferCanvas&quot;: false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_f5ebf6588c3fd28f75219209e343b514 = L.tileLayer(
+                &quot;https://tile.openstreetmap.org/{z}/{x}/{y}.png&quot;,
+                {
+  &quot;minZoom&quot;: 0,
+  &quot;maxZoom&quot;: 19,
+  &quot;maxNativeZoom&quot;: 19,
+  &quot;noWrap&quot;: false,
+  &quot;attribution&quot;: &quot;\u0026copy; \u003ca href=\&quot;https://www.openstreetmap.org/copyright\&quot;\u003eOpenStreetMap\u003c/a\u003e contributors&quot;,
+  &quot;subdomains&quot;: &quot;abc&quot;,
+  &quot;detectRetina&quot;: false,
+  &quot;tms&quot;: false,
+  &quot;opacity&quot;: 1,
+}
+
+            );
+        
+    
+            tile_layer_f5ebf6588c3fd28f75219209e343b514.addTo(map_a075168b4d68685897dbd64a40cbb0e7);
+        
+    
+            var marker_39b06b07564f3a8e09add6e86ab4109c = L.marker(
+                [37.79855, -122.40986],
+                {
+}
+            ).addTo(map_a075168b4d68685897dbd64a40cbb0e7);
+        
+    
+            var icon_b053c50d29b7438df955276a6b57ca4d = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_0ae94189ee335bc58698a6001c74a068 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_a916f8410af9c95ed5696957b1003da6 = $(`&lt;div id=&quot;html_a916f8410af9c95ed5696957b1003da6&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Vallejo Street Garage, 766 Vallejo Garage&lt;/b&gt;&lt;br&gt;&lt;br&gt;🎬 &lt;b&gt;Film:&lt;/b&gt; I’m A Virgo&lt;br&gt;📅 &lt;b&gt;Year:&lt;/b&gt; 2023&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_0ae94189ee335bc58698a6001c74a068.setContent(html_a916f8410af9c95ed5696957b1003da6);
+            
+        
+
+        marker_39b06b07564f3a8e09add6e86ab4109c.bindPopup(popup_0ae94189ee335bc58698a6001c74a068)
+        ;
+
+        
+    
+    
+            marker_39b06b07564f3a8e09add6e86ab4109c.bindTooltip(
+                `&lt;div&gt;
+                     Vallejo Street Garage, 766 Vallejo Garage
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_39b06b07564f3a8e09add6e86ab4109c.setIcon(icon_b053c50d29b7438df955276a6b57ca4d);
+            
+    
+            var marker_71102542534db7ed4453cd8000f6714a = L.marker(
+                [37.79929, -122.39755],
+                {
+}
+            ).addTo(map_a075168b4d68685897dbd64a40cbb0e7);
+        
+    
+            var icon_2a6c653dd41a4326edf83e10c693fa32 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_8ea84eaa42d06562498962181cc79e86 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_b16c9b5bde42249a9b62e4a36911b4d2 = $(`&lt;div id=&quot;html_b16c9b5bde42249a9b62e4a36911b4d2&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Coqueta at Pier 7, San Francisco&lt;/b&gt;&lt;br&gt;&lt;br&gt;🎬 &lt;b&gt;Film:&lt;/b&gt; Blindspotting (Season 2)&lt;br&gt;📅 &lt;b&gt;Year:&lt;/b&gt; 2023&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_8ea84eaa42d06562498962181cc79e86.setContent(html_b16c9b5bde42249a9b62e4a36911b4d2);
+            
+        
+
+        marker_71102542534db7ed4453cd8000f6714a.bindPopup(popup_8ea84eaa42d06562498962181cc79e86)
+        ;
+
+        
+    
+    
+            marker_71102542534db7ed4453cd8000f6714a.bindTooltip(
+                `&lt;div&gt;
+                     Coqueta at Pier 7, San Francisco
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_71102542534db7ed4453cd8000f6714a.setIcon(icon_2a6c653dd41a4326edf83e10c693fa32);
+            
+    
+            var marker_038335273b4b6f0b0e3aa47b4774c54a = L.marker(
+                [37.8006, -122.43793],
+                {
+}
+            ).addTo(map_a075168b4d68685897dbd64a40cbb0e7);
+        
+    
+            var icon_45d761024c91760d6f2404a0d6c24732 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_2b9b2d4587f4e7dafc594a4c0521b841 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_73efa7f5876080e88b4e40c32b3c8358 = $(`&lt;div id=&quot;html_73efa7f5876080e88b4e40c32b3c8358&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Chestnust Street at Steiner&lt;/b&gt;&lt;br&gt;&lt;br&gt;🎬 &lt;b&gt;Film:&lt;/b&gt; The Last Thing He Told Me&lt;br&gt;📅 &lt;b&gt;Year:&lt;/b&gt; 2023&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_2b9b2d4587f4e7dafc594a4c0521b841.setContent(html_73efa7f5876080e88b4e40c32b3c8358);
+            
+        
+
+        marker_038335273b4b6f0b0e3aa47b4774c54a.bindPopup(popup_2b9b2d4587f4e7dafc594a4c0521b841)
+        ;
+
+        
+    
+    
+            marker_038335273b4b6f0b0e3aa47b4774c54a.bindTooltip(
+                `&lt;div&gt;
+                     Chestnust Street at Steiner
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_038335273b4b6f0b0e3aa47b4774c54a.setIcon(icon_45d761024c91760d6f2404a0d6c24732);
+            
+    
+            var marker_3982631cac799243c77f2e667fc8b104 = L.marker(
+                [37.76692, -122.44403],
+                {
+}
+            ).addTo(map_a075168b4d68685897dbd64a40cbb0e7);
+        
+    
+            var icon_ac3e5597814eb821b23a7c35b25dddbb = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_64d7a4425d19be099707696cbe7cd9c3 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_07a9da9aa11fa721254bc62e750eacf4 = $(`&lt;div id=&quot;html_07a9da9aa11fa721254bc62e750eacf4&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;601 Buena Vista West&lt;/b&gt;&lt;br&gt;&lt;br&gt;🎬 &lt;b&gt;Film:&lt;/b&gt; Ant-Man and the Wasp: Quantumania&lt;br&gt;📅 &lt;b&gt;Year:&lt;/b&gt; 2023&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_64d7a4425d19be099707696cbe7cd9c3.setContent(html_07a9da9aa11fa721254bc62e750eacf4);
+            
+        
+
+        marker_3982631cac799243c77f2e667fc8b104.bindPopup(popup_64d7a4425d19be099707696cbe7cd9c3)
+        ;
+
+        
+    
+    
+            marker_3982631cac799243c77f2e667fc8b104.bindTooltip(
+                `&lt;div&gt;
+                     601 Buena Vista West
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_3982631cac799243c77f2e667fc8b104.setIcon(icon_ac3e5597814eb821b23a7c35b25dddbb);
+            
+    
+            var marker_4824ef8927f8f0d965c277bc1f312e02 = L.marker(
+                [37.79242, -122.41009],
+                {
+}
+            ).addTo(map_a075168b4d68685897dbd64a40cbb0e7);
+        
+    
+            var icon_ebcd2c29a88cec4a1e86cf811d050223 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_4351b497d81f5cc9d67a6e0dbe63eed1 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_b7c5c72903d752be10b9172056fe5feb = $(`&lt;div id=&quot;html_b7c5c72903d752be10b9172056fe5feb&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Fairmont Hotel, 950 Mason Street&lt;/b&gt;&lt;br&gt;&lt;br&gt;🎬 &lt;b&gt;Film:&lt;/b&gt; I’m A Virgo&lt;br&gt;📅 &lt;b&gt;Year:&lt;/b&gt; 2023&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_4351b497d81f5cc9d67a6e0dbe63eed1.setContent(html_b7c5c72903d752be10b9172056fe5feb);
+            
+        
+
+        marker_4824ef8927f8f0d965c277bc1f312e02.bindPopup(popup_4351b497d81f5cc9d67a6e0dbe63eed1)
+        ;
+
+        
+    
+    
+            marker_4824ef8927f8f0d965c277bc1f312e02.bindTooltip(
+                `&lt;div&gt;
+                     Fairmont Hotel, 950 Mason Street
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_4824ef8927f8f0d965c277bc1f312e02.setIcon(icon_ebcd2c29a88cec4a1e86cf811d050223);
+            
+    
+            var marker_7e37cf6e78d2bf6d31b060ff05746141 = L.marker(
+                [37.82975, -122.37639],
+                {
+}
+            ).addTo(map_a075168b4d68685897dbd64a40cbb0e7);
+        
+    
+            var icon_0968bfeddcb0431fd57003187f9d605b = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_05b022976965493216f30378521878e7 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_985b1359e240574c34ba072526ee1ca3 = $(`&lt;div id=&quot;html_985b1359e240574c34ba072526ee1ca3&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Bayside Drive, Treasure Island&lt;/b&gt;&lt;br&gt;&lt;br&gt;🎬 &lt;b&gt;Film:&lt;/b&gt; Earth Mama&lt;br&gt;📅 &lt;b&gt;Year:&lt;/b&gt; 2023&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_05b022976965493216f30378521878e7.setContent(html_985b1359e240574c34ba072526ee1ca3);
+            
+        
+
+        marker_7e37cf6e78d2bf6d31b060ff05746141.bindPopup(popup_05b022976965493216f30378521878e7)
+        ;
+
+        
+    
+    
+            marker_7e37cf6e78d2bf6d31b060ff05746141.bindTooltip(
+                `&lt;div&gt;
+                     Bayside Drive, Treasure Island
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_7e37cf6e78d2bf6d31b060ff05746141.setIcon(icon_0968bfeddcb0431fd57003187f9d605b);
+            
+    
+            var marker_c7a328c898a22c7aff91f953fe16600c = L.marker(
+                [37.7864, -122.41452],
+                {
+}
+            ).addTo(map_a075168b4d68685897dbd64a40cbb0e7);
+        
+    
+            var icon_bc4ddd5ed4159622143d3e87b0649f2b = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_2c1200015755912b4b4795633f11de3f = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_59b655a764951ee8b1bac0c0c9d083e0 = $(`&lt;div id=&quot;html_59b655a764951ee8b1bac0c0c9d083e0&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Geary Street between Market and Leavenworth&lt;/b&gt;&lt;br&gt;&lt;br&gt;🎬 &lt;b&gt;Film:&lt;/b&gt; Ant-Man and the Wasp: Quantumania&lt;br&gt;📅 &lt;b&gt;Year:&lt;/b&gt; 2023&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_2c1200015755912b4b4795633f11de3f.setContent(html_59b655a764951ee8b1bac0c0c9d083e0);
+            
+        
+
+        marker_c7a328c898a22c7aff91f953fe16600c.bindPopup(popup_2c1200015755912b4b4795633f11de3f)
+        ;
+
+        
+    
+    
+            marker_c7a328c898a22c7aff91f953fe16600c.bindTooltip(
+                `&lt;div&gt;
+                     Geary Street between Market and Leavenworth
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_c7a328c898a22c7aff91f953fe16600c.setIcon(icon_bc4ddd5ed4159622143d3e87b0649f2b);
+            
+    
+            var marker_f2837177f507843762ece8f6cd070d44 = L.marker(
+                [37.78703, -122.39885],
+                {
+}
+            ).addTo(map_a075168b4d68685897dbd64a40cbb0e7);
+        
+    
+            var icon_86e64a63ba201aaebaae92e696f69d38 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_be944ed2ac35a99c1c9d5f2422697d47 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_2a81ef9a505fd635f93eaa9bdf76188b = $(`&lt;div id=&quot;html_2a81ef9a505fd635f93eaa9bdf76188b&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;168 2nd Street, Blue Bottle Coffee&lt;/b&gt;&lt;br&gt;&lt;br&gt;🎬 &lt;b&gt;Film:&lt;/b&gt; The Last Thing He Told Me&lt;br&gt;📅 &lt;b&gt;Year:&lt;/b&gt; 2023&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_be944ed2ac35a99c1c9d5f2422697d47.setContent(html_2a81ef9a505fd635f93eaa9bdf76188b);
+            
+        
+
+        marker_f2837177f507843762ece8f6cd070d44.bindPopup(popup_be944ed2ac35a99c1c9d5f2422697d47)
+        ;
+
+        
+    
+    
+            marker_f2837177f507843762ece8f6cd070d44.bindTooltip(
+                `&lt;div&gt;
+                     168 2nd Street, Blue Bottle Coffee
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_f2837177f507843762ece8f6cd070d44.setIcon(icon_86e64a63ba201aaebaae92e696f69d38);
+            
+    
+            var marker_eb3993efc507a8efbdb8b063837366aa = L.marker(
+                [37.79824, -122.40384],
+                {
+}
+            ).addTo(map_a075168b4d68685897dbd64a40cbb0e7);
+        
+    
+            var icon_ea785c39d8bdc840b5579170ddd57d45 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_0607c5a0d1217571bc569feb2ea5e1d8 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_4aaab82eb3e3a4d63559061164b90407 = $(`&lt;div id=&quot;html_4aaab82eb3e3a4d63559061164b90407&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Broadway at Montgomery&lt;/b&gt;&lt;br&gt;&lt;br&gt;🎬 &lt;b&gt;Film:&lt;/b&gt; Blindspotting (Season 2)&lt;br&gt;📅 &lt;b&gt;Year:&lt;/b&gt; 2023&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_0607c5a0d1217571bc569feb2ea5e1d8.setContent(html_4aaab82eb3e3a4d63559061164b90407);
+            
+        
+
+        marker_eb3993efc507a8efbdb8b063837366aa.bindPopup(popup_0607c5a0d1217571bc569feb2ea5e1d8)
+        ;
+
+        
+    
+    
+            marker_eb3993efc507a8efbdb8b063837366aa.bindTooltip(
+                `&lt;div&gt;
+                     Broadway at Montgomery
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_eb3993efc507a8efbdb8b063837366aa.setIcon(icon_ea785c39d8bdc840b5579170ddd57d45);
+            
+    
+            var marker_e43032fea5a8dbdc702f0cff52a5c739 = L.marker(
+                [37.77811, -122.39087],
+                {
+}
+            ).addTo(map_a075168b4d68685897dbd64a40cbb0e7);
+        
+    
+            var icon_21ea01ba2fa765a65eb8ed9ca3a8bb4a = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_6d5c4ca80ac2d5f76963d7fe250b3ad6 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_5b5f009ef752db68b75cbbfcb2541e36 = $(`&lt;div id=&quot;html_5b5f009ef752db68b75cbbfcb2541e36&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Oracle Park&lt;/b&gt;&lt;br&gt;&lt;br&gt;🎬 &lt;b&gt;Film:&lt;/b&gt; The Last Thing He Told Me&lt;br&gt;📅 &lt;b&gt;Year:&lt;/b&gt; 2023&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_6d5c4ca80ac2d5f76963d7fe250b3ad6.setContent(html_5b5f009ef752db68b75cbbfcb2541e36);
+            
+        
+
+        marker_e43032fea5a8dbdc702f0cff52a5c739.bindPopup(popup_6d5c4ca80ac2d5f76963d7fe250b3ad6)
+        ;
+
+        
+    
+    
+            marker_e43032fea5a8dbdc702f0cff52a5c739.bindTooltip(
+                `&lt;div&gt;
+                     Oracle Park
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_e43032fea5a8dbdc702f0cff52a5c739.setIcon(icon_21ea01ba2fa765a65eb8ed9ca3a8bb4a);
+            
+    
+            var marker_60eb95097f281a69c1c7e8527ccb2b52 = L.marker(
+                [37.79799, -122.40451],
+                {
+}
+            ).addTo(map_a075168b4d68685897dbd64a40cbb0e7);
+        
+    
+            var icon_7198b9a39890288035c463ed7b81f13f = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_6028abd11a6813e8f88bc48fc805b08a = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_4bf00b940a9ac610a096be9a1d5b1a13 = $(`&lt;div id=&quot;html_4bf00b940a9ac610a096be9a1d5b1a13&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Broadway Studios, 435 Broadway&lt;/b&gt;&lt;br&gt;&lt;br&gt;🎬 &lt;b&gt;Film:&lt;/b&gt; Blindspotting (Season 2)&lt;br&gt;📅 &lt;b&gt;Year:&lt;/b&gt; 2023&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_6028abd11a6813e8f88bc48fc805b08a.setContent(html_4bf00b940a9ac610a096be9a1d5b1a13);
+            
+        
+
+        marker_60eb95097f281a69c1c7e8527ccb2b52.bindPopup(popup_6028abd11a6813e8f88bc48fc805b08a)
+        ;
+
+        
+    
+    
+            marker_60eb95097f281a69c1c7e8527ccb2b52.bindTooltip(
+                `&lt;div&gt;
+                     Broadway Studios, 435 Broadway
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_60eb95097f281a69c1c7e8527ccb2b52.setIcon(icon_7198b9a39890288035c463ed7b81f13f);
+            
+    
+            var marker_1dd0eb9bd60071f0af86dc4510b87d4b = L.marker(
+                [37.78745, -122.41499],
+                {
+}
+            ).addTo(map_a075168b4d68685897dbd64a40cbb0e7);
+        
+    
+            var icon_7b46c4be9cb841cfee1fab5d9c01d4ac = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_dfdc6501cb6a5f3b96916b85cd663375 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_8d1c13aede235b127aa7fd79bd14e02b = $(`&lt;div id=&quot;html_8d1c13aede235b127aa7fd79bd14e02b&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Post between Leavenworth and Montgomery&lt;/b&gt;&lt;br&gt;&lt;br&gt;🎬 &lt;b&gt;Film:&lt;/b&gt; Ant-Man and the Wasp: Quantumania&lt;br&gt;📅 &lt;b&gt;Year:&lt;/b&gt; 2023&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_dfdc6501cb6a5f3b96916b85cd663375.setContent(html_8d1c13aede235b127aa7fd79bd14e02b);
+            
+        
+
+        marker_1dd0eb9bd60071f0af86dc4510b87d4b.bindPopup(popup_dfdc6501cb6a5f3b96916b85cd663375)
+        ;
+
+        
+    
+    
+            marker_1dd0eb9bd60071f0af86dc4510b87d4b.bindTooltip(
+                `&lt;div&gt;
+                     Post between Leavenworth and Montgomery
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_1dd0eb9bd60071f0af86dc4510b87d4b.setIcon(icon_7b46c4be9cb841cfee1fab5d9c01d4ac);
+            
+    
+            var marker_e411d44c01bf64a3a366e4d7ede745cf = L.marker(
+                [37.793, -122.43948],
+                {
+}
+            ).addTo(map_a075168b4d68685897dbd64a40cbb0e7);
+        
+    
+            var icon_88582897d96adcc1e157c9ac1b9a6bac = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_70aaea2ab98b5e8e567637a73eaa21cb = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_c333ba1d51f81b8a7aff028ccc3835ee = $(`&lt;div id=&quot;html_c333ba1d51f81b8a7aff028ccc3835ee&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;2698 Pacific Avenue&lt;/b&gt;&lt;br&gt;&lt;br&gt;🎬 &lt;b&gt;Film:&lt;/b&gt; The Last Thing He Told Me&lt;br&gt;📅 &lt;b&gt;Year:&lt;/b&gt; 2023&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_70aaea2ab98b5e8e567637a73eaa21cb.setContent(html_c333ba1d51f81b8a7aff028ccc3835ee);
+            
+        
+
+        marker_e411d44c01bf64a3a366e4d7ede745cf.bindPopup(popup_70aaea2ab98b5e8e567637a73eaa21cb)
+        ;
+
+        
+    
+    
+            marker_e411d44c01bf64a3a366e4d7ede745cf.bindTooltip(
+                `&lt;div&gt;
+                     2698 Pacific Avenue
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_e411d44c01bf64a3a366e4d7ede745cf.setIcon(icon_88582897d96adcc1e157c9ac1b9a6bac);
+            
+    
+            var marker_209648d961859408400aaf86b2600020 = L.marker(
+                [37.79477, -122.40509],
+                {
+}
+            ).addTo(map_a075168b4d68685897dbd64a40cbb0e7);
+        
+    
+            var icon_83fb43db4078f42f51d7fc38b11a81d3 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_f33062025f4818cae517e2638ebd1bfe = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_ce4188df48727f8bedddeaf1faa5b0d3 = $(`&lt;div id=&quot;html_ce4188df48727f8bedddeaf1faa5b0d3&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Portsmouth Square Park&lt;/b&gt;&lt;br&gt;&lt;br&gt;🎬 &lt;b&gt;Film:&lt;/b&gt; I’m A Virgo&lt;br&gt;📅 &lt;b&gt;Year:&lt;/b&gt; 2023&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_f33062025f4818cae517e2638ebd1bfe.setContent(html_ce4188df48727f8bedddeaf1faa5b0d3);
+            
+        
+
+        marker_209648d961859408400aaf86b2600020.bindPopup(popup_f33062025f4818cae517e2638ebd1bfe)
+        ;
+
+        
+    
+    
+            marker_209648d961859408400aaf86b2600020.bindTooltip(
+                `&lt;div&gt;
+                     Portsmouth Square Park
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_209648d961859408400aaf86b2600020.setIcon(icon_83fb43db4078f42f51d7fc38b11a81d3);
+            
+    
+            var marker_dd4368514ecd9f621e448288c05bbfe4 = L.marker(
+                [37.795, -122.39311],
+                {
+}
+            ).addTo(map_a075168b4d68685897dbd64a40cbb0e7);
+        
+    
+            var icon_9595ed814ee2ab5dd3d293e17029d8b1 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_eb358ac0e58d10b49c56814dbec3b646 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_9b3fa13eabb84a0e5464d4ddf02c0f95 = $(`&lt;div id=&quot;html_9b3fa13eabb84a0e5464d4ddf02c0f95&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Ferry Building, San Francisco&lt;/b&gt;&lt;br&gt;&lt;br&gt;🎬 &lt;b&gt;Film:&lt;/b&gt; The Last Thing He Told Me&lt;br&gt;📅 &lt;b&gt;Year:&lt;/b&gt; 2023&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_eb358ac0e58d10b49c56814dbec3b646.setContent(html_9b3fa13eabb84a0e5464d4ddf02c0f95);
+            
+        
+
+        marker_dd4368514ecd9f621e448288c05bbfe4.bindPopup(popup_eb358ac0e58d10b49c56814dbec3b646)
+        ;
+
+        
+    
+    
+            marker_dd4368514ecd9f621e448288c05bbfe4.bindTooltip(
+                `&lt;div&gt;
+                     Ferry Building, San Francisco
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_dd4368514ecd9f621e448288c05bbfe4.setIcon(icon_9595ed814ee2ab5dd3d293e17029d8b1);
+            
+    
+            var marker_4f71e570b09b21f63aeef9579098ff99 = L.marker(
+                [37.79855, -122.40986],
+                {
+}
+            ).addTo(map_a075168b4d68685897dbd64a40cbb0e7);
+        
+    
+            var icon_b7d5f70047a811544042d22e9b628ddd = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_b091ca50c18d05d4d9f37cfd48e04a76 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_1b153ba1259237a296c3b9d8b40785b0 = $(`&lt;div id=&quot;html_1b153ba1259237a296c3b9d8b40785b0&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Central Police Station 766 Vallejo Street&lt;/b&gt;&lt;br&gt;&lt;br&gt;🎬 &lt;b&gt;Film:&lt;/b&gt; Ant-Man and the Wasp: Quantumania&lt;br&gt;📅 &lt;b&gt;Year:&lt;/b&gt; 2023&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_b091ca50c18d05d4d9f37cfd48e04a76.setContent(html_1b153ba1259237a296c3b9d8b40785b0);
+            
+        
+
+        marker_4f71e570b09b21f63aeef9579098ff99.bindPopup(popup_b091ca50c18d05d4d9f37cfd48e04a76)
+        ;
+
+        
+    
+    
+            marker_4f71e570b09b21f63aeef9579098ff99.bindTooltip(
+                `&lt;div&gt;
+                     Central Police Station 766 Vallejo Street
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_4f71e570b09b21f63aeef9579098ff99.setIcon(icon_b7d5f70047a811544042d22e9b628ddd);
+            
+    
+            var marker_9295a163c5aa9f7d9ac52598ea1baf79 = L.marker(
+                [37.79533, -122.40496],
+                {
+}
+            ).addTo(map_a075168b4d68685897dbd64a40cbb0e7);
+        
+    
+            var icon_686320d71e389dda749eea19ce770dd2 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_bef77691678046e6a9bd6f9a6a8133e1 = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_c63f19b6e832f22df186a527af34bc59 = $(`&lt;div id=&quot;html_c63f19b6e832f22df186a527af34bc59&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Kearny Street between Clay and Washington&lt;/b&gt;&lt;br&gt;&lt;br&gt;🎬 &lt;b&gt;Film:&lt;/b&gt; I’m A Virgo&lt;br&gt;📅 &lt;b&gt;Year:&lt;/b&gt; 2023&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_bef77691678046e6a9bd6f9a6a8133e1.setContent(html_c63f19b6e832f22df186a527af34bc59);
+            
+        
+
+        marker_9295a163c5aa9f7d9ac52598ea1baf79.bindPopup(popup_bef77691678046e6a9bd6f9a6a8133e1)
+        ;
+
+        
+    
+    
+            marker_9295a163c5aa9f7d9ac52598ea1baf79.bindTooltip(
+                `&lt;div&gt;
+                     Kearny Street between Clay and Washington
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_9295a163c5aa9f7d9ac52598ea1baf79.setIcon(icon_686320d71e389dda749eea19ce770dd2);
+            
+    
+            var marker_dff26e596db0e87d2afd84812c4fc9fa = L.marker(
+                [37.79706, -122.40539],
+                {
+}
+            ).addTo(map_a075168b4d68685897dbd64a40cbb0e7);
+        
+    
+            var icon_14d3a40ee9f5a2dc75d96fe5a8f1b9ad = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;film&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_95d5b7e02d28e6b3fe33c8fffeca9a0b = L.popup({
+  &quot;maxWidth&quot;: 300,
+});
+
+        
+            
+                var html_c07b7f2220c62e13024dbbecc49d822b = $(`&lt;div id=&quot;html_c07b7f2220c62e13024dbbecc49d822b&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Columbus Avenue between Pacifiic and Jackson&lt;/b&gt;&lt;br&gt;&lt;br&gt;🎬 &lt;b&gt;Film:&lt;/b&gt; I’m A Virgo&lt;br&gt;📅 &lt;b&gt;Year:&lt;/b&gt; 2023&lt;br&gt;&lt;/div&gt;`)[0];
+                popup_95d5b7e02d28e6b3fe33c8fffeca9a0b.setContent(html_c07b7f2220c62e13024dbbecc49d822b);
+            
+        
+
+        marker_dff26e596db0e87d2afd84812c4fc9fa.bindPopup(popup_95d5b7e02d28e6b3fe33c8fffeca9a0b)
+        ;
+
+        
+    
+    
+            marker_dff26e596db0e87d2afd84812c4fc9fa.bindTooltip(
+                `&lt;div&gt;
+                     Columbus Avenue between Pacifiic and Jackson
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_dff26e596db0e87d2afd84812c4fc9fa.setIcon(icon_14d3a40ee9f5a2dc75d96fe5a8f1b9ad);
+            
+&lt;/script&gt;
+&lt;/html&gt;" style="position:absolute;width:100%;height:100%;left:0;top:0;border:none !important;" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe></div></div>
+        </div>
+        
+        <div id="results">
+            <h2>Detailed Results</h2>
+            <pre>{
+  "data": [
+    {
+      "id": 38,
+      "Title": "I\u2019m A Virgo",
+      "Year": 2023,
+      "Locations": "Vallejo Street Garage, 766 Vallejo Garage",
+      "Fun_Facts": "",
+      "Director": "Boots Riley",
+      "Writer": "Boots Riley",
+      "Actor_1": "Jharrel Jerome",
+      "Actor_2": "Mike Epps",
+      "Actor_3": "Carmen Ejogo",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.40986,
+          37.79855
+        ]
+      }
+    },
+    {
+      "id": 82,
+      "Title": "Blindspotting (Season 2)",
+      "Year": 2023,
+      "Locations": "Coqueta at Pier 7, San Francisco",
+      "Fun_Facts": "",
+      "Director": "Rafael Casal, Jess Wu Calder,",
+      "Writer": "Brittany Miller, Benjamin Earl Turner, Rafael Casal & Daveed Diggs, Sarah LaBrie, Obehi Janice, Sanjay Shah, Nyesha Littlejohn & Susan Park",
+      "Actor_1": "Jasmine Cephas Jones",
+      "Actor_2": "Jaylen Barron",
+      "Actor_3": "Rafael Casal",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.39755,
+          37.79929
+        ]
+      }
+    },
+    {
+      "id": 237,
+      "Title": "The Last Thing He Told Me",
+      "Year": 2023,
+      "Locations": "Chestnust Street at Steiner",
+      "Fun_Facts": "",
+      "Director": "Olivia Newman, Deniz Gamze Erg\u00fcven, Daisy Von Scherler Mayer,\nLila Neugebauer",
+      "Writer": "Laura Dave",
+      "Actor_1": "Jennifer Garner",
+      "Actor_2": "Angourie Rice",
+      "Actor_3": "Aisha Tyler",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.43793,
+          37.8006
+        ]
+      }
+    },
+    {
+      "id": 243,
+      "Title": "Ant-Man and the Wasp: Quantumania",
+      "Year": 2023,
+      "Locations": "601 Buena Vista West",
+      "Fun_Facts": "",
+      "Director": "Peyton Reed",
+      "Writer": "Jeff Loveness",
+      "Actor_1": "Paul Rudd",
+      "Actor_2": "Evangeline Lilly",
+      "Actor_3": "Jonathan Majors",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.44403,
+          37.76692
+        ]
+      }
+    },
+    {
+      "id": 440,
+      "Title": "I\u2019m A Virgo",
+      "Year": 2023,
+      "Locations": "Fairmont Hotel, 950 Mason Street",
+      "Fun_Facts": "",
+      "Director": "Boots Riley",
+      "Writer": "Boots Riley",
+      "Actor_1": "Jharrel Jerome",
+      "Actor_2": "Mike Epps",
+      "Actor_3": "Carmen Ejogo",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.41009,
+          37.79242
+        ]
+      }
+    },
+    {
+      "id": 559,
+      "Title": "Earth Mama",
+      "Year": 2023,
+      "Locations": "Bayside Drive, Treasure Island",
+      "Fun_Facts": "",
+      "Director": "Savanah Leaf",
+      "Writer": "Savanah Leaf",
+      "Actor_1": "Tia Nomore",
+      "Actor_2": "Erika Alexander",
+      "Actor_3": "Doechii",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.37639,
+          37.82975
+        ]
+      }
+    },
+    {
+      "id": 671,
+      "Title": "Ant-Man and the Wasp: Quantumania",
+      "Year": 2023,
+      "Locations": "Geary Street between Market and Leavenworth",
+      "Fun_Facts": "",
+      "Director": "Peyton Reed",
+      "Writer": "Jeff Loveness",
+      "Actor_1": "Paul Rudd",
+      "Actor_2": "Evangeline Lilly",
+      "Actor_3": "Jonathan Majors",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.41452,
+          37.7864
+        ]
+      }
+    },
+    {
+      "id": 816,
+      "Title": "The Last Thing He Told Me",
+      "Year": 2023,
+      "Locations": "168 2nd Street, Blue Bottle Coffee",
+      "Fun_Facts": "",
+      "Director": "Olivia Newman, Deniz Gamze Erg\u00fcven, Daisy Von Scherler Mayer,\nLila Neugebauer",
+      "Writer": "Laura Dave",
+      "Actor_1": "Jennifer Garner",
+      "Actor_2": "Angourie Rice",
+      "Actor_3": "Aisha Tyler",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.39885,
+          37.78703
+        ]
+      }
+    },
+    {
+      "id": 952,
+      "Title": "Blindspotting (Season 2)",
+      "Year": 2023,
+      "Locations": "Broadway at Montgomery",
+      "Fun_Facts": "",
+      "Director": "Rafael Casal, Jess Wu Calder,",
+      "Writer": "Brittany Miller, Benjamin Earl Turner, Rafael Casal & Daveed Diggs, Sarah LaBrie, Obehi Janice, Sanjay Shah, Nyesha Littlejohn & Susan Park",
+      "Actor_1": "Jasmine Cephas Jones",
+      "Actor_2": "Jaylen Barron",
+      "Actor_3": "Rafael Casal",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.40384,
+          37.79824
+        ]
+      }
+    },
+    {
+      "id": 1158,
+      "Title": "The Last Thing He Told Me",
+      "Year": 2023,
+      "Locations": "Oracle Park",
+      "Fun_Facts": "",
+      "Director": "Olivia Newman, Deniz Gamze Erg\u00fcven, Daisy Von Scherler Mayer,\nLila Neugebauer",
+      "Writer": "Laura Dave",
+      "Actor_1": "Jennifer Garner",
+      "Actor_2": "Angourie Rice",
+      "Actor_3": "Aisha Tyler",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.39087,
+          37.77811
+        ]
+      }
+    },
+    {
+      "id": 1306,
+      "Title": "Blindspotting (Season 2)",
+      "Year": 2023,
+      "Locations": "Broadway Studios, 435 Broadway",
+      "Fun_Facts": "",
+      "Director": "Rafael Casal, Jess Wu Calder,",
+      "Writer": "Brittany Miller, Benjamin Earl Turner, Rafael Casal & Daveed Diggs, Sarah LaBrie, Obehi Janice, Sanjay Shah, Nyesha Littlejohn & Susan Park",
+      "Actor_1": "Jasmine Cephas Jones",
+      "Actor_2": "Jaylen Barron",
+      "Actor_3": "Rafael Casal",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.40451,
+          37.79799
+        ]
+      }
+    },
+    {
+      "id": 1371,
+      "Title": "Ant-Man and the Wasp: Quantumania",
+      "Year": 2023,
+      "Locations": "Post between Leavenworth and Montgomery",
+      "Fun_Facts": "",
+      "Director": "Peyton Reed",
+      "Writer": "Jeff Loveness",
+      "Actor_1": "Paul Rudd",
+      "Actor_2": "Evangeline Lilly",
+      "Actor_3": "Jonathan Majors",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.41499,
+          37.78745
+        ]
+      }
+    },
+    {
+      "id": 1661,
+      "Title": "The Last Thing He Told Me",
+      "Year": 2023,
+      "Locations": "2698 Pacific Avenue",
+      "Fun_Facts": "",
+      "Director": "Olivia Newman, Deniz Gamze Erg\u00fcven, Daisy Von Scherler Mayer,\nLila Neugebauer",
+      "Writer": "Laura Dave",
+      "Actor_1": "Jennifer Garner",
+      "Actor_2": "Angourie Rice",
+      "Actor_3": "Aisha Tyler",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.43948,
+          37.793
+        ]
+      }
+    },
+    {
+      "id": 1693,
+      "Title": "I\u2019m A Virgo",
+      "Year": 2023,
+      "Locations": "Portsmouth Square Park",
+      "Fun_Facts": "",
+      "Director": "Boots Riley",
+      "Writer": "Boots Riley",
+      "Actor_1": "Jharrel Jerome",
+      "Actor_2": "Mike Epps",
+      "Actor_3": "Carmen Ejogo",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.40509,
+          37.79477
+        ]
+      }
+    },
+    {
+      "id": 1761,
+      "Title": "The Last Thing He Told Me",
+      "Year": 2023,
+      "Locations": "Ferry Building, San Francisco",
+      "Fun_Facts": "",
+      "Director": "Olivia Newman, Deniz Gamze Erg\u00fcven, Daisy Von Scherler Mayer,\nLila Neugebauer",
+      "Writer": "Laura Dave",
+      "Actor_1": "Jennifer Garner",
+      "Actor_2": "Angourie Rice",
+      "Actor_3": "Aisha Tyler",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.39311,
+          37.795
+        ]
+      }
+    },
+    {
+      "id": 1780,
+      "Title": "Ant-Man and the Wasp: Quantumania",
+      "Year": 2023,
+      "Locations": "Central Police Station 766 Vallejo Street",
+      "Fun_Facts": "",
+      "Director": "Peyton Reed",
+      "Writer": "Jeff Loveness",
+      "Actor_1": "Paul Rudd",
+      "Actor_2": "Evangeline Lilly",
+      "Actor_3": "Jonathan Majors",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.40986,
+          37.79855
+        ]
+      }
+    },
+    {
+      "id": 1909,
+      "Title": "I\u2019m A Virgo",
+      "Year": 2023,
+      "Locations": "Kearny Street between Clay and Washington",
+      "Fun_Facts": "",
+      "Director": "Boots Riley",
+      "Writer": "Boots Riley",
+      "Actor_1": "Jharrel Jerome",
+      "Actor_2": "Mike Epps",
+      "Actor_3": "Carmen Ejogo",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.40496,
+          37.79533
+        ]
+      }
+    },
+    {
+      "id": 2045,
+      "Title": "I\u2019m A Virgo",
+      "Year": 2023,
+      "Locations": "Columbus Avenue between Pacifiic and Jackson",
+      "Fun_Facts": "",
+      "Director": "Boots Riley",
+      "Writer": "Boots Riley",
+      "Actor_1": "Jharrel Jerome",
+      "Actor_2": "Mike Epps",
+      "Actor_3": "Carmen Ejogo",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.40539,
+          37.79706
+        ]
+      }
+    }
+  ],
+  "summary": "Films from the most recent year (2023): 18 films.",
+  "metadata": {
+    "query_type": "most_recent_films",
+    "data_cleaning": "Year converted to numeric, NaN years dropped."
+  }
+}</pre>
+        </div>
+    </body>
+    </html>
+    

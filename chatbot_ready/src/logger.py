@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 import jsonlines
 from datetime import datetime
+import numpy as np
 import pandas as pd
 import geopandas as gpd  # to handle GeoPandaDatafram booo
 from shapely.geometry import Point
@@ -17,6 +18,12 @@ def convert_shapely_to_serializable(obj):
         Object with Shapely geometries converted to GeoJSON-like dicts and
         DataFrames converted to dictionaries or lists of records
     """
+    # ✅ NEW: Handle NumPy scalar types FIRST (before other checks)
+    if isinstance(obj, (np.integer, np.floating)):
+        return obj.item()  # Convert to native Python int/float
+    elif isinstance(obj, np.ndarray):
+        return obj.tolist()  # Convert numpy arrays to lists
+    
     # Handle GeoDataFrame FIRST (before DataFrame check)
     # GeoDataFrame is a subclass of DataFrame, so this must come first
     if isinstance(obj, gpd.GeoDataFrame):
@@ -45,7 +52,7 @@ def convert_shapely_to_serializable(obj):
         # Convert to list of records (most common use case)
         return {
             "_type": "DataFrame",
-            "data": obj.to_dict('records'),
+            "data": df_copy.to_dict('records'),  # ⚠️ Note: you may need to recursively convert this too
             "columns": list(obj.columns),
             "shape": obj.shape
         }

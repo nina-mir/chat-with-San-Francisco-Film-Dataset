@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_a8d2ab17d0b3eb87ff3dd16afea73c53 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+</head>
+<body>
+    
+    
+        <div style="position: fixed; 
+                    top: 10px; left: 50px; right: 50px; 
+                    z-index:9999; 
+                    background-color:white;
+                    border:2px solid grey;
+                    border-radius: 5px;
+                    padding: 10px;
+                    text-align: center;">
+            <h3 style="margin:0;">Found 6 movies shot in the 1910s and 1920s.</h3>
+            <p style="margin:5px 0 0 0; font-size:14px; color:#666;">
+                6 unique locations found
+            </p>
+        </div>
+        
+    
+            <div class="folium-map" id="map_a8d2ab17d0b3eb87ff3dd16afea73c53" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_a8d2ab17d0b3eb87ff3dd16afea73c53 = L.map(
+                "map_a8d2ab17d0b3eb87ff3dd16afea73c53",
+                {
+                    center: [37.7749, -122.4194],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 13,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_003feeac1155afbbcc89851a82331529 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_003feeac1155afbbcc89851a82331529.addTo(map_a8d2ab17d0b3eb87ff3dd16afea73c53);
+        
+    
+            var marker_c2f3f26fdea2e3b63bdfe42e36f0034a = L.marker(
+                [37.75889, -122.41468],
+                {
+}
+            ).addTo(map_a8d2ab17d0b3eb87ff3dd16afea73c53);
+        
+    
+            var icon_ea30ad18020cb05715739400ac9869aa = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "film",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_847d5f7b8913eef5b5e3c6747a7fecfa = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_c5fd640223421b28b3248b8028eb74f4 = $(`<div id="html_c5fd640223421b28b3248b8028eb74f4" style="width: 100.0%; height: 100.0%;"><b>20th and Folsom Streets</b><br><br>🎬 <b>Film:</b> A Jitney Elopement<br>📅 <b>Year:</b> 1915<br></div>`)[0];
+                popup_847d5f7b8913eef5b5e3c6747a7fecfa.setContent(html_c5fd640223421b28b3248b8028eb74f4);
+            
+        
+
+        marker_c2f3f26fdea2e3b63bdfe42e36f0034a.bindPopup(popup_847d5f7b8913eef5b5e3c6747a7fecfa)
+        ;
+
+        
+    
+    
+            marker_c2f3f26fdea2e3b63bdfe42e36f0034a.bindTooltip(
+                `<div>
+                     20th and Folsom Streets
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_c2f3f26fdea2e3b63bdfe42e36f0034a.setIcon(icon_ea30ad18020cb05715739400ac9869aa);
+            
+    
+            var marker_850e4cea1cd8481b09c3b8eac8d265b8 = L.marker(
+                [37.77181, -122.48088],
+                {
+}
+            ).addTo(map_a8d2ab17d0b3eb87ff3dd16afea73c53);
+        
+    
+            var icon_8542329932a30450841992beda87d8e5 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "film",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_4949014a0da97643f0b81559232b53c7 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_66817be3efd20e1ffa2c0216d336efa3 = $(`<div id="html_66817be3efd20e1ffa2c0216d336efa3" style="width: 100.0%; height: 100.0%;"><b>Golden Gate Park</b><br><br>🎬 <b>Film:</b> A Jitney Elopement<br>📅 <b>Year:</b> 1915<br></div>`)[0];
+                popup_4949014a0da97643f0b81559232b53c7.setContent(html_66817be3efd20e1ffa2c0216d336efa3);
+            
+        
+
+        marker_850e4cea1cd8481b09c3b8eac8d265b8.bindPopup(popup_4949014a0da97643f0b81559232b53c7)
+        ;
+
+        
+    
+    
+            marker_850e4cea1cd8481b09c3b8eac8d265b8.bindTooltip(
+                `<div>
+                     Golden Gate Park
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_850e4cea1cd8481b09c3b8eac8d265b8.setIcon(icon_8542329932a30450841992beda87d8e5);
+            
+    
+            var marker_d894f4abe6ca2df6ed4eb15a4a31da16 = L.marker(
+                [37.78713, -122.4251],
+                {
+}
+            ).addTo(map_a8d2ab17d0b3eb87ff3dd16afea73c53);
+        
+    
+            var icon_dc3442b134df99fadc40ef6aea09f6ff = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "film",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_a4ce3fa3aa58976a9ab367edbf1a0b18 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_02663f9d423c9c15fab761be829b98ed = $(`<div id="html_02663f9d423c9c15fab761be829b98ed" style="width: 100.0%; height: 100.0%;"><b>Bush and Sutter Streets</b><br><br>🎬 <b>Film:</b> Greed<br>📅 <b>Year:</b> 1924<br></div>`)[0];
+                popup_a4ce3fa3aa58976a9ab367edbf1a0b18.setContent(html_02663f9d423c9c15fab761be829b98ed);
+            
+        
+
+        marker_d894f4abe6ca2df6ed4eb15a4a31da16.bindPopup(popup_a4ce3fa3aa58976a9ab367edbf1a0b18)
+        ;
+
+        
+    
+    
+            marker_d894f4abe6ca2df6ed4eb15a4a31da16.bindTooltip(
+                `<div>
+                     Bush and Sutter Streets
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_d894f4abe6ca2df6ed4eb15a4a31da16.setIcon(icon_dc3442b134df99fadc40ef6aea09f6ff);
+            
+    
+            var marker_fd51ebf5caa6d4fc406ab717da72b296 = L.marker(
+                [37.78591, -122.41113],
+                {
+}
+            ).addTo(map_a8d2ab17d0b3eb87ff3dd16afea73c53);
+        
+    
+            var icon_dc832e5748553aa1575e11831d720164 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "film",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_28659d42e54e9ff17c6d7c092b307860 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_3ebc9e20b32c1700e38a32616c4b0605 = $(`<div id="html_3ebc9e20b32c1700e38a32616c4b0605" style="width: 100.0%; height: 100.0%;"><b>Coffee Dan's (O'Farrell Street at Powell)</b><br><br>🎬 <b>Film:</b> The Jazz Singer<br>📅 <b>Year:</b> 1927<br></div>`)[0];
+                popup_28659d42e54e9ff17c6d7c092b307860.setContent(html_3ebc9e20b32c1700e38a32616c4b0605);
+            
+        
+
+        marker_fd51ebf5caa6d4fc406ab717da72b296.bindPopup(popup_28659d42e54e9ff17c6d7c092b307860)
+        ;
+
+        
+    
+    
+            marker_fd51ebf5caa6d4fc406ab717da72b296.bindTooltip(
+                `<div>
+                     Coffee Dan's (O'Farrell Street at Powell)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_fd51ebf5caa6d4fc406ab717da72b296.setIcon(icon_dc832e5748553aa1575e11831d720164);
+            
+    
+            var marker_3626b519446c1022b828479150037259 = L.marker(
+                [37.77848, -122.51394],
+                {
+}
+            ).addTo(map_a8d2ab17d0b3eb87ff3dd16afea73c53);
+        
+    
+            var icon_c3c2a38aaf4cdd51d0da06f162a9e8f7 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "film",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_084d47c2c58612b78ff5c7a311c7d8cf = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_a34e1dd57ee73a66c98a45144edc4922 = $(`<div id="html_a34e1dd57ee73a66c98a45144edc4922" style="width: 100.0%; height: 100.0%;"><b>Cliff House (1090 Point Lobos Avenue)</b><br><br>🎬 <b>Film:</b> Greed<br>📅 <b>Year:</b> 1924<br></div>`)[0];
+                popup_084d47c2c58612b78ff5c7a311c7d8cf.setContent(html_a34e1dd57ee73a66c98a45144edc4922);
+            
+        
+
+        marker_3626b519446c1022b828479150037259.bindPopup(popup_084d47c2c58612b78ff5c7a311c7d8cf)
+        ;
+
+        
+    
+    
+            marker_3626b519446c1022b828479150037259.bindTooltip(
+                `<div>
+                     Cliff House (1090 Point Lobos Avenue)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_3626b519446c1022b828479150037259.setIcon(icon_c3c2a38aaf4cdd51d0da06f162a9e8f7);
+            
+    
+            var marker_738ecc207913ff42b15a734c89d1deaa = L.marker(
+                [37.77647, -122.42626],
+                {
+}
+            ).addTo(map_a8d2ab17d0b3eb87ff3dd16afea73c53);
+        
+    
+            var icon_decf979f5be9665e40330659cc0dab73 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "film",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_890deca68e9740ba1dfae44f4131ab3b = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_dbcf38f5d1820d431ab8c8b15bdad3e2 = $(`<div id="html_dbcf38f5d1820d431ab8c8b15bdad3e2" style="width: 100.0%; height: 100.0%;"><b>Hayes Street at Laguna</b><br><br>🎬 <b>Film:</b> Greed<br>📅 <b>Year:</b> 1924<br></div>`)[0];
+                popup_890deca68e9740ba1dfae44f4131ab3b.setContent(html_dbcf38f5d1820d431ab8c8b15bdad3e2);
+            
+        
+
+        marker_738ecc207913ff42b15a734c89d1deaa.bindPopup(popup_890deca68e9740ba1dfae44f4131ab3b)
+        ;
+
+        
+    
+    
+            marker_738ecc207913ff42b15a734c89d1deaa.bindTooltip(
+                `<div>
+                     Hayes Street at Laguna
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_738ecc207913ff42b15a734c89d1deaa.setIcon(icon_decf979f5be9665e40330659cc0dab73);
+            
+    
+            tile_layer_003feeac1155afbbcc89851a82331529.addTo(map_a8d2ab17d0b3eb87ff3dd16afea73c53);
+        
+    
+                marker_c2f3f26fdea2e3b63bdfe42e36f0034a.setIcon(icon_ea30ad18020cb05715739400ac9869aa);
+            
+    
+                marker_850e4cea1cd8481b09c3b8eac8d265b8.setIcon(icon_8542329932a30450841992beda87d8e5);
+            
+    
+                marker_d894f4abe6ca2df6ed4eb15a4a31da16.setIcon(icon_dc3442b134df99fadc40ef6aea09f6ff);
+            
+    
+                marker_fd51ebf5caa6d4fc406ab717da72b296.setIcon(icon_dc832e5748553aa1575e11831d720164);
+            
+    
+                marker_3626b519446c1022b828479150037259.setIcon(icon_c3c2a38aaf4cdd51d0da06f162a9e8f7);
+            
+    
+                marker_738ecc207913ff42b15a734c89d1deaa.setIcon(icon_decf979f5be9665e40330659cc0dab73);
+            
+</script>
+</html>
