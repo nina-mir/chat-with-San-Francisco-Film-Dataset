@@ -250,7 +250,7 @@ def display_response(response):
     """Display formatted response"""
     # Display text content
     st.markdown(response['content'])
-
+    print('response is :', response)
     # Display dataframe if present
     if 'dataframe' in response:
         df = response['dataframe']

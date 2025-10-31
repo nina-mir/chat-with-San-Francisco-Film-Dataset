@@ -116,38 +116,39 @@ class ResponseFormatter:
                 # Complex items, show as text
                 response['content'] += self._format_list_as_text(data)
         
-        # 4. Dict with lists → Find the first list and show it
+        # 4. Dict with lists → Convert entire dict structure to DataFrame
         elif isinstance(data, dict):
             print("✓ Detected: Dict")
-            list_found = False
             
-            # Look for ANY list in the dict
-            for key, value in data.items():
-                if isinstance(value, list) and value:
-                    print(f"  Found list in key: {key}, length: {len(value)}")
-                    
-                    # Check if it's a list of simple values
-                    first_val = value[0] if value else None
-                    
-                    if isinstance(first_val, (str, int, float)):
-                        # Simple list → DataFrame
-                        column_name = key.replace('_', ' ').title()
-                        df = pd.DataFrame(value, columns=[column_name])
-                        response['content'] += f"Found **{len(df)} result(s)**\n\n_See table below_"
-                        response['dataframe'] = df
-                        list_found = True
-                        break
-                    elif isinstance(first_val, dict):
-                        # List of dicts → DataFrame
-                        df = pd.DataFrame(value)
-                        response['content'] += f"Found **{len(df)} result(s)**\n\n_See table below_"
-                        response['dataframe'] = df
-                        list_found = True
-                        break
+            # Check if all values are lists (director→films structure)
+            all_lists = all(isinstance(v, list) for v in data.values()) if data else False
             
-            if not list_found:
-                # No list found, show dict as key-value table
-                print("  No list found in dict, showing as key-value")
+            if all_lists and data:
+                print(f"  Dict with {len(data)} keys, all values are lists")
+                # Convert dict of lists to long-form DataFrame
+                rows = []
+                for key, value_list in data.items():
+                    for item in value_list:
+                        rows.append({
+                            'Key': key,
+                            'Value': item
+                        })
+                
+                if rows:
+                    df = pd.DataFrame(rows)
+                    # Rename columns to be more meaningful if possible
+                    first_key = list(data.keys())[0] if data else ''
+                    if any(word in str(first_key).lower() for word in ['director', 'actor', 'writer', 'person']):
+                        df.columns = ['Name', 'Film']
+                    
+                    response['content'] += f"Found **{len(df)} result(s)**\n\n_See table below_"
+                    response['dataframe'] = df
+                else:
+                    response['content'] += "_Empty result_"
+            
+            else:
+                # Not all values are lists - show as key-value table
+                print("  Dict with mixed types, showing as key-value")
                 if len(data) <= 50:
                     df = pd.DataFrame(list(data.items()), columns=['Key', 'Value'])
                     response['content'] += f"Found **{len(df)} result(s)**\n\n_See table below_"
